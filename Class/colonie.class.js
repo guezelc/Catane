@@ -1,7 +1,10 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
+function Colonie(couleur){
+    var couleur;
+    
+    this.couleur=couleur;
+    
+    this.afficher = function()
+    {
+        return '<img width="20px" height="25px" src="Images/Pions/Colonie/'+ this.couleur + '">';
+    }    
+}
