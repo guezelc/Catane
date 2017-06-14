@@ -10,8 +10,9 @@ function loadHexagones(){
     var ble = new Hexagone("ble");
     var blanc = new Hexagone("blanc");
     var Crouge= new Colonie("rouge");
-    var R1rouge= new Route("rouge");
-    var R3rouge= new Route("rouge3");
+    var Vrouge= new Ville("rouge");
+    var R1rouge= new Route("rouge","verticale");
+    var R3rouge= new Route("rouge","droite");
     var div  = $('<div style="position:absolute;top: 0px;left:150px">'+ eau.afficher() + eau.afficher() +eau.afficher() +eau.afficher()+'</div>');
     var div2 = $('<div style="position:absolute;top:76px;left:100px;">'+ eau.afficher() + bois.afficher() +ble.afficher() +minerai.afficher() +eau.afficher() + '</div>');
     var div3 = $('<div style="position:absolute;top:152px;left:50px;">'+ eau.afficher() + argile.afficher() + mouton.afficher() + argile.afficher() + minerai.afficher() + eau.afficher() +'</div>');
@@ -21,7 +22,7 @@ function loadHexagones(){
     var div7 = $('<div style="position:absolute;top:456px;left:150px">'+ eau.afficher() + eau.afficher() +eau.afficher() +eau.afficher()+'</div>');
     $("#hexagone").eq(0).text($("#hexagone").eq(0).text()+ ble.T_Sommet["Nord"] + " " );
     var divRouge  = $('<div style="position:absolute;top:60px;left:240px">'+ Crouge.afficher()+'</div>');
-    var divRouge2 = $('<div style="position:absolute;top:135px;left:190px">'+ Crouge.afficher()+'</div>');
+    var divRouge2 = $('<div style="position:absolute;top:125px;left:185px">'+ Vrouge.afficher()+'</div>');
     var divRouge3  = $('<div style="position:absolute;top:100px;left:195px">'+ R1rouge.afficher()+'</div>');
     var divRouge4 = $('<div style="position:absolute;top:75px;left:200px">'+ R3rouge.afficher()+'</div>');
     div.appendTo(body);

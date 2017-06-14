@@ -1,7 +1,10 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
+function Ville(couleur){
+    var couleur;
+    
+    this.couleur=couleur;
+    
+    this.afficher = function()
+    {
+        return '<img width="30px" height="35px" src="Images/Pions/'+ this.couleur + '/Ville">';
+    }    
+}
