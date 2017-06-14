@@ -64,29 +64,29 @@ function Map() {
                             ok = true;
                         }
                         if (rand === 1 && hexagonNumber.port31 > 0) {
-                            array.push(new Hexagon('water'));
+                            array.push(new Hexagon('31','S-SE'));
                             hexagonNumber.port31--;
                             ok = true;
                         }
                         if (rand === 2) {
                             if (hexagonNumber.orePort > 0) {
-                                array.push(new Hexagon('water'));
+                                array.push(new Hexagon('ore','S-SE'));
                                 hexagonNumber.orePort--;
                                 ok = true;
                             } else if (hexagonNumber.cornPort > 0) {
-                                array.push(new Hexagon('water'));
+                                array.push(new Hexagon('corn','S-SE'));
                                 hexagonNumber.cornPort--;
                                 ok = true;
                             } else if (hexagonNumber.clayPort > 0) {
-                                array.push(new Hexagon('water'));
+                                array.push(new Hexagon('clay','S-SE'));
                                 hexagonNumber.clayPort--;
                                 ok = true;
                             } else if (hexagonNumber.sheepPort > 0) {
-                                array.push(new Hexagon('water'));
+                                array.push(new Hexagon('sheep','S-SE'));
                                 hexagonNumber.sheepPort--;
                                 ok = true;
                             } else if (hexagonNumber.woodPort > 0) {
-                                array.push(new Hexagon('water'));
+                                array.push(new Hexagon('wood','S-SE'));
                                 hexagonNumber.woodPort--;
                                 ok = true;
                             }
@@ -101,23 +101,19 @@ function Map() {
                             array.push(new Hexagon('corn'));
                             hexagonNumber.corn--;
                             ok = true;
-                        }
-                        else if (rand === 1 && hexagonNumber.wood > 0) {
+                        } else if (rand === 1 && hexagonNumber.wood > 0) {
                             array.push(new Hexagon('wood'));
                             hexagonNumber.wood--;
                             ok = true;
-                        }
-                        else if (rand === 2 && hexagonNumber.ore > 0) {
+                        } else if (rand === 2 && hexagonNumber.ore > 0) {
                             array.push(new Hexagon('ore'));
                             hexagonNumber.ore--;
                             ok = true;
-                        }
-                        else if (rand === 3 && hexagonNumber.clay > 0) {
+                        } else if (rand === 3 && hexagonNumber.clay > 0) {
                             array.push(new Hexagon('clay'));
                             hexagonNumber.clay--;
                             ok = true;
-                        }
-                        else if (rand === 4 && hexagonNumber.sheep > 0) {
+                        } else if (rand === 4 && hexagonNumber.sheep > 0) {
                             array.push(new Hexagon('sheep'));
                             hexagonNumber.sheep--;
                             ok = true;
