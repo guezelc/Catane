@@ -7,6 +7,6 @@ function City(color,position){
     
     this.display = function()
     {
-        return '<img width="30px" height="35px" src="Picture/Pawn/'+ this.color + '/City">';
+        return '<img width="30px" height="35px" src="Picture/Pawn/'+ this.color + '/City.png">';
     }
 }

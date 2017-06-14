@@ -7,6 +7,6 @@ function Colony(color,position){
     
     this.display = function()
     {
-        return '<img width="20px" height="25px" src="Picture/Pawn/'+ this.color + '/Colony">';
+        return '<img width="20px" height="25px" src="Picture/Pawn/'+ this.color + '/Colony.png">';
     }
 }

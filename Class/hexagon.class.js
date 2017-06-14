@@ -11,6 +11,6 @@ function Hexagon(type,harbor){
     
     this.display = function()
     {
-        return '<img width="100px" height="100px" src="Picture/Hexagon/'+ this.type + '">';
+        return '<img width="100px" height="100px" src="Picture/Hexagon/'+ this.type + '.png">';
     }
 }
