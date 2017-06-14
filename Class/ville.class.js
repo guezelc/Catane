@@ -7,6 +7,6 @@ function Ville(couleur,position){
     
     this.afficher = function()
     {
-        return '<img width="30px" height="35px" src="Images/Pions/'+ this.couleur + '/Ville">';
+        return '<img width="30px" height="35px" src="Images/Pions/'+ this.couleur + '/Ville.png">';
     }
 }

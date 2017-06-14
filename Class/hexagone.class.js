@@ -11,6 +11,6 @@ function Hexagone(type,port){
     
     this.afficher = function()
     {
-        return '<img width="100px" height="100px" src="Images/Tuiles/'+ this.type + '">';
-    }
+        return '<img width="100px" height="100px" src="Images/Tuiles/'+ this.type + '.png">';
+    };
 }

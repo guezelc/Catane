@@ -7,6 +7,6 @@ function Colonie(couleur,position){
     
     this.afficher = function()
     {
-        return '<img width="20px" height="25px" src="Images/Pions/'+ this.couleur + '/Colonie">';
+        return '<img width="20px" height="25px" src="Images/Pions/'+ this.couleur + '/Colonie.png">';
     }
 }

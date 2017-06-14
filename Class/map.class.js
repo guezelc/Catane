@@ -3,10 +3,10 @@
  */
 function Map() {
     /*
-     * The catane map
-     * @type undefined
+     * 
+     * @type Array|Map.generateMap.array
      */
-    var mapArray;
+    var mapArray = [];
 
     /*
      * The model of a catane map:
@@ -39,50 +39,54 @@ function Map() {
      * Init a catane map
      */
     this.init = function () {
-        this.mapArray = this.generateMap();
+        mapArray = generateMap();
+    };
+
+    this.getMapArray = function () {
+        return mapArray;
     };
 
     /*
      * Generate a catane map with the mapModel
      */
-    this.generateMap = function () {
+    function generateMap() {
         var array = [];
 
         for (var i = 0; i <= mapModel.length; i++) {
-            switch (this.mapModel[i]) {
+            switch (mapModel[i]) {
                 case 0:
                     var ok = false;
                     while (!ok) {
                         var rand = getRandomIntInclusive(0, 2);
                         if (rand === 0 && hexagonesNumber.water > 0) {
-                            this.array.push(new Hexagone('eau'));
+                            array.push(new Hexagone('water'));
                             hexagonesNumber.water--;
                             ok = true;
                         }
                         if (rand === 1 && hexagonesNumber.port31 > 0) {
-                            this.array.push(new Hexagone('port31'));
+                            array.push(new Hexagone('port31'));
                             hexagonesNumber.port31--;
                             ok = true;
                         }
                         if (rand === 2) {
                             if (hexagonesNumber.orePort > 0) {
-                                this.array.push(new Hexagone('orePort'));
+                                array.push(new Hexagone('orePort'));
                                 hexagonesNumber.orePort--;
                                 ok = true;
                             } else if (hexagonesNumber.cornPort > 0) {
-                                this.array.push(new Hexagone('cornPort'));
+                                array.push(new Hexagone('cornPort'));
                                 hexagonesNumber.cornPort--;
                                 ok = true;
                             } else if (hexagonesNumber.clayPort > 0) {
-                                this.array.push(new Hexagone('clayPort'));
+                                array.push(new Hexagone('clayPort'));
                                 hexagonesNumber.clayPort--;
                                 ok = true;
                             } else if (hexagonesNumber.sheepPort > 0) {
-                                this.array.push(new Hexagone('sheepPort'));
+                                array.push(new Hexagone('sheepPort'));
                                 hexagonesNumber.sheepPort--;
                                 ok = true;
                             } else if (hexagonesNumber.woodPort > 0) {
-                                this.array.push(new Hexagone('woodPort'));
+                                array.push(new Hexagone('woodPort'));
                                 hexagonesNumber.woodPort--;
                                 ok = true;
                             }
@@ -94,39 +98,39 @@ function Map() {
                     while (!ok) {
                         var rand = getRandomIntInclusive(0, 4);
                         if (rand === 0 && hexagonesNumber.corn > 0) {
-                            this.array.push(new Hexagone('corn'));
+                            array.push(new Hexagone('corn'));
                             hexagonesNumber.corn--;
                             ok = true;
                         }
                         if (rand === 1 && hexagonesNumber.wood > 0) {
-                            this.array.push(new Hexagone('wood'));
+                            array.push(new Hexagone('wood'));
                             hexagonesNumber.wood--;
                             ok = true;
                         }
                         if (rand === 2 && hexagonesNumber.ore > 0) {
-                            this.array.push(new Hexagone('ore'));
+                            array.push(new Hexagone('ore'));
                             hexagonesNumber.ore--;
                             ok = true;
                         }
                         if (rand === 3 && hexagonesNumber.clay > 0) {
-                            this.array.push(new Hexagone('clay'));
+                            array.push(new Hexagone('clay'));
                             hexagonesNumber.clay--;
                             ok = true;
                         }
                         if (rand === 4 && hexagonesNumber.sheep > 0) {
-                            this.array.push(new Hexagone('sheep'));
+                            array.push(new Hexagone('sheep'));
                             hexagonesNumber.sheep--;
                             ok = true;
                         }
                     }
                     break;
                 case 2:
-                    this.array.push(new Hexagone('desert'));
+                    array.push(new Hexagone('blanc'));
                     break;
             }
         }
         return array;
-    };
+    }
 
     function getRandomIntInclusive(min, max) {
         min = Math.ceil(min);

@@ -2,6 +2,9 @@ var lesHexagones = ["bois","argile","minerai","mouton","ble",'eau'];
 
 function loadHexagones(){
     var body = $("body");
+    var map = new Map();
+    map.init();
+    alert(map.getMapArray()[17].type);
     var bois = new Hexagone("bois");
     var argile = new Hexagone("argile");
     var minerai = new Hexagone("minerai");
@@ -9,10 +12,10 @@ function loadHexagones(){
     var eau = new Hexagone("eau");
     var ble = new Hexagone("ble");
     var blanc = new Hexagone("blanc");
-    var Crouge= new Colonie("rouge",[60,240]);
-    var Vrouge= new Ville("rouge",[125,185]);
-    var R1rouge= new Route("rouge","verticale",[100,195]);
-    var R3rouge= new Route("rouge","droite",[75,200]);
+    var Crouge= new Colonie("Rouge",[60,240]);
+    var Vrouge= new Ville("Rouge",[125,185]);
+    var R1rouge= new Route("Rouge","verticale",[100,195]);
+    var R3rouge= new Route("Rouge","droite",[75,200]);
     var div  = $('<div style="position:absolute;top: 0px;left:150px">'+ eau.afficher() + eau.afficher() +eau.afficher() +eau.afficher()+'</div>');
     var div2 = $('<div style="position:absolute;top:76px;left:100px;">'+ eau.afficher() + bois.afficher() +ble.afficher() +minerai.afficher() +eau.afficher() + '</div>');
     var div3 = $('<div style="position:absolute;top:152px;left:50px;">'+ eau.afficher() + argile.afficher() + mouton.afficher() + argile.afficher() + minerai.afficher() + eau.afficher() +'</div>');

@@ -9,6 +9,6 @@ function Route(couleur,inclinaison,position){
     
     this.afficher = function()
     {
-        return '<img src="Images/Pions/'+ this.couleur + '/Route/' + this.inclinaison + '">';
+        return '<img src="Images/Pions/'+ this.couleur + '/Route/' + this.inclinaison + '.png">';
     }
 }
