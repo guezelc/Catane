@@ -1,9 +1,9 @@
-function Colony(color,position){
+function Colony(color,top){
     var color;
-    var position;
+    var top;
     
     this.color=color;
-    this.position=position;
+    this.top=top;
     
     this.display = function()
     {

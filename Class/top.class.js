@@ -10,6 +10,9 @@ function Top(hexagon1, hexagon2, hexagon3)
     this.hexagon3=hexagon3;
     this.occupy=0;
     
+    /*
+     *  @return harbor type if OK, 0 if KO
+     */
     this.isHarbor = function(){
        if(this.hexagon1!=0)
        {

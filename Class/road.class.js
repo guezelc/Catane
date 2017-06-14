@@ -1,11 +1,13 @@
-function Road(color,tilt,position){
+function Road(color,tilt,side1, side2){
     var color;
-    var tilt; // droite, verticale, gauche 
-    var position;
+    var tilt; // right, vertical, left
+    var side1;
+    var side2;
     
     this.color=color;
     this.tilt=tilt;
-    this.position=position;
+    this.side1=side1;
+    this.side2=side2;
     
     this.display = function()
     {
