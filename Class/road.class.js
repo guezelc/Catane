@@ -1,14 +1,14 @@
-function Road(color,tilt,position){
+function Road(color, tilt, side) {
     var color;
-    var tilt; // droite, verticale, gauche 
-    var position;
-    
-    this.color=color;
-    this.tilt=tilt;
-    this.position=position;
-    
-    this.display = function()
+    var tilt; // right, vertical, left
+    var side;
+
+    this.color = color;
+    this.tilt = tilt;
+    this.side = side;
+
+    this.display = function ()
     {
-        return '<img src="Picture/Pawn/'+ this.color + '/Road/' + this.tilt + '.png">';
+        return '<img src="Picture/Pawn/' + this.color + '/Road/' + this.tilt + '.png">';
     }
 }

@@ -1,12 +1,12 @@
-function City(color,position){
+function City(color, top) {
     var color;
-    var position;
-    
-    this.color=color;
-    this.position=position;
-    
-    this.display = function()
+    var top;
+
+    this.color = color;
+    this.top = top;
+
+    this.display = function ()
     {
-        return '<img width="30px" height="35px" src="Picture/Pawn/'+ this.color + '/City.png">';
+        return '<img width="30px" height="35px" src="Picture/Pawn/' + this.color + '/City.png">';
     }
 }
