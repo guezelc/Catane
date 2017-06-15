@@ -149,6 +149,17 @@ function MapMatrice(){
         mat[x][y]=hexagon;
         return mat
     }
+    
+    function setSidesOfTop(modelInfo,matrice)
+    {
+        var matX = 0;
+        var matY = 0;
+    }
+    
+    function setTopsOfSide(modelInfo,matrice)
+    {
+        
+    }
 }
 
 
