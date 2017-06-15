@@ -1,9 +1,14 @@
 /*
  * A Catane game map uses matrice structure
+ * 
+ * Author :
+ *  - Virgil Lacondemine
+ *  - Clement Guezel
  */
 function MapMatrice() {
+    
     /*
-     * The matrice where the gerated catane map was stocked
+     * The matrice where the gerated catane map are stocked
      * @type Array
      */
     var mapMatrice = [];
@@ -25,11 +30,7 @@ function MapMatrice() {
         [0, 1, 1, 1, 2, null, null],
         [2, 0, 3, 0, null, null, null]
     ];
-    /* Avant ligne 4 : NE(-1,0) NW(-1,-1) E(0,1) W(0,-1) SE(1,1) SW(1,0)
-     * A la ligne 4: NE(-1,0) NW(-1,-1) E(0,1) W(0,-1) SE(1,0) SW(1,-1)
-     * Après la ligne 4: NE(-1,1) NW(-1,0) E(0,1) W(0,-1) SE(1,0) SW(1,-1)
-     * 
-     */
+
     /*
      * The number of each hexagone type who can be on the catane map
      * @type type
@@ -50,25 +51,25 @@ function MapMatrice() {
     };
 
     /*
-     * 
+     * Line coord to see where we need to tilt
      * @type Array
      */
     var lineTilt = [-1, -1, 0, 0, 1, 1];
 
     /*
-     * 
+     * Column coord before matrice middle to see where we need to tilt
      * @type Array
      */
     var columnTiltBeforeMid = [0, -1, 1, -1, 1, 0];
 
     /*
-     * 
+     * Column coord at matrice middle to see where we need to tilt
      * @type Array
      */
     var columnTiltAtMid = [0, -1, 1, -1, 0, -1];
 
     /*
-     * 
+     * Column coord after matrice middle to see where we need to tilt
      * @type Array
      */
     var columnTiltAfterMid = [1, 0, 1, -1, 0, -1];
@@ -83,13 +84,16 @@ function MapMatrice() {
     /*
      * Init mapMaptrice object:
      *  - create a catane map
-     * @returns {undefined}
      */
     this.init = function () {
-        mapMatrice = initMatrice(mapMatriceModel);
         mapMatrice = generateCataneMap(mapMatriceModel, hexagonNumber);
     };
 
+    /*
+     * Init a matrice with model's dimention at null
+     * @param {type} mapMatriceModel
+     * @returns {Array|MapMatrice.initMatrice.matrice}
+     */
     function initMatrice(mapMatriceModel) {
         var model = mapMatriceModel;
         var matrice = [];
@@ -101,6 +105,7 @@ function MapMatrice() {
         }
         return matrice;
     }
+
     /*
      * Generate the catane map
      * @param {type} Pmodel
@@ -108,10 +113,23 @@ function MapMatrice() {
      * @returns {Array}
      */
     function generateCataneMap(Pmodel, PhexagonNumber) {
+        
+        /*
+         * Matrice where we stock hexagones during map generation
+         * @type Array|MapMatrice.initMatrice.matrice
+         */
         var matrice = initMatrice(Pmodel);
 
+        /*
+         * Model used to generate the catane map
+         * @type type
+         */
         var model = Pmodel;
 
+        /*
+         * Number of each hexagone type who can be on the catane map
+         * @type type
+         */
         var hexagonNumber = PhexagonNumber;
 
         /*
@@ -232,16 +250,25 @@ function MapMatrice() {
         return matrice;
     }
 
+    /*
+     * Randomly return a int between min and max inlcluded
+     */
     function getRandomIntInclusive(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    /*
+     * Return mapMatrice
+     */
     this.getMapMatrice = function () {
         return mapMatrice;
     };
 
+    /*
+     * 
+     */
     function addTopsAndSides(modelInfo, matrice, x, y)
     {
         var mat = matrice;
@@ -265,6 +292,9 @@ function MapMatrice() {
         return mat;
     }
 
+    /*
+     * 
+     */
     function addTops(hexagon, hexaNE, hexaNW, hexaW)
     {
         var top1 = new Top(hexagon, hexaNE, hexaNW);
@@ -290,6 +320,9 @@ function MapMatrice() {
         return [hexagon, hexaNE, hexaNW, hexaW];
     }
 
+    /*
+     * 
+     */
     function addSides(hexagon, hexaNE, hexaNW, hexaW)
     {
         var side1 = new Side(hexagon, hexaNE);
@@ -313,6 +346,9 @@ function MapMatrice() {
         return [hexagon, hexaNE, hexaNW, hexaW];
     }
 
+    /*
+     * 
+     */
     function getHexagon(modelInfo, matrice, x, y)
     {
         var hexagon = null;
@@ -324,6 +360,9 @@ function MapMatrice() {
         return hexagon;
     }
 
+    /*
+     * 
+     */
     function setHexagon(hexagon, matrice, x, y)
     {
         var mat = matrice;
@@ -331,12 +370,18 @@ function MapMatrice() {
         return mat;
     }
 
+    /*
+     * 
+     */
     function setSidesOfTop(modelInfo, matrice)
     {
         var matX = 0;
         var matY = 0;
     }
 
+    /*
+     * 
+     */
     function setTopsOfSide(modelInfo, matrice)
     {
 
