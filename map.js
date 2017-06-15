@@ -2,15 +2,9 @@ var lesHexagons = ["wood", "clay", "ore", "sheep", "corn", 'water'];
 
 function loadHexagons() {
     var body = $("body");
-    var map = new Map();
+    var map = new MapMatrice();
     map.init();
-    var wood = new Hexagon("wood");
-    var clay = new Hexagon("clay");
-    var ore = new Hexagon("ore");
-    var sheep = new Hexagon("sheep");
-    var water = new Hexagon("water");
-    var corn = new Hexagon("corn");
-    var blanc = new Hexagon("white");
+    alert(map.getMapMatrice().lenght);
     var Cred = new Colony("Red", [60, 240]);
     var Cityred = new City("Red", [125, 185]);
     var R1red = new Road("Red", "vertical", [100, 195]);
@@ -22,26 +16,10 @@ function loadHexagons() {
     var div5 = $('<div style="position:absolute;top:304px;left:50px;"></div>');
     var div6 = $('<div style="position:absolute;top:380px;left:100px;"></div>');
     var div7 = $('<div style="position:absolute;top:456px;left:150px"></div>');
-    for (var i = 0; i < 4; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div);
-    }
-    for (var i = 4; i < 9; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div2);
-    }
-    for (var i = 9; i < 15; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div3);
-    }
-    for (var i = 15; i < 22; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div4);
-    }
-    for (var i = 22; i < 28; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div5);
-    }
-    for (var i = 28; i < 33; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div6);
-    }
-    for (var i = 33; i < 37; i++) {
-        $(map.getMapArray()[i].display()).appendTo(div7);
+    for(var line = 0; line <= map.mapMatrice.length; line++){
+        for(var column = 0; column <= map.mapMatrice[0].length; column++){
+            $(map.mapMatrice[line][column].display()).appendTo(div+line);
+        }
     }
     var divRed = $('<div style="position:absolute;top:' + Cred.top[0] + 'px;left:' + Cred.top[1] + 'px">' + Cred.display() + '</div>');
     var divRed2 = $('<div style="position:absolute;top:' + Cityred.top[0] + 'px;left:' + Cityred.top[1] + 'px">' + Cityred.display() + '</div>');

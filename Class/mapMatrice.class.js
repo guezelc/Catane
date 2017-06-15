@@ -1,46 +1,42 @@
 /*
  * A Catane game map uses matrice structure
  */
-function MapMatrice(){
+function MapMatrice() {
     /*
      * The matrice where the gerated catane map was stocked
+     * @type Array
      */
     var mapMatrice = [];
-    
+
     /*
      * The model used to generate the catane map
      * - 0: water
      * - 1: clay, wood, sheep, ore, corn or desert
-     * - 2: harbor 
+     * - 2: 31 harbor
+     * - 3: item harbor
+     * @type Array
      */
     var mapMatriceModel = [
-        [2,0,2,0,null,null,null],
-        [0,1,1,1, 2  ,null,null],
-        [2,1,1,1, 1  , 0  ,null],
-        [0,1,1,1, 1  , 1  , 2  ],
-        [2,1,1,1, 1  , 0  ,null],
-        [0,1,1,1, 2  ,null,null],
-        [2,0,2,0,null,null,null]
+        [2, 0, 3, 0, null, null, null],
+        [0, 1, 1, 1, 2, null, null],
+        [3, 1, 1, 1, 1, 0, null],
+        [0, 1, 1, 1, 1, 1, 3],
+        [3, 1, 1, 1, 1, 0, null],
+        [0, 1, 1, 1, 2, null, null],
+        [2, 0, 3, 0, null, null, null]
     ];
-    
-    /*
-     * Information on mapMatriceModel useful to generate catane map
-     */
-    var mapMatriceInfo = {
-        'width': 7,
-        'height': 7
-    };
-    
+
     /*
      * The number of each hexagone type who can be on the catane map
+     * @type type
      */
     var hexagonNumber = {
-        water: 9,
         corn: 4,
         wood: 4,
         sheep: 4,
         ore: 3,
         clay: 3,
+        desert: 1,
         harbor31: 4,
         oreHarbor: 1,
         cornHarbor: 1,
@@ -50,16 +46,137 @@ function MapMatrice(){
     };
     
     /*
+     * 
+     * @type Array
+     */
+    var lineTilt = [-1, -1, 0, 0, 1, 1];
+    
+    /*
+     * 
+     * @type Array
+     */
+    var columnTilt = [-1, 0, -1, 1, -1, 0];
+    
+    /*
+     * Each posible tilt sync with columnTilt and lineTilt array index
+     * @type Array
+     */
+    var tilt = ['NE', 'NW', 'E', 'W', 'SE', 'SW'];
+    
+    /*
      * Init mapMaptrice object:
      *  - create a catane map
+     * @returns {undefined}
      */
-    this.init = function() {
-        mapMatrice = generateCataneMap();
+    this.init = function () {
+        mapMatrice = generateCataneMap(mapMatriceModel, hexagonNumber);
     };
     
-    function generateCataneMap() {
+    /*
+     * Generate the catane map
+     * @param {type} Pmodel
+     * @param {type} PhexagonNumber
+     * @returns {Array}
+     */
+    function generateCataneMap(Pmodel, PhexagonNumber) {
+        var matrice = [];
+
+        var model = Pmodel;
         
+        var hexagonNumber = PhexagonNumber;
+
+        /*
+         * Information on mapMatriceModel useful to generate catane ma
+         */
+        var mapMatriceInfo = {
+            line: model.lenght,
+            column: model[0].lenght
+        };
+
+        for (var line = 0; line <= mapMatriceInfo.line; line++) {
+            for (var column = 0; column <= mapMatriceInfo.column; column++) {
+                switch (model[line][column]) {
+                    case 0:
+                        matrice[line][column] = new Hexagon('water');
+                        //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                        break;
+                    case 1:
+                        var res = '';
+                        while (res === '') {
+                            var rand = getRandomIntInclusive(0, 5);
+                            if (rand === 0 && hexagonNumber.corn > 0) {
+                                res = 'corn';
+                                hexagonNumber.corn--;
+                            } else if (rand === 1 && hexagonNumber.wood > 0) {
+                                res = 'wood';
+                                hexagonNumber.wood--;
+                            } else if (rand === 2 && hexagonNumber.ore > 0) {
+                                res = 'ore';
+                                hexagonNumber.ore--;
+                            } else if (rand === 3 && hexagonNumber.clay > 0) {
+                                res = 'clay';
+                                hexagonNumber.clay--;
+                            } else if (rand === 4 && hexagonNumber.sheep > 0) {
+                                res = 'sheep';
+                                hexagonNumber.sheep--;
+                            } else if (rand === 5 && hexagonNumber.desert > 0) {
+                                res = 'desert';
+                                hexagonNumber.desert--;
+                            }
+                        }
+                        matrice[line][column] = new Hexagon(res);
+                        //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                        break;
+                    case 2:
+                    for (var index = 0; index <= tilt.length; index++) {
+                        if (0 <= line + lineTilt[index] <= mapMatriceInfo.line
+                                && 0 <= column + columnTilt[index] <= mapMatriceInfo.column
+                                && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
+                            matrice[line][column] = new Hexagon('31', tilt[index]);
+                            //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                            hexagonNumber.harbor31--;
+                            break;
+                        }
+                    }
+                    case 3:
+                        var res = '';
+                        while (res === '') {
+                            var rand = getRandomIntInclusive(0, 4);
+                            if (rand === 0 && hexagonNumber.cornHarbor > 0) {
+                                res = 'corn';
+                                hexagonNumber.cornHarbor--;
+                            } else if (rand === 1 && hexagonNumber.woodHarbor > 0) {
+                                res = 'wood';
+                                hexagonNumber.woodHarbor--;
+                            } else if (rand === 2 && hexagonNumber.oreHarbor > 0) {
+                                res = 'ore';
+                                hexagonNumber.oreHarbor--;
+                            } else if (rand === 3 && hexagonNumber.clayHarbor > 0) {
+                                res = 'clay';
+                                hexagonNumber.clayHarbor--;
+                            } else if (rand === 4 && hexagonNumber.sheepHarbor > 0) {
+                                res = 'sheep';
+                                hexagonNumber.sheepHarbor--;
+                            }
+                        }
+                        for (var index = 0; index <= tilt.length; index++) {
+                            if (0 <= line + lineTilt[index] <= mapMatriceInfo.line
+                                    && 0 <= column + columnTilt[index] <= mapMatriceInfo.column
+                                    && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
+                                matrice[line][column] = new Hexagon(res, tilt[index]);
+                                //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                                break;
+                            }
+                        }
+                }
+            }
+        }
+        return matrice;
     }
+
+    this.getMapMatrice = function () {
+        return mapMatrice;
+    };
     
     function addTopsAndSides(modelInfo,matrice,x,y)
     {
