@@ -145,7 +145,7 @@ function MapMatrice() {
                 switch (model[line][column]) {
                     case 0:
                         matrice[line][column] = new Hexagon('water');
-                        //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                        matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
                         break;
                     case 1:
                         var res = '';
@@ -178,7 +178,7 @@ function MapMatrice() {
                             }
                         }
                         matrice[line][column] = new Hexagon(res);
-                        //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                        matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
                         break;
                     case 2:
                         var columnTilt = [];
@@ -192,7 +192,7 @@ function MapMatrice() {
                         for (var index = 0; index < tilt.length; index++) {
                             if (0 <= line + lineTilt[index] && line + lineTilt[index] <= mapMatriceInfo.line && 0 <= column + columnTilt[index] && column + columnTilt[index] <= mapMatriceInfo.column && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
                                 matrice[line][column] = new Hexagon('31', tilt[index]);
-                                //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                                matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
                                 hexagonNumber.harbor31--;
                                 break;
                             }
@@ -239,7 +239,7 @@ function MapMatrice() {
                                     && column + columnTilt[index] <= mapMatriceInfo.column
                                     && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
                                 matrice[line][column] = new Hexagon(res, tilt[index]);
-                                //matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                                matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
                                 break;
                             }
                         }
@@ -274,12 +274,12 @@ function MapMatrice() {
         var mat = matrice;
         var tiltX = [-1, -1, 0];
         var tiltY = [-1, 0, -1];
-        var T_hexa;
+        var T_hexa = [];
 
-        T_hexa[0] = getHexagon(modelInfo, matrice, x, y);
-        T_hexa[1] = getHexagon(modelInfo, matrice, x + tiltX[0], y + tiltY[0]); //hexagon North-East
-        T_hexa[2] = getHexagon(modelInfo, matrice, x + tiltX[1], y + tiltY[1]); //hexagon North-West
-        T_hexa[3] = getHexagon(modelInfo, matrice, x + tiltX[2], y + tiltY[2]); //hexagon West
+        T_hexa.push(getHexagon(modelInfo, matrice, x, y));
+        T_hexa.push(getHexagon(modelInfo, matrice, x + tiltX[0], y + tiltY[0])); //hexagon North-East
+        T_hexa.push(getHexagon(modelInfo, matrice, x + tiltX[1], y + tiltY[1])); //hexagon North-West
+        T_hexa.push(getHexagon(modelInfo, matrice, x + tiltX[2], y + tiltY[2])); //hexagon West
 
         T_hexa = addTops(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
         T_hexa = addSides(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
