@@ -9,14 +9,14 @@ function Hexagon(type, tilt = 0) {
     this.type = type;
     this.tilt = tilt;
 
-    this.display = function ()
+    this.display = function display()
     {
-        if (this.tilt == 0)
+        if (this.tilt === 0)
         {
             return '<img width="100px" height="100px" src="Picture/Hexagon/' + this.type + '.png">';
         } else
         {
             return '<img width="100px" height="100px" src="Picture/Hexagon/Harbor/' + this.type + '/' + this.tilt + '.png">';
         }
-}
+    };
 }
