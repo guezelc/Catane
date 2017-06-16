@@ -4,7 +4,6 @@ function loadHexagons() {
     var body = $("body");
     var map = new MapMatrice();
     map.init();
-    alert(map.getMapMatrice().lenght);
     var Cred = new Colony("Red", [60, 240]);
     var Cityred = new City("Red", [125, 185]);
     var R1red = new Road("Red", "vertical", [100, 195]);
@@ -16,11 +15,44 @@ function loadHexagons() {
     var div5 = $('<div style="position:absolute;top:304px;left:50px;"></div>');
     var div6 = $('<div style="position:absolute;top:380px;left:100px;"></div>');
     var div7 = $('<div style="position:absolute;top:456px;left:150px"></div>');
-    for(var line = 0; line <= map.mapMatrice.length; line++){
-        for(var column = 0; column <= map.mapMatrice[0].length; column++){
-            $(map.mapMatrice[line][column].display()).appendTo(div+line);
+
+    for (var line = 0; line < map.getMapMatrice().length; line++) {
+        for (var column = 0; column < map.getMapMatrice()[0].length; column++) {
+            switch (line) {
+                case 0:
+                    if (map.getMapMatrice()[line][column] !== null){
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div);
+                    }
+                    break;
+                case 1:
+                    if (map.getMapMatrice()[line][column] !== null)
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div2);
+                    break;
+                case 2:
+                    if (map.getMapMatrice()[line][column] !== null)
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div3);
+                    break;
+                case 3:
+                    if (map.getMapMatrice()[line][column] !== null)
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div4);
+                    break;
+                case 4:
+                    if (map.getMapMatrice()[line][column] !== null)
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div5);
+                    break;
+                case 5:
+                    if (map.getMapMatrice()[line][column] !== null)
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div6);
+                    break;
+                case 6:
+                    if (map.getMapMatrice()[line][column] !== null)
+                        $(map.getMapMatrice()[line][column].display()).appendTo(div7);
+                    break;
+            }
+
         }
     }
+
     var divRed = $('<div style="position:absolute;top:' + Cred.top[0] + 'px;left:' + Cred.top[1] + 'px">' + Cred.display() + '</div>');
     var divRed2 = $('<div style="position:absolute;top:' + Cityred.top[0] + 'px;left:' + Cityred.top[1] + 'px">' + Cityred.display() + '</div>');
     var divRed3 = $('<div style="position:absolute;top:' + R1red.side[0] + 'px;left:' + R1red.side[1] + 'px">' + R1red.display() + '</div>');
