@@ -68,15 +68,17 @@ function loadHexagons() {
     divRed4.appendTo(body);
     divRed.appendTo(body);
     divRed2.appendTo(body);
-    var t = map.getMapMatrice()[3][4].T_Top["N"];
+    var x = 0;
+    var y = 0;
+    var t = map.getMapMatrice()[x][y].T_Top["N"];
     var tt= t.isBuildable();
     console.log("tt"+tt);
-    map.getMapMatrice()[2][3].T_Top["N"].occupy=1;
-    map.getMapMatrice()[2][3].T_Top["S-W"].occupy=1;
-    map.getMapMatrice()[3][4].T_Top["S-W"].occupy=1;
-    map.getMapMatrice()[3][4].T_Top["S-E"].occupy=1;
-    map.getMapMatrice()[2][4].T_Top["N"].occupy=1;
-    map.getMapMatrice()[2][4].T_Top["S-E"].occupy=1;
+    //map.getMapMatrice()[x-1][y-1].T_Top["N"].occupy=1;
+    //map.getMapMatrice()[x-1][y-1].T_Top["S-W"].occupy=1;
+    map.getMapMatrice()[x][y].T_Top["S-W"].occupy=1;
+    map.getMapMatrice()[x][y].T_Top["S-E"].occupy=1;
+    //map.getMapMatrice()[x-1][y].T_Top["N"].occupy=1;
+    //map.getMapMatrice()[x-1][y].T_Top["S-E"].occupy=1;
     tt= t.isBuildable();
     console.log("tt"+tt);
     

@@ -16,22 +16,8 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      *  @return harbor type if OK, 0 if KO
      */
     this.isHarbor = function () {
-        if (this.hexagon1 != 0)
-        {
-            return this.hexagon1.type;
-        } else {
-            if (this.hexagon2 != 0)
-            {
-                return this.hexagon2.type;
-            } else {
-                if (this.hexagon3 != 0)
-                {
-                    return this.hexagon3.type;
-                } else {
-                    return 0;
-                }
-            }
-        }
+        
+        
     }
     
     this.isBuildable = function () {
@@ -39,6 +25,7 @@ function Top(hexagon1, hexagon2, hexagon3, type)
         {
             return false;
         }
+        var countLand = 0;
         var T_TopUsefull = {
             "21" : ["N-E","N-W","S"],
             "12" : ["N","S-W","S-E"]
@@ -50,10 +37,22 @@ function Top(hexagon1, hexagon2, hexagon3, type)
             {
                 i++;
             }
+            if(T_Hexagon[i].tilt === 0)
+            {
+                countLand++;
+            }
+            if(i === T_TopUsefull[this.type].length)
+            {
+                break;
+            }
             if(T_Hexagon[i].T_Top[T_TopUsefull[this.type][i]].occupy !== null)
             {
                 return false;
             }
+        }
+        if(countLand === 0)
+        {
+            return false;
         }
         return true;
     }
