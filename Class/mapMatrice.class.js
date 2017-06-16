@@ -284,10 +284,10 @@ function MapMatrice() {
         T_hexa = addTops(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
         T_hexa = addSides(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
 
-        mat = setHexagon(T_hexa[0], mat, x, y);
-        mat = setHexagon(T_hexa[1], mat, x + tiltX[0], y + tiltY[0]); //hexagon North-East
-        mat = setHexagon(T_hexa[2], mat, x + tiltX[1], y + tiltY[1]); //hexagon North-West
-        mat = setHexagon(T_hexa[3], mat, x + tiltX[2], y + tiltY[2]); //hexagon West
+        mat = setHexagon(modelInfo, T_hexa[0], mat, x, y);
+        mat = setHexagon(modelInfo, T_hexa[1], mat, x + tiltX[0], y + tiltY[0]); //hexagon North-East
+        mat = setHexagon(modelInfo, T_hexa[2], mat, x + tiltX[1], y + tiltY[1]); //hexagon North-West
+        mat = setHexagon(modelInfo, T_hexa[3], mat, x + tiltX[2], y + tiltY[2]); //hexagon West
 
         return mat;
     }
@@ -305,13 +305,13 @@ function MapMatrice() {
         }
         if (hexaNW !== null)
         {
-            hexaNW.T_Top["S-E"] = top1;
+            //hexaNW.T_Top["S-E"] = top1;
         }
         var top2 = new Top(hexagon, hexaNW, hexaW);
         hexagon.T_Top["N-W"] = top2;
         if (hexaNW !== null)
         {
-            hexaNW.T_Top["S"] = top2;
+            //hexaNW.T_Top["S"] = top2;
         }
         if (hexaW !== null)
         {
@@ -326,22 +326,22 @@ function MapMatrice() {
     function addSides(hexagon, hexaNE, hexaNW, hexaW)
     {
         var side1 = new Side(hexagon, hexaNE);
-        hexagon.T_Side['N-E'];
+        hexagon.T_Side['N-E'] = side1;
         if (hexaNE !== null)
         {
-            hexagon.T_Side['S-W'];
+            hexagon.T_Side['S-W'] = side1;
         }
         var side2 = new Side(hexagon, hexaNW);
-        hexagon.T_Side['N-W'];
+        hexagon.T_Side['N-W'] = side2;
         if (hexaNW !== null)
         {
-            hexagon.T_Side['S-E'];
+            hexagon.T_Side['S-E'] = side2;
         }
         var side3 = new Side(hexagon, hexaW);
-        hexagon.T_Side['W'];
+        hexagon.T_Side['W'] = side3;
         if (hexaW !== null)
         {
-            hexagon.T_Side['E'];
+            hexagon.T_Side['E'] = side3;
         }
         return [hexagon, hexaNE, hexaNW, hexaW];
     }
@@ -363,10 +363,13 @@ function MapMatrice() {
     /*
      * 
      */
-    function setHexagon(hexagon, matrice, x, y)
+    function setHexagon(modelInfo,hexagon, matrice, x, y)
     {
         var mat = matrice;
-        mat[x][y] = hexagon;
+        if (x >= 0 && y >= 0 && x < modelInfo.line && y <= modelInfo.column)
+        {
+            mat[x][y] = hexagon;
+        }
         return mat;
     }
 

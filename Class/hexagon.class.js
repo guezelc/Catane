@@ -4,8 +4,8 @@ function Hexagon(type, tilt = 0) {
     var T_Top;
     var T_Side;
 
-    this.T_Top = {"N": 0, "N-E": 0, "S-E": 0, "S": 0, "S-W": 0, "N-W": 0};
-    this.T_Side = {"N-E": 0, "E": 0, "S-E": 0, "S-W": 0, "W": 0, "N-W": 0};
+    this.T_Top = {"N": null, "N-E": null, "S-E": null, "S": null, "S-W": null, "N-W": null};
+    this.T_Side = {"N-E": null, "E": null, "S-E": null, "S-W": null, "W": null, "N-W": null};
     this.type = type;
     this.tilt = tilt;
 
