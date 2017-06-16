@@ -297,7 +297,7 @@ function MapMatrice() {
      */
     function addTops(hexagon, hexaNE, hexaNW, hexaW)
     {
-        var top1 = new Top(hexagon, hexaNE, hexaNW);
+        var top1 = new Top(hexagon, hexaNE, hexaNW,"21");
         hexagon.T_Top["N"] = top1;
         if (hexaNE !== null)
         {
@@ -307,7 +307,7 @@ function MapMatrice() {
         {
             hexaNW.T_Top["S-E"] = top1;
         }
-        var top2 = new Top(hexagon, hexaNW, hexaW);
+        var top2 = new Top(hexagon, hexaNW, hexaW,"12");
         hexagon.T_Top["N-W"] = top2;
         if (hexaNW !== null)
         {
