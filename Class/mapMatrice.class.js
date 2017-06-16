@@ -1,4 +1,4 @@
-hexaNE !== "null"/*
+/*
  * A Catane game map uses matrice structure
  * 
  * Author :
@@ -100,7 +100,7 @@ function MapMatrice() {
         for (var line = 0; line < model.length; line++) {
             matrice.push([]);
             for (var column = 0; column < model[0].length; column++) {
-                matrice[line].push('null');
+                matrice[line].push(null);
             }
         }
         return matrice;
@@ -299,7 +299,7 @@ function MapMatrice() {
     {
         var top1 = new Top(hexagon, hexaNE, hexaNW);
         hexagon.T_Top["N"] = top1;
-        if (hexaNE !== null && hexaNE !== "null")
+        if (hexaNE !== null)
         {
             hexaNE.T_Top["S-W"] = top1;
         }

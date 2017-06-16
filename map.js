@@ -20,32 +20,32 @@ function loadHexagons() {
         for (var column = 0; column < map.getMapMatrice()[0].length; column++) {
             switch (line) {
                 case 0:
-                    if (map.getMapMatrice()[line][column] !== "null"){
+                    if (map.getMapMatrice()[line][column] !== null){
                         $(map.getMapMatrice()[line][column].display()).appendTo(div);
                     }
                     break;
                 case 1:
-                    if (map.getMapMatrice()[line][column] !== "null")
+                    if (map.getMapMatrice()[line][column] !== null)
                         $(map.getMapMatrice()[line][column].display()).appendTo(div2);
                     break;
                 case 2:
-                    if (map.getMapMatrice()[line][column] !== "null")
+                    if (map.getMapMatrice()[line][column] !== null)
                         $(map.getMapMatrice()[line][column].display()).appendTo(div3);
                     break;
                 case 3:
-                    if (map.getMapMatrice()[line][column] !== "null")
+                    if (map.getMapMatrice()[line][column] !== null)
                         $(map.getMapMatrice()[line][column].display()).appendTo(div4);
                     break;
                 case 4:
-                    if (map.getMapMatrice()[line][column] !== "null")
+                    if (map.getMapMatrice()[line][column] !== null)
                         $(map.getMapMatrice()[line][column].display()).appendTo(div5);
                     break;
                 case 5:
-                    if (map.getMapMatrice()[line][column] !== "null")
+                    if (map.getMapMatrice()[line][column] !== null)
                         $(map.getMapMatrice()[line][column].display()).appendTo(div6);
                     break;
                 case 6:
-                    if (map.getMapMatrice()[line][column] !== "null")
+                    if (map.getMapMatrice()[line][column] !== null)
                         $(map.getMapMatrice()[line][column].display()).appendTo(div7);
                     break;
             }
