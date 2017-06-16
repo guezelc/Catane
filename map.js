@@ -68,19 +68,24 @@ function loadHexagons() {
     divRed4.appendTo(body);
     divRed.appendTo(body);
     divRed2.appendTo(body);
-    var x = 0;
-    var y = 0;
-    var t = map.getMapMatrice()[x][y].T_Top["N"];
-    var tt= t.isBuildable();
-    console.log("tt"+tt);
-    //map.getMapMatrice()[x-1][y-1].T_Top["N"].occupy=1;
-    //map.getMapMatrice()[x-1][y-1].T_Top["S-W"].occupy=1;
-    map.getMapMatrice()[x][y].T_Top["S-W"].occupy=1;
-    map.getMapMatrice()[x][y].T_Top["S-E"].occupy=1;
-    //map.getMapMatrice()[x-1][y].T_Top["N"].occupy=1;
-    //map.getMapMatrice()[x-1][y].T_Top["S-E"].occupy=1;
-    tt= t.isBuildable();
-    console.log("tt"+tt);
+    var T_TopUse = ["N", "N-E", "S-E", "S", "S-W", "N-W"];
+    for (var line = 0; line < map.getMapMatrice().length; line++) {
+        for (var column = 0; column < map.getMapMatrice()[0].length; column++) {
+            if(map.getMapMatrice()[line][column] !== null)
+            {
+                for (var i = 0; i < T_TopUse.length; i++)
+                {
+                    var t = map.getMapMatrice()[line][column].T_Top[T_TopUse[i]];
+                    if(t !== null)
+                    {
+                        var tt= t.isHarbor();
+                        console.log(tt,' (',line,',',column,')',T_TopUse[i]);
+                    }
+                }
+            }
+        }
+    }
+    
     
 }
 
