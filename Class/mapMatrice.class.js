@@ -21,7 +21,7 @@ function MapMatrice() {
      * - 3: item harbor
      * @type Array
      */
-    var mapMatriceModel = [
+    var mapMatriceModelBase = [
         [2, 0, 3, 0, null, null, null],
         [0, 1, 1, 1, 2, null, null],
         [3, 1, 1, 1, 1, 0, null],
@@ -30,17 +30,47 @@ function MapMatrice() {
         [0, 1, 1, 1, 2, null, null],
         [2, 0, 3, 0, null, null, null]
     ];
+    
+    var mapMatriceModelExtension= [
+        [0,3,0,3,0, null, null, null],
+	[2,1,1,1,0,0, null, null, null],
+	[0,1,1,1,1,3,0, null, null],
+	[3,1,1,1,1,1,0,0, null],
+	[0,0,1,1,1,1,2,1,0],
+	[0,2,1,1,1,0,1,0, null],
+	[1,0,2,0,3,0,0, null, null],
+	[1,1,1,0,1,0, null, null, null],
+	[0,0,1,1,0, null, null, null, null]
+    ];
+    
 
     /*
      * The number of each hexagone type who can be on the catane map
      * @type type
      */
-    var hexagonNumber = {
+    var hexagonNumberBase = {
         corn: 4,
         wood: 4,
         sheep: 4,
         ore: 3,
         clay: 3,
+        desert: 1,
+        harbor31: 4,
+        oreHarbor: 1,
+        cornHarbor: 1,
+        woodHarbor: 1,
+        clayHarbor: 1,
+        sheepHarbor: 1
+    };/*
+     * The number of each hexagone type who can be on the catane map
+     * @type type
+     */
+    var hexagonNumberExtension = {
+        corn: 6,
+        wood: 6,
+        sheep: 6,
+        ore: 5,
+        clay: 5,
         desert: 1,
         harbor31: 4,
         oreHarbor: 1,
@@ -84,9 +114,18 @@ function MapMatrice() {
     /*
      * Init mapMaptrice object:
      *  - create a catane map
+     *  @param extension "B" for Base, "N" for navy
      */
-    this.init = function () {
-        mapMatrice = generateCataneMap(mapMatriceModel, hexagonNumber);
+    this.init = function (extension) {
+        switch(extension)
+        {
+            case "B":
+                mapMatrice = generateCataneMap(mapMatriceModelBase, hexagonNumberBase);
+                break;
+            case "N":
+                mapMatrice = generateCataneMap(mapMatriceModelExtension, hexagonNumberExtension);
+                break;
+        }
     };
 
     /*
@@ -363,10 +402,27 @@ function MapMatrice() {
      */
     function setHexagon(modelInfo,hexagon, matrice, x, y)
     {
+        var middle = parseInt(matrice.length/2);
         var mat = matrice;
         if (x >= 0 && y >= 0 && x < modelInfo.line && y <= modelInfo.column)
         {
-            mat[x][y] = hexagon;
+            if(hexagon !== null)
+            {
+                hexagon.position = [x,y];
+                if(middle>x)
+                {
+                    hexagon.positionOnMap=0;
+                }
+                if(middle<x)
+                {
+                    hexagon.positionOnMap=2;
+                }
+                if(middle===x)
+                {
+                    hexagon.positionOnMap=1;
+                }
+                mat[x][y] = hexagon;
+            }   
         }
         return mat;
     }
@@ -387,6 +443,39 @@ function MapMatrice() {
     {
 
     }
+    
+    this.showMap = function(matrice)
+    {
+        var body = $("body");
+        var nbDiv=matrice.length;
+        var nbCol=matrice[0].length;
+        var milieu = nbDiv/2;
+        for (var divCurr = 0; divCurr < nbDiv; divCurr++)
+        {
+            var div;
+            if(divCurr < milieu)
+            {
+                div = $('<div style="position:absolute;top: '+ divCurr*76 +'px;left:' + (milieu-divCurr)*50  + 'px"></div>');
+            }
+            else 
+            {
+                if(divCurr > milieu)
+                {
+                    div = $('<div style="position:absolute;top: '+ divCurr*76 +'px;left:' + (divCurr-milieu+1)*50  + 'px"></div>');
+                }
+                else
+                {
+                    div = $('<div style="position:absolute;top: '+ divCurr*76 +'px;left:0px"></div>');
+                }
+            }
+            for (var column = 0; column < nbCol; column++) {
+                if (matrice[divCurr][column] !== null){
+                    $(matrice[divCurr][column].display()).appendTo(div);
+                }                
+            }
+            div.appendTo(body);
+        }
+    };
 }
 
 

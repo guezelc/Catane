@@ -40,7 +40,7 @@ function Top(hexagon1, hexagon2, hexagon3, type)
             }
         }
         return false;
-    }
+    };
     
     this.isBuildable = function () {
         if(this.occupy !== null)
@@ -76,5 +76,10 @@ function Top(hexagon1, hexagon2, hexagon3, type)
             return false;
         }
         return true;
-    }
+    };
+    
+    this.show= function()
+    {
+        this.occupy.show(this);
+    };
 }
