@@ -79,7 +79,8 @@ function MapMatrice() {
         clayHarbor: 1,
         sheepHarbor: 1
     };
-
+    
+    var matriceTop;
     /*
      * Line coord to see where we need to tilt
      * @type Array
@@ -110,7 +111,8 @@ function MapMatrice() {
      * @type Array
      */
     var tilt = ['NE', 'NW', 'E', 'W', 'SE', 'SW'];
-
+    
+    this.matriceTop = [];
     /*
      * Init mapMaptrice object:
      *  - create a catane map
@@ -286,6 +288,7 @@ function MapMatrice() {
                 }
             }
         }
+        this.initMatriceTop; 
         return matrice;
     }
 
@@ -426,24 +429,10 @@ function MapMatrice() {
         }
         return mat;
     }
-
-    /*
-     * 
-     */
-    function setSidesOfTop(modelInfo, matrice)
-    {
-        var matX = 0;
-        var matY = 0;
-    }
-
-    /*
-     * 
-     */
-    function setTopsOfSide(modelInfo, matrice)
-    {
-
-    }
     
+    /*
+     * 
+     */
     this.showMap = function(matrice)
     {
         var body = $("body");
@@ -474,6 +463,118 @@ function MapMatrice() {
                 }                
             }
             div.appendTo(body);
+        }
+    };
+    
+    /*
+     * 
+     */
+    this.initMatriceTop = function()
+    {
+        var matLines = mapMatrice.length;
+        var matColumns = mapMatrice[0].length;
+        var matMiddle = parseInt(mapMatrice.length/2);
+        for(var line = 0 ;line < matLines ;line++)
+        {
+            var topN = [];
+            var topS = [];
+            var topNE = [];
+            var topSE = [];
+            for(var column = 0 ;column < matColumns ; column++)
+            {
+                var hexa1 = mapMatrice[line][column];
+                var hexa2 = mapMatrice[line][column];
+                if(hexa1 !== null)
+                {
+                    if(line <= matMiddle)
+                    {
+                        var hexaTopN = hexa1.T_Top["N"];
+                        if(hexaTopN !== null)
+                        {
+                            topN.push(hexaTopN);
+                        }
+                        //else topN.push("N");
+                    }  
+                    if(line >= matMiddle)
+                    {
+                        var hexaTopS = hexa1.T_Top["S"];
+                        if(hexaTopS !== null)
+                        {
+                            topS.push(hexaTopS);
+                        }
+                        //else topS.push("S");
+                    }           
+                }
+                if(hexa2!== null)
+                {
+                    if(line <= matMiddle)
+                    {
+                        if(column === 0)
+                        {                            
+                            var hexaTopN = hexa2.T_Top["N-W"];
+                            if(hexaTopN !== null)
+                            {
+                                topNE.push(hexaTopN);
+                            }
+                        }
+                        var hexaTopN = hexa2.T_Top["N-E"];
+                        if(hexaTopN !== null)
+                        {
+                            topNE.push(hexaTopN);
+                        }
+                        //else topNE.push("NE");
+                    }  
+                    if(line >= matMiddle)
+                    {
+                        if(column === 0)
+                        {                            
+                            var hexaTopS = hexa2.T_Top["S-W"];
+                            if(hexaTopS !== null)
+                            {
+                                topSE.push(hexaTopS);
+                            }
+                        }
+                        var hexaTopS = hexa2.T_Top["S-E"];
+                        if(hexaTopS !== null)
+                        {
+                            topSE.push(hexaTopS);
+                        }
+                        //else topSE.push("SE");
+                    } 
+                }
+            }
+            if(topN.length !== 0)
+            {
+                while(topN.length < matLines+1)
+                {
+                    topN.push(null);
+                }
+                this.matriceTop.push(topN);
+            } 
+            if(topNE .length !== 0)
+            {
+                while(topNE.length < matLines+1)
+                {
+                    topNE.push(null);
+                }
+                this.matriceTop.push(topNE);
+            } 
+            if(topSE.length !== 0)
+            {
+                while(topSE.length < matLines+1)
+                {
+                    topSE.push(null);
+                }
+                this.matriceTop.push(topSE);
+            } 
+            if(topS.length !== 0)
+            {
+                while(topS.length < matLines+1)
+                {
+                    topS.push(null);
+                }
+                this.matriceTop.push(topS);
+            }
         }
     };
 }

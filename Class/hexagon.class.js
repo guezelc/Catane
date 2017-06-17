@@ -11,7 +11,7 @@ function Hexagon(type, tilt = 0) {
     this.type = type;
     this.tilt = tilt;
     this.position = null;
-    this.positionOnMap = null;
+    this.positionOnMap = null; // 0 if top, 1 if midle, 2 if bot
 
     this.display = function display()
     {

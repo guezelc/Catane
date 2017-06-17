@@ -5,6 +5,8 @@ function loadHexagons() {
     var map = new MapMatrice();
     map.init("N");
     map.showMap(map.getMapMatrice());
+    map.initMatriceTop();
+    console.log(map.matriceTop);
     /*var matrice = map.getMapMatrice();
     var redColony = new Colony("Red");
     var redColony2 = new Colony("Red");
