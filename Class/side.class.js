@@ -9,6 +9,18 @@ function Side(hexagon1, hexagon2, tilt)
     this.hexagon1 = hexagon1;
     this.hexagon2 = hexagon2;
     this.tilt=tilt;
-    this.occupy = 0;
+    this.occupy = null;
     this.position = [];
+    
+    this.show= function()
+    {
+        if(this.occupy !== null)
+        {
+            var body = $('body');
+            var picture = $(this.occupy.display());
+            var div = $('<div></div>');
+            picture.appendTo(div);
+            div.appendTo(body);
+        }
+    };
 }

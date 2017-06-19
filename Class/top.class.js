@@ -82,6 +82,13 @@ function Top(hexagon1, hexagon2, hexagon3, type)
     
     this.show= function()
     {
-        this.occupy.show(this);
+        if(this.occupy !== null)
+        {
+            var body = $('body');
+            var picture = $(this.occupy.display());
+            var div = $('<div></div>');
+            picture.appendTo(div);
+            div.appendTo(body);
+        }
     };
 }
