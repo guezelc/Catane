@@ -26,6 +26,21 @@ function Player(color) {
     var T_road;
 
     /*
+     * Player's colony table
+     */
+    var nbColonyAvailable;
+
+    /*
+     * Player's city table
+     */
+    var nbCityAvailable;
+
+    /*
+     * Player's road table
+     */
+    var nbRoadAvailable;
+
+    /*
      * Player's resource card table
      */
     var T_resource_card;
@@ -37,16 +52,25 @@ function Player(color) {
     
     //Object var init
     this.color = color;
-    this.T_road = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.T_colony = [0, 0, 0, 0, 0];
-    this.T_city = [0, 0, 0, 0];
-    this.T_resource_card = [];
+    this.T_road = [null, null, null, null, null, null, null, null, null, null, null, null, null];
+    this.T_colony = [null, null, null, null, null];
+    this.T_city = [null, null, null, null];
+    this.T_resource_card = {
+        corn: 0,
+        ore: 0,
+        sheep: 0,
+        wood: 0,
+        clay: 0
+    };
     this.T_developpement_card = [];
+    this.nbColonyAvailable = 5;
+    this.nbCityAvailable = 4;
+    this.nbRoadAvailable = 13;
 
     /*
      * 
      */
-    this.put_Road = function ()
+    this.build_Road = function ()
     {
 
     };
@@ -54,7 +78,7 @@ function Player(color) {
     /*
      * 
      */
-    this.put_City = function ()
+    this.build_City = function ()
     {
 
     };
@@ -62,7 +86,7 @@ function Player(color) {
     /*
      * 
      */
-    this.put_Colony = function ()
+    this.build_Colony = function ()
     {
 
     };
@@ -70,32 +94,51 @@ function Player(color) {
     /*
      * 
      */
-    this.acheter_Road = function ()
+    this.buy_Road = function ()
     {
-        this.put_Road();
+        if(this.T_resource_card.clay >=1 && this.T_resource_card.wood >=1 )
+        {
+            if(this.isAbleToBuildRoad())
+            {
+                
+            }
+        }
+        this.build_Road();
     };
 
     /*
      * 
      */
-    this.acheter_City = function ()
+    this.buy_City = function ()
     {
-        this.put_City();
+        this.build_City();
     };
 
     /*
      * 
      */
-    this.acheter_Colony = function ()
+    this.buy_Colony = function ()
     {
-        this.put_Colony();
+        this.build_Colony();
     };
 
     /*
      * 
      */
-    this.acheter_Developpement_Card = function ()
+    this.buy_Developpement_Card = function ()
     {
         this.piocher_Developpement_Card();
+    };
+    
+    this.isAbleToBuildRoad = function()
+    {
+        if(nbRoadAvailable === 0)
+        {
+            return false;
+        }
+        for(var road = 0; road < this.T_road.length; road++)
+        {
+            
+        }
     };
 }

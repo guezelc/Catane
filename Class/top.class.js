@@ -9,34 +9,49 @@
 function Top(hexagon1, hexagon2, hexagon3, type)
 {
     /*
-     * 
+     * hexagon South-East if type = 12, South if 21
      */
     var hexagon1;
 
     /*
-     * 
+     * hexagon North if type = 12, North-East if 21
      */
     var hexagon2;
 
     /*
-     * 
+     * hexagon South-West if type = 12, North-West if 21
      */
     var hexagon3;
+    
+    /*
+     * side right
+     */
+    var side1;
+
+    /*
+     * side left
+     */
+    var side2;
+
+    /*
+     * side vertical
+     */
+    var side3;
 
     /*
      * 
-     * @returns {@param;Top:hexagon1.tilt|@param;Top:hexagon3.tilt|@param;Top:hexagon2.tilt|@param;Top:hexagon1.type|@param;Top:hexagon2.type|@param;Top:hexagon3.type|Boolean}
+     * @return harbor type if OK, 0 if KO
      */
     var isHarbor;
 
     /*
      * 
-     * @type type
+     * @type Colony or City
      */
     var occupy;
 
     /*
-     * 
+     * 21 or 12
      */
     var type;
 
@@ -49,6 +64,9 @@ function Top(hexagon1, hexagon2, hexagon3, type)
     this.hexagon1 = hexagon1;
     this.hexagon2 = hexagon2;
     this.hexagon3 = hexagon3;
+    this.side1 = null;
+    this.side2 = null;
+    this.side3 = null;
     this.occupy = null;
     this.type = type; //21 or 12
     this.position = [];
