@@ -6,12 +6,14 @@ function Top(hexagon1, hexagon2, hexagon3, type)
     var isHarbor;
     var occupy;
     var type;
+    var position;
 
     this.hexagon1 = hexagon1;
     this.hexagon2 = hexagon2;
     this.hexagon3 = hexagon3;
     this.occupy = null;
-    this.type=type; //21 or 12
+    this.type = type; //21 or 12
+    this.position = [];
 
     /*
      *  @return harbor type if OK, 0 if KO
