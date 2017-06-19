@@ -3,9 +3,11 @@ var dice = new Dice();
 function loadHexagons() {
     var body = $("body");
     var map = new MapMatrice();
-    var button = $('<button style="float:left" class="bouton">Roll the dice</button>').click(function()
+    var button = $('<button style="float:left" class="bouton">Roll the dice</button>').click(function ()
     {
-        for(var i = 0 ; i< 1000;i++){dice.roll();}
+        for (var i = 0; i < 1000; i++) {
+            dice.roll();
+        }
         console.log(dice.historical);
         $("#hexagon").text(dice.result);
     }).appendTo(body);
@@ -17,72 +19,37 @@ function loadHexagons() {
     console.log(map.matriceTop);
     console.log(map.matriceSide);
     console.log(button);
-    /*var matrice = map.getMapMatrice();
-    var redColony = new Colony("Red");
-    var redColony2 = new Colony("Red");
-    var redColony3 = new Colony("Red");
-    var redColony4 = new Colony("Red");
-    var redColony5 = new Colony("Red");
-    var redColony6 = new Colony("Red");
-    var topRed = matrice[3][5].T_Top["N-W"];
-    var topRed2 = matrice[3][4].T_Top["N"];
-    var topRed3 = matrice[4][2].T_Top["N-W"];
-    var topRed4 = matrice[4][4].T_Top["N-W"];
-    var topRed5 = matrice[6][2].T_Top["N-E"];
-    var topRed6 = matrice[6][4].T_Top["N-E"];
-    topRed.occupy=redColony;
-    topRed2.occupy=redColony2;
-    topRed3.occupy=redColony3;
-    topRed4.occupy=redColony4;
-    topRed5.occupy=redColony5;
-    topRed6.occupy=redColony6;
-    /*topRed.show();
-    topRed2.show();
-    topRed3.show();
-    topRed4.show();
-    topRed5.show();
-    topRed6.show();*/
-    /*var nbLine = matrice.length;
-    var nbCol = matrice[0].length;
-    var T_Pos = ["N","N-W","S-W"];
-    for (var line = 0; line < nbLine; line++) {
-        for (var column = 0; column < nbCol; column++) 
+    var matTop = map.matriceTop;
+    var lig = matTop.length;
+    var col = matTop[0].length;
+    var matHarbor = [];
+    for (var l = 0; l < lig; l++)
+    {
+        matHarbor.push([]);
+        for (var c = 0; c < col; c++)
         {
-        }
-    }*/
-    /*var Cityred = new City("Red", [125, 260]);
-    var R1red = new Road("Red", "vertical", [100, 270]);
-    var R3red = new Road("Red", "right", [75, 275]);
-    var divRed = $('<div style="position:absolute;top:' + Cred.top[0] + 'px;left:' + Cred.top[1] + 'px">' + Cred.display() + '</div>');
-    var divRed2 = $('<div style="position:absolute;top:' + Cityred.top[0] + 'px;left:' + Cityred.top[1] + 'px">' + Cityred.display() + '</div>');
-    var divRed3 = $('<div style="position:absolute;top:' + R1red.side[0] + 'px;left:' + R1red.side[1] + 'px">' + R1red.display() + '</div>');
-    var divRed4 = $('<div style="position:absolute;top:' + R3red.side[0] + 'px;left:' + R3red.side[1] + 'px">' + R3red.display() + '</div>');
-    divRed3.appendTo(body);
-    divRed4.appendTo(body);
-    divRed.appendTo(body);
-    divRed2.appendTo(body);*/
-    
-    /*                      isHarbor test
-    var T_TopUse = ["N", "N-E", "S-E", "S", "S-W", "N-W"];
-    for (var line = 0; line < map.getMapMatrice().length; line++) {
-        for (var column = 0; column < map.getMapMatrice()[0].length; column++) {
-            if(map.getMapMatrice()[line][column] !== null)
+            var top = matTop[l][c];
+            if (top !== null)
             {
-                for (var i = 0; i < T_TopUse.length; i++)
-                {
-                    var t = map.getMapMatrice()[line][column].T_Top[T_TopUse[i]];
-                    if(t !== null)
-                    {
-                        var tt= t.isHarbor();
-                        console.log(tt,' (',line,',',column,')',T_TopUse[i]);
-                    }
-                }
+                var hb = top.isHarbor();
+                matHarbor[l].push(hb);
+            } else
+            {
+                matHarbor[l].push(null);
             }
         }
     }
-    */
+    console.log(matHarbor);
     
-    
+    //Debug test
+    var player = new Player('red');
+    player.T_colony[0] = new Colony('red');
+    player.T_colony[0].top = matTop[6][3];
+    player.T_city[0] = new City('red');
+    player.T_city[0].top = matTop[8][4];
+    player.giveResourcesCards(8);
+    console.log(player.T_resource_card);
+
 }
 
 function rollDice()

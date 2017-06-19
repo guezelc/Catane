@@ -4,6 +4,7 @@
  * @param {type} hexagon2
  * @param {type} hexagon3
  * @param {type} type
+ * 
  * @returns {Top}
  */
 function Top(hexagon1, hexagon2, hexagon3, type)
@@ -119,6 +120,54 @@ function Top(hexagon1, hexagon2, hexagon3, type)
             return false;
         }
         return true;
+    };
+    
+    /**
+     * Verify if top's hexagon have number gived in parameters
+     * 
+     * @param {type} number
+     * 
+     * @returns {Boolean}
+     */
+    this.haveHexagonWithNumber = function(number) {
+        
+        var have = false;
+        
+        if(this.hexagon1.number === number){
+            have = true;
+        }
+        else if(this.hexagon2.number === number){
+            have = true;
+        }
+        else if(this.hexagon3.number === number){
+            have = true;
+        }
+        
+        return have;
+    };
+    
+    /**
+     * Get hexagons with same number as given number
+     * 
+     * @param {type} number
+     * 
+     * @returns {Array|Top.getHexagonsByNumber.hexagons}
+     */
+    this.getHexagonsByNumber = function(number) {
+        
+        var hexagons = [];
+        
+        if(this.hexagon1.number === number){
+            hexagons.push(hexagon1.type);
+        }
+        else if(this.hexagon2.number === number){
+            hexagons.push(hexagon2.type);
+        }
+        else if(this.hexagon3.number === number){
+            hexagons.push(hexagon3.type);
+        }
+        
+        return hexagons;
     };
 
     /*
