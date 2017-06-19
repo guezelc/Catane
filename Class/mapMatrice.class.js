@@ -86,7 +86,7 @@ function MapMatrice() {
         9: 2,
         10: 2,
         11: 2,
-        12: 1,
+        12: 1
     };
     /*
      * The number of each hexagone type who can be on the catane map
@@ -122,7 +122,7 @@ function MapMatrice() {
         9: 4,
         10: 4,
         11: 4,
-        12: 2,
+        12: 2
     };
     
 
@@ -322,6 +322,7 @@ function MapMatrice() {
             }
         } 
         addTopsAndSides(mapMatriceInfo, matrice);
+        addTopsToSidesAndSidesToTops(mapMatriceInfo, matrice);
         addHexagonNumber(matrice,model,number);
         return matrice;
     }
@@ -773,5 +774,154 @@ function MapMatrice() {
             }
         }
         return matrice;
+    }
+    
+    /*
+     * associate tops to sides and sides to tops
+     */
+    function addTopsToSidesAndSidesToTops(modelInfo, matrice)
+    {
+        var nbLine = modelInfo.line;
+        var nbColumn = modelInfo.column;
+        var middle = parseInt(modelInfo.line / 2);
+        for(var line = 0; line < nbLine; line++)
+        {
+            for(var column = 0; column < nbColumn; column++)
+            {
+                if (line <= middle)
+                {
+                    var T_TopUsefull = ['N-E','N','N-W','S-W'];
+                    var T_SideUsefull = ['N-E','N-W','W'];
+                    var T_Top = [];
+                    var T_Side = [];
+                    var hexagon = getHexagon(modelInfo, matrice, line, column);
+                    var hexagon2 = getHexagon(modelInfo, matrice, line-1, column-1);
+                    for(var i =0; i < T_TopUsefull.length; i++)
+                    {
+                        T_Top.push(getTop(hexagon,T_TopUsefull[i]));
+                    }
+                    for(var i =0; i < T_SideUsefull.length; i++)
+                    {
+                        T_Side.push(getSide(hexagon,T_SideUsefull[i]));
+                    }
+                    T_Side.push(getSide(hexagon2,'E'));
+                    T_Side.push(getSide(hexagon2,'S-W'));
+                    addTopsToSides(T_Side,T_Top,"North");
+                    addSidesToTops(T_Top,T_Side,"North");                    
+                }
+                if (line >= middle)
+                {
+                    var T_TopUsefull = ['S-W','S','S-E','N-E'];
+                    var T_SideUsefull = ['S-W','S-E','E'];
+                    var T_Top = [];
+                    var T_Side = [];
+                    var hexagon = getHexagon(modelInfo, matrice, line, column);
+                    var hexagon2 = getHexagon(modelInfo, matrice, line+1, column);
+                    for(var i =0; i < T_TopUsefull.length; i++)
+                    {
+                        T_Top.push(getTop(hexagon,T_TopUsefull[i]));
+                    }
+                    for(var i =0; i < T_SideUsefull.length; i++)
+                    {
+                        T_Side.push(getSide(hexagon,T_SideUsefull[i]));
+                    }
+                    T_Side.push(getSide(hexagon2,'W'));
+                    T_Side.push(getSide(hexagon2,'N-E'));
+                    addTopsToSides(T_Side,T_Top,"South");
+                    addSidesToTops(T_Top,T_Side,"South");  
+                }
+            }
+        }
+    }
+    
+    /*
+     * 
+     * @param hexagon hexagon
+     * @param string tilt
+     * @returns top
+     */
+    function getTop(hexagon, tilt)
+    {
+        if(hexagon === null)
+        {
+            return null;
+        }
+        return hexagon.T_Top[tilt];
+    }
+    
+    /*
+     * 
+     * @param hexagon hexagon
+     * @param string tilt
+     * @returns side
+     */
+    function getSide(hexagon, tilt)
+    {
+        if(hexagon === null)
+        {
+            return null;
+        }
+        return hexagon.T_Side[tilt];
+    }
+    
+    /*
+     * add tops to sides
+     */
+    function addTopsToSides(T_Side,T_Top,position)
+    {
+        if(position === 'North')
+        {
+            addTopToSide(T_Side[0],T_Top[1],T_Top[0]);
+            addTopToSide(T_Side[1],T_Top[1],T_Top[2]);
+            addTopToSide(T_Side[2],T_Top[2],T_Top[3]);
+        }
+        if(position === 'South')
+        {
+            addTopToSide(T_Side[0],T_Top[0],T_Top[1]);
+            addTopToSide(T_Side[1],T_Top[2],T_Top[1]);
+            addTopToSide(T_Side[2],T_Top[3],T_Top[2]);
+        }
+    }
+    
+    /*
+     * add sides to tops
+     */
+    function addSidesToTops(T_Top,T_Side,position)
+    {
+        if(position === 'North')
+        {
+            addSideToTop(T_Top[1],T_Side[0],T_Side[1],T_Side[3]);
+            addSideToTop(T_Top[2],T_Side[1],T_Side[4],T_Side[2]);
+        }
+        if(position === 'South')
+        {
+            addSideToTop(T_Top[1],T_Side[1],T_Side[0],T_Side[3]);
+            addSideToTop(T_Top[2],T_Side[4],T_Side[1],T_Side[2]);
+        }
+    }
+    
+    /*
+     * add sides to one top
+     */
+    function addSideToTop(top,side1,side2,side3)
+    {
+        if(top !== null)
+        {
+            top.side1 = side1;
+            top.side2 = side2;
+            top.side3 = side3;
+        }
+    }
+    
+    /*
+     * add tops to one side
+     */
+    function addTopToSide(side,top1,top2)
+    {
+        if(side !== null)
+        {
+            side.top1 = top1;
+            side.top2 = top2;
+        }
     }
 }
