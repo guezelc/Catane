@@ -1,14 +1,22 @@
 var lesHexagons = ["wood", "clay", "ore", "sheep", "corn", 'water'];
-
+var dice = new Dice();
 function loadHexagons() {
     var body = $("body");
     var map = new MapMatrice();
+    var button = $('<button style="float:left" class="bouton">Roll the dice</button>').click(function()
+    {
+        for(var i = 0 ; i< 1000;i++){dice.roll();}
+        console.log(dice.historical);
+        $("#hexagon").text(dice.result);
+    }).appendTo(body);
+    
     map.init("N");
     map.showMap(map.getMapMatrice());
     map.initMatriceTop();
     map.initMatriceSide();
     console.log(map.matriceTop);
     console.log(map.matriceSide);
+    console.log(button);
     /*var matrice = map.getMapMatrice();
     var redColony = new Colony("Red");
     var redColony2 = new Colony("Red");
@@ -75,6 +83,11 @@ function loadHexagons() {
     */
     
     
+}
+
+function rollDice()
+{
+    console.log(111);
 }
 
 $(document).ready(function () {
