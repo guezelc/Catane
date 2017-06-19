@@ -16,35 +16,35 @@ function Player(color) {
     this.put_Road = function ()
     {
 
-    }
+    };
 
     this.put_City = function ()
     {
 
-    }
+    };
 
     this.put_Colony = function ()
     {
 
-    }
+    };
 
     this.acheter_Road = function ()
     {
         this.put_Road();
-    }
+    };
 
     this.acheter_City = function ()
     {
         this.put_City();
-    }
+    };
 
     this.acheter_Colony = function ()
     {
         this.put_Colony();
-    }
+    };
 
     this.acheter_Developpement_Card = function ()
     {
         this.piocher_Developpement_Card();
-    }
+    };
 }

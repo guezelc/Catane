@@ -10,5 +10,5 @@ function Road(color, tilt, side) {
     this.display = function ()
     {
         return '<img src="Picture/Pawn/' + this.color + '/Road/' + this.tilt + '.png">';
-    }
+    };
 }

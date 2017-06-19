@@ -3,11 +3,15 @@ function Hexagon(type, tilt = 0) {
     var tilt;
     var T_Top;
     var T_Side;
+    var position;
+    var positionOnMap;
 
     this.T_Top = {"N": null, "N-E": null, "S-E": null, "S": null, "S-W": null, "N-W": null};
     this.T_Side = {"N-E": null, "E": null, "S-E": null, "S-W": null, "W": null, "N-W": null};
     this.type = type;
     this.tilt = tilt;
+    this.position = null;
+    this.positionOnMap = null; // 0 if top, 1 if midle, 2 if bot
 
     this.display = function display()
     {
