@@ -29,6 +29,8 @@ function Hexagon(type, tilt = 0) {
      * ???
      */
     var positionOnMap;
+    var number;
+
     
     // Object var init
     this.T_Top = {"N": null, "N-E": null, "S-E": null, "S": null, "S-W": null, "N-W": null};
@@ -36,6 +38,7 @@ function Hexagon(type, tilt = 0) {
     this.type = type;
     this.tilt = tilt;
     this.positionOnMap = null; // 0 if top, 1 if midle, 2 if bot
+    this.number = null;
 
     /*
      * Display this Hexagon
@@ -44,8 +47,15 @@ function Hexagon(type, tilt = 0) {
     {
         if (this.tilt === 0)
         {
+            if(this.number !== null)
+            {
+                return $('<img width="100px" height="100px" src="Picture/Number/' + this.number + '.png">')
+                        .css("background",'url(Picture/Hexagon/' + this.type + '.png)');
+            }
             return '<img width="100px" height="100px" src="Picture/Hexagon/' + this.type + '.png">';
-        } else
+            
+        }
+        else
         {
             return '<img width="100px" height="100px" src="Picture/Hexagon/Harbor/' + this.type + '/' + this.tilt + '.png">';
         }

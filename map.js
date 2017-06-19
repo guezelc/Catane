@@ -9,11 +9,11 @@ function loadHexagons() {
         console.log(dice.historical);
         $("#hexagon").text(dice.result);
     }).appendTo(body);
-    
     map.init("N");
     map.showMap(map.getMapMatrice());
     map.initMatriceTop();
     map.initMatriceSide();
+    console.log(map.getMapMatrice());
     console.log(map.matriceTop);
     console.log(map.matriceSide);
     console.log(button);

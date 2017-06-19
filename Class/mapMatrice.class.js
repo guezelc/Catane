@@ -69,8 +69,25 @@ function MapMatrice() {
         woodHarbor: 1,
         clayHarbor: 1,
         sheepHarbor: 1
-    };
+    };    
 
+    /*
+     * The number of each number who can be on the catane map
+     * @type int
+     */
+    var numberBase = {
+        2: 1,
+        3: 2,
+        4: 2,
+        5: 2,
+        6: 2,
+        7: 2,
+        8: 2,
+        9: 2,
+        10: 2,
+        11: 2,
+        12: 1,
+    };
     /*
      * The number of each hexagone type who can be on the catane map
      * @type type
@@ -89,6 +106,25 @@ function MapMatrice() {
         clayHarbor: 1,
         sheepHarbor: 1
     };
+
+    /*
+     * The number of each number who can be on the catane map
+     * @type int
+     */
+    var numberExtension = {
+        2: 2,
+        3: 4,
+        4: 4,
+        5: 4,
+        6: 4,
+        7: 4,
+        8: 4,
+        9: 4,
+        10: 4,
+        11: 4,
+        12: 2,
+    };
+    
 
     /*
      * 
@@ -154,10 +190,11 @@ function MapMatrice() {
         switch (extension)
         {
             case "B":
-                mapMatrice = generateCataneMap(mapMatriceModelBase, hexagonNumberBase);
+                this.
+                mapMatrice = generateCataneMap(mapMatriceModelBase, hexagonNumberBase, numberBase);
                 break;
             case "N":
-                mapMatrice = generateCataneMap(mapMatriceModelExtension, hexagonNumberExtension);
+                mapMatrice = generateCataneMap(mapMatriceModelExtension, hexagonNumberExtension, numberExtension);
                 break;
         }
     };
@@ -185,8 +222,8 @@ function MapMatrice() {
      * @param {type} PhexagonNumber
      * @returns {Array}
      */
-    function generateCataneMap(Pmodel, PhexagonNumber) {
-
+    function generateCataneMap(Pmodel, PhexagonNumber, Pnumber) {
+        
         /*
          * Matrice where we stock hexagones during map generation
          * @type Array|MapMatrice.initMatrice.matrice
@@ -198,6 +235,12 @@ function MapMatrice() {
          * @type type
          */
         var model = Pmodel;
+        
+        /*
+         * Number of each hexagon number available
+         * @type type
+         */
+        var number = Pnumber;
 
         /*
          * Number of each hexagone type who can be on the catane map
@@ -319,8 +362,8 @@ function MapMatrice() {
                         break;
                 }
             }
-        }
-        this.initMatriceTop;
+        } 
+        matrice = addHexagonNumber(matrice,model,number);
         return matrice;
     }
 
@@ -814,6 +857,29 @@ function MapMatrice() {
             }
         }
     };
+    
+    function addHexagonNumber(matrice,model,number)
+    {
+        var nbLine = matrice.length;
+        var nbColumn = matrice[0].length;
+        for(var line =0; line < nbLine; line++)
+        {
+            for(var column = 0; column < nbColumn; column++)
+            {
+                if(model[line][column] ===1 && matrice[line][column].type !== 'desert') 
+                {
+                    var rand = getRandomIntInclusive(2,12);
+                    while(number[rand] === 0)
+                    {
+                        rand = getRandomIntInclusive(2,12);
+                    }
+                    matrice[line][column].number=rand;
+                    number[rand]--;
+                }
+            }
+        }
+        return matrice;
+    }
 }
 
 
