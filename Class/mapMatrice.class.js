@@ -384,7 +384,8 @@ function MapMatrice() {
     };
 
     /*
-     * 
+     * add top and side to hexagon in function of their position on the catane map
+     * @return matrice update
      */
     function addTopsAndSides(modelInfo, matrice, x, y)
     {
@@ -476,7 +477,8 @@ function MapMatrice() {
     }
 
     /*
-     * 
+     * add tops to the hexagons in paramater
+     * @return a table with the 4 hexagons update
      */
     function addTops(hexagon, hexaNE, hexaNW, hexaW)
     {
@@ -510,7 +512,8 @@ function MapMatrice() {
     }
 
     /*
-     * 
+     * add the sides to the hexagons in parameter
+     * @return a table with the 4 hexagon update
      */
     function addSides(hexagon, hexaNE, hexaNW, hexaW)
     {
@@ -545,7 +548,7 @@ function MapMatrice() {
     }
 
     /*
-     * 
+     * @return hexagon
      */
     function getHexagon(modelInfo, matrice, x, y)
     {
@@ -557,7 +560,8 @@ function MapMatrice() {
     }
 
     /*
-     * 
+     * update an hexagon 
+     * @return matrice
      */
     function setHexagon(modelInfo, hexagon, matrice, x, y)
     {
@@ -587,7 +591,7 @@ function MapMatrice() {
     }
 
     /*
-     * 
+     * show the map in html
      */
     this.showMap = function (matrice)
     {
@@ -621,7 +625,7 @@ function MapMatrice() {
     };
 
     /*
-     * 
+     *  initialise matrice of top in order to linking them to hexagons
      */
     this.initMatriceTop = function ()
     {
@@ -733,6 +737,9 @@ function MapMatrice() {
         this.addTopsPosition(this.matriceTop);
     };
 
+    /*
+     * add the position of all the tops in the matrice
+     */
     this.addTopsPosition = function (matriceTop)
     {
         var nbLine = matriceTop.length;
@@ -751,7 +758,7 @@ function MapMatrice() {
     };
 
     /*
-     * 
+     * initialise matrice of side in order to linking them to hexagons
      */
     this.initMatriceSide = function ()
     {
@@ -841,6 +848,9 @@ function MapMatrice() {
         this.addSidesPosition(this.matriceSide);
     };
 
+    /*
+     * add the coordonate of all the side in the matrice
+     */
     this.addSidesPosition = function (matriceSide)
     {
         var nbLine = matriceSide.length;
@@ -857,7 +867,10 @@ function MapMatrice() {
             }
         }
     };
-    
+
+    /*
+     * add the number on all the hexagon in the matrice who needs
+     */
     function addHexagonNumber(matrice,model,number)
     {
         var nbLine = matrice.length;
