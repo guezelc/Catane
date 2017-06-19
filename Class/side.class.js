@@ -16,6 +16,16 @@ function Side(hexagon1, hexagon2, tilt)
     var hexagon2;
     
     /*
+     * the top the more in North
+     */
+    var top1;
+    
+    /*
+     * the top the more in South
+     */
+    var top2;
+    
+    /*
      * 
      */
     var tilt;
@@ -32,6 +42,8 @@ function Side(hexagon1, hexagon2, tilt)
 
     this.hexagon1 = hexagon1;
     this.hexagon2 = hexagon2;
+    this.top1 = null;
+    this.top2 = null;
     this.tilt = tilt;
     this.occupy = null;
     this.position = [];
