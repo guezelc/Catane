@@ -13,14 +13,18 @@ function Dice()
         var number = 0;
         var dice1;
         var dice2;
-        function getRandomInt(min, max) {
+
+        /*
+         * Randomly return a int between min and max inlcluded
+         */
+        function getRandomIntInclusive(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min;
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
         
-        dice1 = getRandomInt(1,7);
-        dice2 = getRandomInt(1,7);
+        dice1 = getRandomIntInclusive(1,6);
+        dice2 = getRandomIntInclusive(1,6);
         number = dice1+dice2;
         this.historical[number]++;
         this.result = number;
