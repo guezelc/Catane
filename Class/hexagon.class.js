@@ -1,18 +1,45 @@
+/*
+ * Author:
+ * - Clement Guezel
+ * - Virgil Lacondemine
+ */
 function Hexagon(type, tilt = 0) {
-    var type;
-    var tilt;
-    var T_Top;
-    var T_Side;
-    var position;
-    var positionOnMap;
 
+    /*
+     * Type of this Hexagon
+     */
+    var type;
+
+    /*
+     * Tilt of this Hexagon
+     */
+    var tilt;
+
+    /*
+     * Top table of this Hexagon to know each pawn put in.
+     */
+    var T_Top;
+
+    /*
+     * Side table of this Hexagon to know each Hexagon connected with
+     */
+    var T_Side;
+
+    /*
+     * ???
+     */
+    var positionOnMap;
+    
+    // Object var init
     this.T_Top = {"N": null, "N-E": null, "S-E": null, "S": null, "S-W": null, "N-W": null};
     this.T_Side = {"N-E": null, "E": null, "S-E": null, "S-W": null, "W": null, "N-W": null};
     this.type = type;
     this.tilt = tilt;
-    this.position = null;
     this.positionOnMap = null; // 0 if top, 1 if midle, 2 if bot
 
+    /*
+     * Display this Hexagon
+     */
     this.display = function display()
     {
         if (this.tilt === 0)

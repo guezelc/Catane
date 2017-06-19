@@ -1,11 +1,49 @@
+/*
+ * 
+ * @param {type} hexagon1
+ * @param {type} hexagon2
+ * @param {type} hexagon3
+ * @param {type} type
+ * @returns {Top}
+ */
 function Top(hexagon1, hexagon2, hexagon3, type)
 {
+    /*
+     * 
+     */
     var hexagon1;
+
+    /*
+     * 
+     */
     var hexagon2;
+
+    /*
+     * 
+     */
     var hexagon3;
+
+    /*
+     * 
+     * @returns {@param;Top:hexagon1.tilt|@param;Top:hexagon3.tilt|@param;Top:hexagon2.tilt|@param;Top:hexagon1.type|@param;Top:hexagon2.type|@param;Top:hexagon3.type|Boolean}
+     */
     var isHarbor;
+
+    /*
+     * 
+     * @type type
+     */
     var occupy;
+
+    /*
+     * 
+     */
     var type;
+
+    /*
+     * 
+     * @type Array
+     */
     var position;
 
     this.hexagon1 = hexagon1;
@@ -20,67 +58,73 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      */
     this.isHarbor = function () {
         var T_TiltUsefull = {
-            "21" : [["NW","NE"],["SW","W"],["SE","E"]],
-            "12" : [["NW","W"],["SW","SE"],["NE","E"]]
+            "21": [["NW", "NE"], ["SW", "W"], ["SE", "E"]],
+            "12": [["NW", "W"], ["SW", "SE"], ["NE", "E"]]
         };
-        var T_Hexagon = [this.hexagon1,this.hexagon2,this.hexagon3];
-        for (var i =0 ; i < T_TiltUsefull[this.type].length; i++)
+        var T_Hexagon = [this.hexagon1, this.hexagon2, this.hexagon3];
+        for (var i = 0; i < T_TiltUsefull[this.type].length; i++)
         {
-            while(T_Hexagon[i] === null && i+1 < T_TiltUsefull[this.type].length)
+            while (T_Hexagon[i] === null && i + 1 < T_TiltUsefull[this.type].length)
             {
                 i++;
             }
             if (T_Hexagon[i] !== null)
             {
-                for(var j = 0; j < T_TiltUsefull[this.type][i].length; j++)
+                for (var j = 0; j < T_TiltUsefull[this.type][i].length; j++)
                 {
-                    if(T_Hexagon[i].tilt === T_TiltUsefull[this.type][i][j])
+                    if (T_Hexagon[i].tilt === T_TiltUsefull[this.type][i][j])
                     {
-                        return T_Hexagon[i].type+T_Hexagon[i].tilt;
+                        return T_Hexagon[i].type + T_Hexagon[i].tilt;
                     }
                 }
             }
         }
         return false;
     };
-    
+
+    /*
+     * 
+     */
     this.isBuildable = function () {
-        if(this.occupy !== null)
+        if (this.occupy !== null)
         {
             return false;
         }
         var countLand = 0;
         var T_TopUsefull = {
-            "21" : ["N-E","N-W","S"],
-            "12" : ["N","S-W","S-E"]
+            "21": ["N-E", "N-W", "S"],
+            "12": ["N", "S-W", "S-E"]
         };
-        var T_Hexagon = [this.hexagon1,this.hexagon2,this.hexagon3];
-        for (var i =0 ; i < T_TopUsefull[this.type].length; i++)
+        var T_Hexagon = [this.hexagon1, this.hexagon2, this.hexagon3];
+        for (var i = 0; i < T_TopUsefull[this.type].length; i++)
         {
-            while(T_Hexagon[i] === null && i+1 < T_TopUsefull[this.type].length)
+            while (T_Hexagon[i] === null && i + 1 < T_TopUsefull[this.type].length)
             {
                 i++;
             }
             if (T_Hexagon[i] !== null)
             {
-                if(T_Hexagon[i].tilt === 0)
+                if (T_Hexagon[i].tilt === 0)
                 {
                     countLand++;
                 }
-                if(T_Hexagon[i].T_Top[T_TopUsefull[this.type][i]].occupy !== null)
+                if (T_Hexagon[i].T_Top[T_TopUsefull[this.type][i]].occupy !== null)
                 {
                     return false;
                 }
             }
         }
-        if(countLand === 0)
+        if (countLand === 0)
         {
             return false;
         }
         return true;
     };
-    
-    this.show= function()
+
+    /*
+     * 
+     */
+    this.show = function ()
     {
         if(this.occupy !== null)
         {
