@@ -86,7 +86,7 @@ function MapMatrice() {
         9: 2,
         10: 2,
         11: 2,
-        12: 1,
+        12: 1
     };
     /*
      * The number of each hexagone type who can be on the catane map
@@ -122,7 +122,7 @@ function MapMatrice() {
         9: 4,
         10: 4,
         11: 4,
-        12: 2,
+        12: 2
     };
     
 
@@ -260,41 +260,20 @@ function MapMatrice() {
             for (var column = 0; column < mapMatriceInfo.column; column++) {
                 switch (model[line][column]) {
                     case 0:
-                        matrice[line][column] = new Hexagon('water');
-                        matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                        matrice[line][column] = new Hexagon('water');                        
                         break;
                     case 1:
                         var res = '';
                         while (true) {
                             var rand = getRandomIntInclusive(0, 5);
-                            if (rand === 0 && hexagonNumber.corn > 0) {
-                                res = 'corn';
-                                hexagonNumber.corn--;
+                            var resources = ['corn','wood','ore','clay','sheep','desert'];
+                            if (hexagonNumber[resources[rand]] > 0) {
+                                res = resources[rand];
+                                hexagonNumber[resources[rand]]--;
                                 break;
-                            } else if (rand === 1 && hexagonNumber.wood > 0) {
-                                res = 'wood';
-                                hexagonNumber.wood--;
-                                break;
-                            } else if (rand === 2 && hexagonNumber.ore > 0) {
-                                res = 'ore';
-                                hexagonNumber.ore--;
-                                break;
-                            } else if (rand === 3 && hexagonNumber.clay > 0) {
-                                res = 'clay';
-                                hexagonNumber.clay--;
-                                break;
-                            } else if (rand === 4 && hexagonNumber.sheep > 0) {
-                                res = 'sheep';
-                                hexagonNumber.sheep--;
-                                break;
-                            } else if (rand === 5 && hexagonNumber.desert > 0) {
-                                res = 'desert';
-                                hexagonNumber.desert--;
-                                break;
-                            }
+                            } 
                         }
-                        matrice[line][column] = new Hexagon(res);
-                        matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                        matrice[line][column] = new Hexagon(res);                        
                         break;
                     case 2:
                         var columnTilt = [];
@@ -304,12 +283,11 @@ function MapMatrice() {
                             columnTilt = columnTiltAtMid;
                         } else if (line > Math.ceil(mapMatriceInfo.line / 2)) {
                             columnTilt = columnTiltAfterMid;
-                        }
+                        }                                
+                        hexagonNumber.harbor31--;
                         for (var index = 0; index < tilt.length; index++) {
                             if (0 <= line + lineTilt[index] && line + lineTilt[index] <= mapMatriceInfo.line && 0 <= column + columnTilt[index] && column + columnTilt[index] <= mapMatriceInfo.column && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
                                 matrice[line][column] = new Hexagon('31', tilt[index]);
-                                matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
-                                hexagonNumber.harbor31--;
                                 break;
                             }
                         }
@@ -326,36 +304,16 @@ function MapMatrice() {
                         var res = '';
                         while (true) {
                             var rand = getRandomIntInclusive(0, 4);
-                            if (rand === 0 && hexagonNumber.cornHarbor > 0) {
-                                res = 'corn';
-                                hexagonNumber.cornHarbor--;
-                                break;
-                            } else if (rand === 1 && hexagonNumber.woodHarbor > 0) {
-                                res = 'wood';
-                                hexagonNumber.woodHarbor--;
-                                break;
-                            } else if (rand === 2 && hexagonNumber.oreHarbor > 0) {
-                                res = 'ore';
-                                hexagonNumber.oreHarbor--;
-                                break;
-                            } else if (rand === 3 && hexagonNumber.clayHarbor > 0) {
-                                res = 'clay';
-                                hexagonNumber.clayHarbor--;
-                                break;
-                            } else if (rand === 4 && hexagonNumber.sheepHarbor > 0) {
-                                res = 'sheep';
-                                hexagonNumber.sheepHarbor--;
+                            var resources = ['corn','wood','ore','clay','sheep'];
+                            if (hexagonNumber[resources[rand]+'Harbor'] > 0) {
+                                res = resources[rand];
+                                hexagonNumber[resources[rand]+'Harbor']--;
                                 break;
                             }
                         }
                         for (var index = 0; index < tilt.length; index++) {
-                            if (0 <= line + lineTilt[index]
-                                    && line + lineTilt[index] <= mapMatriceInfo.line
-                                    && 0 <= column + columnTilt[index]
-                                    && column + columnTilt[index] <= mapMatriceInfo.column
-                                    && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
-                                matrice[line][column] = new Hexagon(res, tilt[index]);
-                                matrice = addTopsAndSides(mapMatriceInfo, matrice, line, column);
+                            if (0 <= line + lineTilt[index] && line + lineTilt[index] <= mapMatriceInfo.line && 0 <= column + columnTilt[index] && column + columnTilt[index] <= mapMatriceInfo.column && model[line + lineTilt[index]][column + columnTilt[index]] === 1) {
+                                matrice[line][column] = new Hexagon(res, tilt[index]);                                
                                 break;
                             }
                         }
@@ -363,7 +321,9 @@ function MapMatrice() {
                 }
             }
         } 
-        matrice = addHexagonNumber(matrice,model,number);
+        addTopsAndSides(mapMatriceInfo, matrice);
+        addTopsToSidesAndSidesToTops(mapMatriceInfo, matrice);
+        addHexagonNumber(matrice,model,number);
         return matrice;
     }
 
@@ -387,93 +347,56 @@ function MapMatrice() {
      * add top and side to hexagon in function of their position on the catane map
      * @return matrice update
      */
-    function addTopsAndSides(modelInfo, matrice, x, y)
+    function addTopsAndSides(modelInfo, matrice)
     {
-        var mat = matrice;
+        var nbLine = modelInfo.line;
+        var nbColumn = modelInfo.column;
         var middle = parseInt(modelInfo.line / 2);
         var tiltX;
         var tiltY;
         var T_hexa = [];
-        if (x >= middle)
+        for(var line = 0; line < nbLine; line++)
         {
-            var T_hexa = [];
-            if (y === 0)
+            for(var column = 0; column < nbColumn; column++)
             {
-                T_hexa = [];
-                T_hexa = addTops(null, matrice[x][y], null, null);
-                T_hexa = addSides(null, matrice[x][y], null, null);
-                mat = setHexagon(modelInfo, T_hexa[1], mat, x, y);
-            }
-            if (Math.abs(x - middle) + y === modelInfo.column - 1)
-            {
-                if (x > middle)
+                if (line <= middle)
                 {
-                    T_hexa = [];
-                    T_hexa = addTops(null, null, matrice[x - 1][y + 1], matrice[x][y]);
-                    T_hexa = addSides(null, null, matrice[x - 1][y + 1], matrice[x][y]);
-                    mat = setHexagon(modelInfo, T_hexa[2], mat, x - 1, y + 1);
-                    mat = setHexagon(modelInfo, T_hexa[3], mat, x, y);
+                    var T_hexa = [];
+                    tiltX = [line , line - 1, line - 1, line ];
+                    tiltY = [column, column, column - 1, column - 1];
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[0], tiltY[0]));
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[1], tiltY[1])); //hexagon North-East
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[2], tiltY[2])); //hexagon North-West
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[3], tiltY[3])); //hexagon West
+
+                    addTops(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
+                    addSides(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
+
+                    setHexagon(modelInfo, T_hexa[0], matrice, tiltX[0], tiltY[0]);
+                    setHexagon(modelInfo, T_hexa[1], matrice, tiltX[1], tiltY[1]); //hexagon North-East
+                    setHexagon(modelInfo, T_hexa[2], matrice, tiltX[2], tiltY[2]); //hexagon North-West
+                    setHexagon(modelInfo, T_hexa[3], matrice, tiltX[3], tiltY[3]); //hexagon West
                 }
-                T_hexa = [];
-                T_hexa = addTops(null, null, matrice[x][y], null);
-                T_hexa = addSides(null, null, matrice[x][y], null);
-                mat = setHexagon(modelInfo, T_hexa[2], mat, x, y);
-            }
-            if (x === modelInfo.line - 1)
-            {
-                var hexa2 = getHexagon(modelInfo, matrice, x, y - 1)
-                T_hexa = [];
-                T_hexa = addTops(null, matrice[x][y], hexa2, null);
-                T_hexa = addSides(null, matrice[x][y], hexa2, null);
-                mat = setHexagon(modelInfo, T_hexa[1], mat, x, y);
-                if (hexa2 !== null)
+                if (line >= middle)
                 {
-                    mat = setHexagon(modelInfo, T_hexa[2], mat, x, y - 1);
+                    var T_hexa = [];
+                    tiltX = [line + 1,line ,line ,line + 1];
+                    tiltY = [column ,column + 1,column ,column - 1];
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[0], tiltY[0]));
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[1], tiltY[1])); //hexagon North-East
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[2], tiltY[2])); //hexagon North-West
+                    T_hexa.push(getHexagon(modelInfo, matrice, tiltX[3], tiltY[3])); //hexagon West
+
+                    addTops(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
+                    addSides(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
+
+                    setHexagon(modelInfo, T_hexa[0], matrice, tiltX[0], tiltY[0]);
+                    setHexagon(modelInfo, T_hexa[1], matrice, tiltX[1], tiltY[1]); //hexagon North-East
+                    setHexagon(modelInfo, T_hexa[2], matrice, tiltX[2], tiltY[2]); //hexagon North-West
+                    setHexagon(modelInfo, T_hexa[3], matrice, tiltX[3], tiltY[3]); //hexagon West
                 }
             }
-            T_hexa = [];
-            tiltX = [x, x - 1, x - 1, x];
-            tiltY = [y, y + 1, y, y - 1];
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[0], tiltY[0])); //hexagon South-East
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[1], tiltY[1])); //hexagon East
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[2], tiltY[2]));
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[3], tiltY[3])); //hexagon South-West
-
-            T_hexa = addTops(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
-            T_hexa = addSides(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
-
-            mat = setHexagon(modelInfo, T_hexa[0], mat, tiltX[0], tiltY[0]); //hexagon South-East
-            mat = setHexagon(modelInfo, T_hexa[1], mat, tiltX[1], tiltY[1]); //hexagon East
-            mat = setHexagon(modelInfo, T_hexa[2], mat, tiltX[2], tiltY[2]);
-            mat = setHexagon(modelInfo, T_hexa[3], mat, tiltX[3], tiltY[3]); //hexagon South-West
         }
-        if (x <= middle)
-        {
-            if (Math.abs(x - middle) + y === modelInfo.column - 1)
-            {
-                T_hexa = [];
-                T_hexa = addTops(null, null, null, matrice[x][y]);
-                T_hexa = addSides(null, null, null, matrice[x][y]);
-                mat = setHexagon(modelInfo, T_hexa[3], mat, x, y);
-            }
-            var T_hexa = [];
-            tiltX = [x, x - 1, x - 1, x];
-            tiltY = [y, y, y - 1, y - 1];
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[0], tiltY[0]));
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[1], tiltY[1])); //hexagon North-East
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[2], tiltY[2])); //hexagon North-West
-            T_hexa.push(getHexagon(modelInfo, matrice, tiltX[3], tiltY[3])); //hexagon West
-
-            T_hexa = addTops(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
-            T_hexa = addSides(T_hexa[0], T_hexa[1], T_hexa[2], T_hexa[3]);
-
-            mat = setHexagon(modelInfo, T_hexa[0], mat, tiltX[0], tiltY[0]);
-            mat = setHexagon(modelInfo, T_hexa[1], mat, tiltX[1], tiltY[1]); //hexagon North-East
-            mat = setHexagon(modelInfo, T_hexa[2], mat, tiltX[2], tiltY[2]); //hexagon North-West
-            mat = setHexagon(modelInfo, T_hexa[3], mat, tiltX[3], tiltY[3]); //hexagon West
-        }
-
-        return mat;
     }
 
     /*
@@ -508,7 +431,6 @@ function MapMatrice() {
         {
             hexaW.T_Top["N-E"] = top2;
         }
-        return [hexagon, hexaNE, hexaNW, hexaW];
     }
 
     /*
@@ -544,7 +466,6 @@ function MapMatrice() {
         {
             hexaW.T_Side['E'] = side3;
         }
-        return [hexagon, hexaNE, hexaNW, hexaW];
     }
 
     /*
@@ -561,12 +482,10 @@ function MapMatrice() {
 
     /*
      * update an hexagon 
-     * @return matrice
      */
     function setHexagon(modelInfo, hexagon, matrice, x, y)
     {
         var middle = parseInt(matrice.length / 2);
-        var mat = matrice;
         if (x >= 0 && y >= 0 && x < modelInfo.line && y <= modelInfo.column)
         {
             if (hexagon !== null)
@@ -584,10 +503,9 @@ function MapMatrice() {
                 {
                     hexagon.positionOnMap = 1;
                 }
-                mat[x][y] = hexagon;
+                matrice[x][y] = hexagon;
             }
         }
-        return mat;
     }
 
     /*
@@ -646,21 +564,11 @@ function MapMatrice() {
                 {
                     if (line <= matMiddle)
                     {
-                        var hexaTopN = hexa1.T_Top["N"];
-                        if (hexaTopN !== null)
-                        {
-                            topN.push(hexaTopN);
-                        }
-                        //else topN.push("N");
+                        topN = setTop(hexa1, "N", topN);
                     }
                     if (line >= matMiddle)
                     {
-                        var hexaTopS = hexa1.T_Top["S"];
-                        if (hexaTopS !== null)
-                        {
-                            topS.push(hexaTopS);
-                        }
-                        //else topS.push("S");
+                        topS = setTop(hexa1, "S", topS);
                     }
                 }
                 if (hexa2 !== null)
@@ -669,73 +577,76 @@ function MapMatrice() {
                     {
                         if (column === 0)
                         {
-                            var hexaTopN = hexa2.T_Top["N-W"];
-                            if (hexaTopN !== null)
-                            {
-                                topNE.push(hexaTopN);
-                            }
+                            topNE = setTop(hexa2, "N-W", topNE);
                         }
-                        var hexaTopN = hexa2.T_Top["N-E"];
-                        if (hexaTopN !== null)
-                        {
-                            topNE.push(hexaTopN);
-                        }
-                        //else topNE.push("NE");
+                        topNE = setTop(hexa2, "N-E", topNE);
                     }
                     if (line >= matMiddle)
                     {
                         if (column === 0)
                         {
-                            var hexaTopS = hexa2.T_Top["S-W"];
-                            if (hexaTopS !== null)
-                            {
-                                topSE.push(hexaTopS);
-                            }
+                            topSE = setTop(hexa2, "S-W", topSE);
                         }
-                        var hexaTopS = hexa2.T_Top["S-E"];
-                        if (hexaTopS !== null)
-                        {
-                            topSE.push(hexaTopS);
-                        }
-                        //else topSE.push("SE");
+                        topSE = setTop(hexa2, "S-E", topSE);
                     }
                 }
             }
-            if (topN.length !== 0)
-            {
-                while (topN.length < matLines + 1)
-                {
-                    topN.push(null);
-                }
-                this.matriceTop.push(topN);
-            }
-            if (topNE.length !== 0)
-            {
-                while (topNE.length < matLines + 1)
-                {
-                    topNE.push(null);
-                }
-                this.matriceTop.push(topNE);
-            }
-            if (topSE.length !== 0)
-            {
-                while (topSE.length < matLines + 1)
-                {
-                    topSE.push(null);
-                }
-                this.matriceTop.push(topSE);
-            }
-            if (topS.length !== 0)
-            {
-                while (topS.length < matLines + 1)
-                {
-                    topS.push(null);
-                }
-                this.matriceTop.push(topS);
-            }
+            
+            completeAndPushArray(topN,this.matriceTop,matLines);
+            completeAndPushArray(topNE,this.matriceTop,matLines);
+            completeAndPushArray(topSE,this.matriceTop,matLines);
+            completeAndPushArray(topS,this.matriceTop,matLines);
         }
         this.addTopsPosition(this.matriceTop);
     };
+    
+    /*
+     * 
+     * @param array array
+     * @param array of array matrice
+     * @param int length
+     */
+    function completeAndPushArray(array,matrice,length)
+    {
+        if(array.length !== 0 )
+        {
+            completeArray(array, length);
+            matrice.push(array);
+        }
+    }
+    
+    /*
+     * Complete an array with null value to the length wanted
+     * @param array array
+     * @param int length
+     * @returns array
+     */
+    function completeArray(array, length)
+    {
+        
+        while (array.length < length + 1)
+        {
+            array.push(null);
+        }
+        return array;
+    }
+    
+    /*
+     * Update an array on the matrice of top
+     * @param Hexagon hexagon
+     * @param tilt tilt
+     * @param array array
+     * @returns array
+     */
+    function setTop(hexagon, tilt, array)
+    {
+        var top = hexagon.T_Top[tilt];
+        if(hexagon !== null )
+        {
+            array.push(top);
+        }
+        return array;
+    }
 
     /*
      * add the position of all the tops in the matrice
@@ -777,76 +688,47 @@ function MapMatrice() {
                 {
                     if (column === 0)
                     {
-                        var hexaSideE = hexagon.T_Side["W"];
-                        if (hexaSideE !== null)
-                        {
-                            topW.push(hexaSideE);
-                        }
+                        topW = setSide(hexagon, "W", topW);
                     }
-                    var hexaSideE = hexagon.T_Side["E"];
-                    if (hexaSideE !== null)
-                    {
-                        topW.push(hexaSideE);
-                    }
+                    topW = setSide(hexagon, "E", topW);
 
                     if (line <= matMiddle)
                     {
-                        var hexaSideN = hexagon.T_Side["N-W"];
-                        if (hexaSideN !== null)
-                        {
-                            topN.push(hexaSideN);
-                        }
-                        hexaSideN = hexagon.T_Side["N-E"];
-                        if (hexaSideN !== null)
-                        {
-                            topN.push(hexaSideN);
-                        }
-                        //else topE.push("NE");
+                        topN = setSide(hexagon, "N-W", topN);
+                        topN = setSide(hexagon, "N-E", topN);
                     }
 
                     if (line >= matMiddle)
                     {
-                        var hexaSideS = hexagon.T_Side["S-W"];
-                        if (hexaSideS !== null)
-                        {
-                            topS.push(hexaSideS);
-                        }
-                        hexaSideS = hexagon.T_Side["S-E"];
-                        if (hexaSideS !== null)
-                        {
-                            topS.push(hexaSideS);
-                        }
-                        //else topW.push("SE");
+                        topS = setSide(hexagon, "S-W", topS);
+                        topS = setSide(hexagon, "S-E", topS);
                     }
                 }
             }
-            if (topN.length !== 0)
-            {
-                while (topN.length < matLines * 2)
-                {
-                    topN.push(null);
-                }
-                this.matriceSide.push(topN);
-            }
-            if (topW.length !== 0)
-            {
-                while (topW.length < matLines * 2)
-                {
-                    topW.push(null);
-                }
-                this.matriceSide.push(topW);
-            }
-            if (topS.length !== 0)
-            {
-                while (topS.length < matLines * 2)
-                {
-                    topS.push(null);
-                }
-                this.matriceSide.push(topS);
-            }
+            
+            completeAndPushArray(topN,this.matriceSide,matLines * 2);
+            completeAndPushArray(topW,this.matriceSide,matLines * 2);
+            completeAndPushArray(topS,this.matriceSide,matLines * 2);
         }
         this.addSidesPosition(this.matriceSide);
     };
+    
+    /*
+     * Update an array on the matrice of side
+     * @param Hexagon hexagon
+     * @param tilt tilt
+     * @param array array
+     * @returns array
+     */
+    function setSide(hexagon, tilt, array)
+    {
+        var side = hexagon.T_Side[tilt];
+        if(hexagon !== null )
+        {
+            array.push(side);
+        }
+        return array;
+    }
 
     /*
      * add the coordonate of all the side in the matrice
@@ -892,5 +774,154 @@ function MapMatrice() {
             }
         }
         return matrice;
+    }
+    
+    /*
+     * associate tops to sides and sides to tops
+     */
+    function addTopsToSidesAndSidesToTops(modelInfo, matrice)
+    {
+        var nbLine = modelInfo.line;
+        var nbColumn = modelInfo.column;
+        var middle = parseInt(modelInfo.line / 2);
+        for(var line = 0; line < nbLine; line++)
+        {
+            for(var column = 0; column < nbColumn; column++)
+            {
+                if (line <= middle)
+                {
+                    var T_TopUsefull = ['N-E','N','N-W','S-W'];
+                    var T_SideUsefull = ['N-E','N-W','W'];
+                    var T_Top = [];
+                    var T_Side = [];
+                    var hexagon = getHexagon(modelInfo, matrice, line, column);
+                    var hexagon2 = getHexagon(modelInfo, matrice, line-1, column-1);
+                    for(var i =0; i < T_TopUsefull.length; i++)
+                    {
+                        T_Top.push(getTop(hexagon,T_TopUsefull[i]));
+                    }
+                    for(var i =0; i < T_SideUsefull.length; i++)
+                    {
+                        T_Side.push(getSide(hexagon,T_SideUsefull[i]));
+                    }
+                    T_Side.push(getSide(hexagon2,'E'));
+                    T_Side.push(getSide(hexagon2,'S-W'));
+                    addTopsToSides(T_Side,T_Top,"North");
+                    addSidesToTops(T_Top,T_Side,"North");                    
+                }
+                if (line >= middle)
+                {
+                    var T_TopUsefull = ['S-W','S','S-E','N-E'];
+                    var T_SideUsefull = ['S-W','S-E','E'];
+                    var T_Top = [];
+                    var T_Side = [];
+                    var hexagon = getHexagon(modelInfo, matrice, line, column);
+                    var hexagon2 = getHexagon(modelInfo, matrice, line+1, column);
+                    for(var i =0; i < T_TopUsefull.length; i++)
+                    {
+                        T_Top.push(getTop(hexagon,T_TopUsefull[i]));
+                    }
+                    for(var i =0; i < T_SideUsefull.length; i++)
+                    {
+                        T_Side.push(getSide(hexagon,T_SideUsefull[i]));
+                    }
+                    T_Side.push(getSide(hexagon2,'W'));
+                    T_Side.push(getSide(hexagon2,'N-E'));
+                    addTopsToSides(T_Side,T_Top,"South");
+                    addSidesToTops(T_Top,T_Side,"South");  
+                }
+            }
+        }
+    }
+    
+    /*
+     * 
+     * @param hexagon hexagon
+     * @param string tilt
+     * @returns top
+     */
+    function getTop(hexagon, tilt)
+    {
+        if(hexagon === null)
+        {
+            return null;
+        }
+        return hexagon.T_Top[tilt];
+    }
+    
+    /*
+     * 
+     * @param hexagon hexagon
+     * @param string tilt
+     * @returns side
+     */
+    function getSide(hexagon, tilt)
+    {
+        if(hexagon === null)
+        {
+            return null;
+        }
+        return hexagon.T_Side[tilt];
+    }
+    
+    /*
+     * add tops to sides
+     */
+    function addTopsToSides(T_Side,T_Top,position)
+    {
+        if(position === 'North')
+        {
+            addTopToSide(T_Side[0],T_Top[1],T_Top[0]);
+            addTopToSide(T_Side[1],T_Top[1],T_Top[2]);
+            addTopToSide(T_Side[2],T_Top[2],T_Top[3]);
+        }
+        if(position === 'South')
+        {
+            addTopToSide(T_Side[0],T_Top[0],T_Top[1]);
+            addTopToSide(T_Side[1],T_Top[2],T_Top[1]);
+            addTopToSide(T_Side[2],T_Top[3],T_Top[2]);
+        }
+    }
+    
+    /*
+     * add sides to tops
+     */
+    function addSidesToTops(T_Top,T_Side,position)
+    {
+        if(position === 'North')
+        {
+            addSideToTop(T_Top[1],T_Side[0],T_Side[1],T_Side[3]);
+            addSideToTop(T_Top[2],T_Side[1],T_Side[4],T_Side[2]);
+        }
+        if(position === 'South')
+        {
+            addSideToTop(T_Top[1],T_Side[1],T_Side[0],T_Side[3]);
+            addSideToTop(T_Top[2],T_Side[4],T_Side[1],T_Side[2]);
+        }
+    }
+    
+    /*
+     * add sides to one top
+     */
+    function addSideToTop(top,side1,side2,side3)
+    {
+        if(top !== null)
+        {
+            top.side1 = side1;
+            top.side2 = side2;
+            top.side3 = side3;
+        }
+    }
+    
+    /*
+     * add tops to one side
+     */
+    function addTopToSide(side,top1,top2)
+    {
+        if(side !== null)
+        {
+            side.top1 = top1;
+            side.top2 = top2;
+        }
     }
 }
