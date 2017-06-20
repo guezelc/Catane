@@ -118,6 +118,20 @@ function Side(hexagon1, hexagon2, tilt) {
         
         return buildableSides;
     };
+    
+    /**
+     * Get the other top of this side
+     * Used when we follow roads
+     * 
+     * @param {type} actualTop
+     * @returns {type}
+     */
+    this.getNextTop = function (actualTop) {
+        if(this.top1 === actualTop)
+            return this.top2;
+        else
+            return this.top1;
+    };
 
     this.show = function () {
         if (this.occupy !== null) {

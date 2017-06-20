@@ -25,7 +25,7 @@ function Road(color, side) {
     this.side = side;
     this.tilt = this.side.tilt;
     this.side.occupy = this;
-
+    
     /*
      * Display road pawn
      */
