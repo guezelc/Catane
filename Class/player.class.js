@@ -75,7 +75,7 @@ function Player(color) {
     this.giveResourcesCards = function (diceRoll) {
         
         for(var i = 0; i < this.T_colony.length; i++){
-            if(this.T_colony[i] !== 0 && this.T_colony[i].top.haveHexagonWithNumber(diceRoll)){
+            if(this.T_colony[i] !== null && this.T_colony[i].top.haveHexagonWithNumber(diceRoll)){
                 var hexagones = this.T_colony[i].top.getHexagonsByNumber(diceRoll);
                 for(var j = 0; j < hexagones.length; j++){
                     this.T_resource_card[hexagones[j]]++;
@@ -84,7 +84,7 @@ function Player(color) {
         }
         
         for(var i = 0; i < this.T_city.length; i++){
-            if(this.T_city[i] !== 0 && this.T_city[i].top.haveHexagonWithNumber(diceRoll)){
+            if(this.T_city[i] !== null && this.T_city[i].top.haveHexagonWithNumber(diceRoll)){
                 var hexagones = this.T_city[i].top.getHexagonsByNumber(diceRoll);
                 for(var j = 0; j < hexagones.length; j++){
                     this.T_resource_card[hexagones[j]] = this.T_resource_card[hexagones[j]] + 2;

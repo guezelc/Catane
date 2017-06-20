@@ -1,53 +1,41 @@
 var lesHexagons = ["wood", "clay", "ore", "sheep", "corn", 'water'];
 var dice = new Dice();
+var card;
+var txtCard;
+var categResource=['corn','ore','sheep','wood','clay'];
 function loadHexagons() {
     var body = $("body");
     var map = new MapMatrice();
-    var button = $('<button style="float:left" class="bouton">Roll the dice</button>').click(function ()
-    {
-        for (var i = 0; i < 1000; i++) {
-            dice.roll();
-        }
-        console.log(dice.historical);
-        $("#hexagon").text(dice.result);
-    }).appendTo(body);
     map.init("N");
     map.showMap(map.getMapMatrice());
     map.initMatriceTop();
     map.initMatriceSide();
-    console.log(map.getMapMatrice());
-    console.log(map.matriceTop);
-    console.log(map.matriceSide);
-    console.log(button);
     var matTop = map.matriceTop;
-    var lig = matTop.length;
-    var col = matTop[0].length;
-    var matHarbor = [];
-    for (var l = 0; l < lig; l++)
+    $('<button style="float:left" class="bouton">Roll the dice</button>').click(function ()
     {
-        matHarbor.push([]);
-        for (var c = 0; c < col; c++)
+        txtCard='';
+        dice.roll();        
+        player.giveResourcesCards(dice.result);
+        card = player.T_resource_card;
+        for(var i =0;i< categResource.length;i++)
         {
-            var top = matTop[l][c];
-            if (top !== null)
-            {
-                var hb = top.isHarbor();
-                matHarbor[l].push(hb);
-            } else
-            {
-                matHarbor[l].push(null);
-            }
+            txtCard += categResource[i]+':'+card[categResource[i]]+' ';
         }
-    }
-    console.log(matHarbor);
+        $("#resource").text(txtCard);
+        $("#dee").text(dice.result);
+    console.log();
+    }).appendTo(body);
     
     //Debug test
     var player = new Player('red');
     player.T_colony[0] = new Colony('red');
     player.T_colony[0].top = matTop[6][3];
-    player.T_city[0] = new City('red');
-    player.T_city[0].top = matTop[8][4];
-    player.giveResourcesCards(8);
+    var t = player.T_city[0] = new City('red');
+    var u = player.T_city[0] = new City('red');
+    var v = player.T_city[0] = new City('red');
+    t.top = matTop[8][4];
+    u.top = matTop[8][5];
+    v.top = matTop[10][3];
     console.log(player.T_resource_card);
 
 }
