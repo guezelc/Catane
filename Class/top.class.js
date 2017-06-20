@@ -7,8 +7,7 @@
  * 
  * @returns {Top}
  */
-function Top(hexagon1, hexagon2, hexagon3, type)
-{
+function Top(hexagon1, hexagon2, hexagon3, type) {
     /*
      * hexagon South-East if type = 12, South if 21
      */
@@ -23,7 +22,7 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      * hexagon South-West if type = 12, North-West if 21
      */
     var hexagon3;
-    
+
     /*
      * side right
      */
@@ -81,18 +80,13 @@ function Top(hexagon1, hexagon2, hexagon3, type)
             "12": [["NW", "W"], ["SW", "SE"], ["NE", "E"]]
         };
         var T_Hexagon = [this.hexagon1, this.hexagon2, this.hexagon3];
-        for (var i = 0; i < T_TiltUsefull[this.type].length; i++)
-        {
-            while (T_Hexagon[i] === null && i + 1 < T_TiltUsefull[this.type].length)
-            {
+        for (var i = 0; i < T_TiltUsefull[this.type].length; i++) {
+            while (T_Hexagon[i] === null && i + 1 < T_TiltUsefull[this.type].length) {
                 i++;
             }
-            if (T_Hexagon[i] !== null)
-            {
-                for (var j = 0; j < T_TiltUsefull[this.type][i].length; j++)
-                {
-                    if (T_Hexagon[i].tilt === T_TiltUsefull[this.type][i][j])
-                    {
+            if (T_Hexagon[i] !== null) {
+                for (var j = 0; j < T_TiltUsefull[this.type][i].length; j++) {
+                    if (T_Hexagon[i].tilt === T_TiltUsefull[this.type][i][j]) {
                         return T_Hexagon[i].type + T_Hexagon[i].tilt;
                     }
                 }
@@ -105,8 +99,7 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      * 
      */
     this.isBuildable = function () {
-        if (this.occupy !== null)
-        {
+        if (this.occupy !== null) {
             return false;
         }
         var countLand = 0;
@@ -115,31 +108,25 @@ function Top(hexagon1, hexagon2, hexagon3, type)
             "12": ["N", "S-W", "S-E"]
         };
         var T_Hexagon = [this.hexagon1, this.hexagon2, this.hexagon3];
-        for (var i = 0; i < T_TopUsefull[this.type].length; i++)
-        {
-            while (T_Hexagon[i] === null && i + 1 < T_TopUsefull[this.type].length)
-            {
+        for (var i = 0; i < T_TopUsefull[this.type].length; i++) {
+            while (T_Hexagon[i] === null && i + 1 < T_TopUsefull[this.type].length) {
                 i++;
             }
-            if (T_Hexagon[i] !== null)
-            {
-                if (T_Hexagon[i].tilt === 0)
-                {
+            if (T_Hexagon[i] !== null) {
+                if (T_Hexagon[i].tilt === 0) {
                     countLand++;
                 }
-                if (T_Hexagon[i].T_Top[T_TopUsefull[this.type][i]].occupy !== null)
-                {
+                if (T_Hexagon[i].T_Top[T_TopUsefull[this.type][i]].occupy !== null) {
                     return false;
                 }
             }
         }
-        if (countLand === 0)
-        {
+        if (countLand === 0) {
             return false;
         }
         return true;
     };
-    
+
     /**
      * Verify if top's hexagon have number gived in parameters
      * 
@@ -147,23 +134,23 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      * 
      * @returns {Boolean}
      */
-    this.haveHexagonWithNumber = function(number) {
-        
+    this.haveHexagonWithNumber = function (number) {
+
         var have = false;
-        
-        if(this.hexagon1.number === number){
+
+        if (this.hexagon1.number === number) {
             have = true;
         }
-        else if(this.hexagon2.number === number){
+        else if (this.hexagon2.number === number) {
             have = true;
         }
-        else if(this.hexagon3.number === number){
+        else if (this.hexagon3.number === number) {
             have = true;
         }
-        
+
         return have;
     };
-    
+
     /**
      * Get hexagons with same number as given number
      * 
@@ -171,23 +158,23 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      * 
      * @returns {Array|Top.getHexagonsByNumber.hexagons}
      */
-    this.getHexagonsByNumber = function(number) {
-        
+    this.getHexagonsByNumber = function (number) {
+
         var hexagons = [];
-        
-        if(this.hexagon1.number === number){
+
+        if (this.hexagon1.number === number) {
             hexagons.push(hexagon1.type);
         }
-        else if(this.hexagon2.number === number){
+        else if (this.hexagon2.number === number) {
             hexagons.push(hexagon2.type);
         }
-        else if(this.hexagon3.number === number){
+        else if (this.hexagon3.number === number) {
             hexagons.push(hexagon3.type);
         }
-        
+
         return hexagons;
     };
-    
+
     /**
      * Get buildable side of this top
      * 
@@ -195,25 +182,37 @@ function Top(hexagon1, hexagon2, hexagon3, type)
      */
     this.getBuildableSides = function () {
         var buildableSides = [];
-        if(this.side1.isBuildable()){
+        if (this.side1.isBuildable()) {
             buildableSides.push(this.side1);
         }
-        if(this.side2.isBuildable()){
+        if (this.side2.isBuildable()) {
             buildableSides.push(this.side2);
         }
-        if(this.side3.isBuildable()){
+        if (this.side3.isBuildable()) {
             buildableSides.push(this.side3);
         }
         return buildableSides;
     };
 
+    this.getOccupiedSideByColor = function (color, previousSide) {
+        var occupiedSides = [];
+        if (this.side1.occupy !== null && this.side1.occupy.color === color 
+                && this.side1 !== previousSide);
+            occupiedSides.push(this.side1);
+        if (this.side2.occupy !== null && this.side2.occupy.color === color 
+                && this.side2 !== previousSide)
+            occupiedSides.push(this.side2);
+        if (this.side3.occupy !== null && this.side3.occupy.color === color
+                && this.side3 !== previousSide)
+            occupiedSides.push(this.side3);
+        return occupiedSides;
+    };
+
     /*
      * 
      */
-    this.show = function ()
-    {
-        if(this.occupy !== null)
-        {
+    this.show = function () {
+        if (this.occupy !== null) {
             var body = $('body');
             var picture = $(this.occupy.display());
             var div = $('<div></div>');
