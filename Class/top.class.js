@@ -124,7 +124,7 @@ function Top(hexagon1, hexagon2, hexagon3, type) {
         if (countLand === 0) {
             return false;
         }
-        return true;
+        return this;
     };
 
     /**
