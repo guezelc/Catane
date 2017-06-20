@@ -11,6 +11,28 @@ function Side(hexagon1, hexagon2, tilt) {
     var hexagon1;
 
     /**
+     * The North side of this
+     */
+    
+    var sideNorth;
+    
+    /**
+     * The South side of this
+     */
+    var sideSouth;
+
+    /**
+     * The East side of this
+     */
+    
+    var sideEast;
+    
+    /**
+     * The West side of this
+     */
+    var sideWest;
+
+    /**
      * Second hexagon connected with
      */
     var hexagon2;
@@ -53,6 +75,10 @@ function Side(hexagon1, hexagon2, tilt) {
     this.hexagon2 = hexagon2;
     this.top1 = null;
     this.top2 = null;
+    this.sideNorth = null;
+    this.sideSouth = null;
+    this.sideEast = null;
+    this.sideWest = null;
     this.tilt = tilt;
     this.occupy = null;
     this.position = [];

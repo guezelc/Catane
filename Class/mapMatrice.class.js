@@ -325,6 +325,7 @@ function MapMatrice() {
         } 
         addTopsAndSides(mapMatriceInfo, matrice);
         addTopsToSidesAndSidesToTops(mapMatriceInfo, matrice);
+        addSidesToSide(mapMatriceInfo, matrice);
         addHexagonNumber(matrice,model,number);
         return matrice;
     }
@@ -803,7 +804,8 @@ function MapMatrice() {
                     T_Side.push(getSide(hexagon2,'E'));
                     T_Side.push(getSide(hexagon2,'S-W'));
                     addTopsToSides(T_Side,T_Top,"North");
-                    addSidesToTops(T_Top,T_Side,"North");                    
+                    addSidesToTops(T_Top,T_Side,"North");      
+                    addSidesToSide(T_Side,"North");
                 }
                 if (line >= middle)
                 {
@@ -824,7 +826,8 @@ function MapMatrice() {
                     T_Side.push(getSide(hexagon2,'W'));
                     T_Side.push(getSide(hexagon2,'N-E'));
                     addTopsToSides(T_Side,T_Top,"South");
-                    addSidesToTops(T_Top,T_Side,"South");  
+                    addSidesToTops(T_Top,T_Side,"South");      
+                    addSidesToSide(T_Side,"South");
                 }
             }
         }
@@ -918,6 +921,28 @@ function MapMatrice() {
         {
             side.top1 = top1;
             side.top2 = top2;
+        }
+    }
+    
+       
+    function addSidesToSide(T_Side,position)
+    {
+        if(T_Side[1] !== null)
+        {
+            if(position === 'North')
+            {
+                T_Side[1].sideNorth=T_Side[3];
+                T_Side[1].sideSouth=T_Side[2];
+                T_Side[1].sideEast=T_Side[0];
+                T_Side[1].sideWest=T_Side[4];
+            }
+            if(position === 'South')
+            {
+                T_Side[1].sideNorth=T_Side[2];
+                T_Side[1].sideSouth=T_Side[3];
+                T_Side[1].sideEast=T_Side[4];
+                T_Side[1].sideWest=T_Side[0];
+            }
         }
     }
 }
