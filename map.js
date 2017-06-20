@@ -46,6 +46,8 @@ function loadHexagons() {
     player.giveResourcesCards(8);
     console.log(player.T_resource_card);
     console.log(player.buy_Road());
+    console.log(matTop);
+    console.log(matSide);
 }
 
 function rollDice()
