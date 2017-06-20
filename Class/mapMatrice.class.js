@@ -81,7 +81,6 @@ function MapMatrice() {
         4: 2,
         5: 2,
         6: 2,
-        7: 2,
         8: 2,
         9: 2,
         10: 2,
@@ -440,14 +439,14 @@ function MapMatrice() {
      * @returns {Array} with the 4 hexagon update
      */
     function addSides(hexagon, hexaNE, hexaNW, hexaW) {
-        var side1 = new Side(hexagon, hexaNE, "gauche");
+        var side1 = new Side(hexagon, hexaNE, "left");
         if (hexagon !== null) {
             hexagon.T_Side['N-E'] = side1;
         }
         if (hexaNE !== null) {
             hexaNE.T_Side['S-W'] = side1;
         }
-        var side2 = new Side(hexagon, hexaNW, "droite");
+        var side2 = new Side(hexagon, hexaNW, "right");
         if (hexagon !== null) {
             hexagon.T_Side['N-W'] = side2;
         }
