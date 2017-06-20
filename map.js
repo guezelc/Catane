@@ -41,6 +41,9 @@ function loadHexagons() {
     player.build_Road(roadBuildableList[2]);
     console.log(player.T_road);
     console.log(player.T_resource_card);
+    console.log(player.buy_Road());
+    console.log(matTop);
+    console.log(matSide);
 }
 
 function rollDice() {
