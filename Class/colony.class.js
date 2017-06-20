@@ -6,7 +6,7 @@
  * @param {type} color
  * @returns {Colony}
  */
-function Colony(color) {
+function Colony(color, top) {
 
     /*
      * The colony's color
