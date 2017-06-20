@@ -3,7 +3,7 @@
  * - Clement Guezel
  * - Virgil Lacondemine
  */
-function Player(color) {
+function Player(color ,developpementCards) {
 
     /**
      * Player's color
@@ -27,7 +27,13 @@ function Player(color) {
      * @type Array
      */
     var T_road;
-
+    
+    /*
+     * The isntance of the developpementCards of the game
+     * @type DeveloppementCards
+     */
+    var developpementCards;
+    
     /**
      * Player's available colony number
      * @type Number
@@ -74,6 +80,7 @@ function Player(color) {
     this.nbColonyAvailable = 5;
     this.nbCityAvailable = 4;
     this.nbRoadAvailable = 13;
+    this.developpementCards = developpementCards;
 
     /**
      * Give resources to the player in function of diceRoll
@@ -161,10 +168,22 @@ function Player(color) {
     };
 
     /*
-     * 
+     * buy a developpement card
      */
-    this.buy_Developpement_Card = function () {
-        this.piocher_Developpement_Card();
+    this.buy_DeveloppementCard = function () {        
+        if (this.T_resource_card.ore >= 1 && this.T_resource_card.corn >= 1 && this.T_resource_card.sheep >= 1 && this.developpementCards.developpementCardsAvailable > 0) {
+            this.T_resource_card.ore--;
+            this.T_resource_card.corn--;
+            this.T_resource_card.sheep--;
+            this.TakeADeveloppementCard();
+        }
+    };
+    
+    /*
+     * Take a developpement card
+     */
+    this.TakeADeveloppementCard = function() {
+        this.T_developpement_card.push(this.developpementCards.takeACard(this));
     };
 
     /**

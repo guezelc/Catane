@@ -3,6 +3,7 @@ var dice = new Dice();
 var card;
 var txtCard;
 var categResource=['corn','ore','sheep','wood','clay'];
+var dvpCard = new DeveloppementCards();
 function loadHexagons() {
     var body = $("body");
     var map = new MapMatrice();
@@ -28,7 +29,7 @@ function loadHexagons() {
     }).appendTo(body);
     
     //Debug test
-    var player = new Player('red');
+    var player = new Player('red',dvpCard);
     player.T_colony[0] = new Colony('red',matTop[8][4]);
     player.T_colony[0].top = matTop[6][3];
     player.T_colony[0].top.occupy = player.T_colony[0];
@@ -48,6 +49,12 @@ function loadHexagons() {
     console.log(player.buy_Road());
     console.log(matTop);
     console.log(matSide);
+    console.log(dvpCard.T_Card);
+    player.T_resource_card.sheep++;
+    player.T_resource_card.corn++;
+    player.T_resource_card.ore++;
+    player.buy_DeveloppementCard();
+    console.log(dvpCard.T_Card);
 }
 
 function rollDice()
