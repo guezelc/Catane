@@ -187,6 +187,25 @@ function Top(hexagon1, hexagon2, hexagon3, type)
         
         return hexagons;
     };
+    
+    /**
+     * Get buildable side of this top
+     * 
+     * @returns {Array|Top.getBuildableSides.buildableSides}
+     */
+    this.getBuildableSides = function () {
+        var buildableSides = [];
+        if(this.side1.isBuildable()){
+            buildableSides.push(this.side1);
+        }
+        if(this.side2.isBuildable()){
+            buildableSides.push(this.side2);
+        }
+        if(this.side3.isBuildable()){
+            buildableSides.push(this.side3);
+        }
+        return buildableSides;
+    };
 
     /*
      * 
