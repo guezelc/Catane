@@ -11,24 +11,24 @@ function Side(hexagon1, hexagon2, tilt) {
     var hexagon1;
 
     /**
-     * The North side of this
+     * The North side of this, North-East if tilt vertical
      */
     
     var sideNorth;
     
     /**
-     * The South side of this
+     * The South side of this, South-West if tilt vertical
      */
     var sideSouth;
 
     /**
-     * The East side of this
+     * The East side of this, South-East if tilt vertical
      */
     
     var sideEast;
     
     /**
-     * The West side of this
+     * The West side of this, North-West if tilt vertical
      */
     var sideWest;
 
