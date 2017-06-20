@@ -3,7 +3,7 @@
  * - Clement Guezel
  * - Virgil Lacondemine
  */
-function Road(color, tilt, side) {
+function Road(color, side) {
 
     /*
      * Road's color
@@ -22,8 +22,8 @@ function Road(color, tilt, side) {
 
     //Object var init
     this.color = color;
-    this.tilt = tilt;
     this.side = side;
+    this.tilt = this.side.tilt;
 
     /*
      * Display road pawn
