@@ -23,6 +23,33 @@ function Colony(color, top) {
     this.color = color;
     this.top = top;
     this.top.occupy = this;
+    
+    /**
+     * Get all the player's colony buildable tops
+     * 
+     * @returns {Array|Colony.getColonyBuildableTops.buildableTops}
+     */
+    this.getBuildableTops = function () {
+        
+        var buildableTops = [];
+        var roadsToFollow = [];
+        var actualTop = this.top;
+        var previousSide = null;
+        
+        roadsToFollow = roadsToFollow.concat(
+                this.top.getOccupiedSideByColor(this.color, previousSide));
+
+        for (var i = 0; i < roadsToFollow.length; i++) {
+            actualTop = roadsToFollow[i].getNextTop(actualTop);
+            if (actualTop.isBuildable())
+                buildableTops.push(actualTop);
+            previousSide = roadsToFollow[i];
+            roadsToFollow = roadsToFollow.concat(
+                    actualTop.getOccupiedSideByColor(this.color, previousSide));
+        }
+        
+        return buildableTops;
+    };
 
     /*
      * Display this colony pawn
