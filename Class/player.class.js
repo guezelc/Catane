@@ -5,23 +5,26 @@
  */
 function Player(color) {
 
-    /*
+    /**
      * Player's color
      */
     var color;
 
-    /*
+    /**
      * Player's colony table
+     * @type Array
      */
     var T_colony;
 
-    /*
+    /**
      * Player's city table
+     * @type Array
      */
     var T_city;
 
-    /*
+    /**
      * Player's road table
+     * @type Array
      */
     var T_road;
 
@@ -43,21 +46,23 @@ function Player(color) {
      */
     var nbRoadAvailable;
 
-    /*
+    /**
      * Player's resource card table
+     * @type type
      */
     var T_resource_card;
 
-    /*
+    /**
      * Player's development card table
+     * @type Array
      */
     var T_developpement_card;
 
     //Object var init
     this.color = color;
-    this.T_road = [null, null, null, null, null, null, null, null, null, null, null, null, null];
-    this.T_colony = [null, null, null, null, null];
-    this.T_city = [null, null, null, null];
+    this.T_road = [];
+    this.T_colony = [];
+    this.T_city = [];
     this.T_resource_card = {
         corn: 0,
         ore: 0,
@@ -80,26 +85,34 @@ function Player(color) {
         for (var i = 0; i < this.T_colony.length; i++) {
             if (this.T_colony[i] !== null && this.T_colony[i].top.haveHexagonWithNumber(diceRoll)) {
                 var hexagones = this.T_colony[i].top.getHexagonsByNumber(diceRoll);
-                for (var j = 0; j < hexagones.length; j++) {
+                for (var j = 0; j < hexagones.length; j++)
                     this.T_resource_card[hexagones[j]]++;
-                }
             }
         }
 
         for (var i = 0; i < this.T_city.length; i++) {
             if (this.T_city[i] !== null && this.T_city[i].top.haveHexagonWithNumber(diceRoll)) {
                 var hexagones = this.T_city[i].top.getHexagonsByNumber(diceRoll);
-                for (var j = 0; j < hexagones.length; j++) {
+                for (var j = 0; j < hexagones.length; j++)
                     this.T_resource_card[hexagones[j]] = this.T_resource_card[hexagones[j]] + 2;
-                }
             }
         }
     };
 
-    /*
+    /**
+     * Add road buy by the player in T_Road
      * 
+     * @param {type} side
+     * @returns {undefined}
      */
-    this.build_Road = function () {
+    this.build_Road = function (side) {
+
+        var road = new Road(this.color, side);
+        road.side.occupy = road;
+        this.T_road.push(road);
+        this.nbRoadAvailable--;
+        this.T_resource_card.wood--;
+        this.T_resource_card.clay--;
 
     };
 
@@ -117,15 +130,18 @@ function Player(color) {
 
     };
 
-    /*
+    /**
+     * Player can buy road if they have resources and place to put it on.
      * 
+     * @returns {Array|Player.getRoadBuildableSides.filtredBuildableSides}
      */
     this.buy_Road = function () {
+
         if (this.T_resource_card.clay >= 1 && this.T_resource_card.wood >= 1) {
-            if (this.isAbleToBuildRoad()) {
+            if (this.isAbleToBuildRoad())
                 var roadBuildableSides = this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
-            }
         }
+
         return roadBuildableSides;
         //this.build_Road();
     };
@@ -158,12 +174,10 @@ function Player(color) {
      */
     this.isAbleToBuildRoad = function () {
 
-        if (nbRoadAvailable === 0) {
+        if (nbRoadAvailable === 0)
             return false;
-        }
-        else {
+        else
             return true;
-        }
     };
 
     /**
@@ -180,29 +194,22 @@ function Player(color) {
         var buildableSides = [];
         var filtredBuildableSides = [];
 
-        for (var i = 0; i < colonys.length; i++) {
-            if (colonys[i] !== null) {
-                buildableSides = buildableSides.concat(colonys[i].top.getBuildableSides());
-            }
-        }
-        for (var i = 0; i < citys.length; i++) {
-            if (citys[i] !== null) {
-                buildableSides = buildableSides.concat(citys[i].top.getBuildableSides());
-            }
-        }
-        for (var i = 0; i < roads.length; i++) {
-            if (roads[i] !== null) {
-                buildableSides = buildableSides.concat(roads[i].side.getBuildableSides(this.color));
-            }
-        }
+        for (var i = 0; i < colonys.length; i++)
+            buildableSides = buildableSides.concat(colonys[i].top.getBuildableSides());
+
+        for (var i = 0; i < citys.length; i++)
+            buildableSides = buildableSides.concat(citys[i].top.getBuildableSides());
+
+        for (var i = 0; i < roads.length; i++)
+            buildableSides = buildableSides.concat(roads[i].side.getBuildableSides(this.color));
+
 
         for (var i = 0; i < buildableSides.length; i++) {
             if (buildableSides[i] !== null) {
                 filtredBuildableSides.push(buildableSides[i]);
                 for (var j = i + 1; j < buildableSides.length; j++) {
-                    if (buildableSides[i] === buildableSides[j]) {
+                    if (buildableSides[i] === buildableSides[j])
                         buildableSides[j] = null;
-                    }
                 }
             }
         }

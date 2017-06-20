@@ -19,15 +19,16 @@ function Colony(color, top) {
      */
     var top;
 
+    //Object var init
     this.color = color;
-    this.top = null;
+    this.top = top;
+    this.top.occupy = this;
 
     /*
      * Display this colony pawn
      * @returns {String}
      */
-    this.display = function ()
-    {
+    this.display = function () {
         return '<img width="20px" height="25px" src="Picture/Pawn/' + this.color + '/Colony.png">';
     };
 }
