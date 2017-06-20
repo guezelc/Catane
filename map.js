@@ -51,6 +51,8 @@ function loadHexagons() {
     console.log("Achat d'une colonie");
     var colonyBuildableList = player.buy_Colony();
     console.log(colonyBuildableList);
+    player.build_Colony(colonyBuildableList[0]);
+    console.log(player.T_colony);
     console.log(player.T_resource_card);
 
     /*console.log(player.buy_Road());
