@@ -3,7 +3,7 @@
  * - Clement Guezel
  * - Virgil Lacondemine
  */
-function City(color) {
+function City(color, top) {
     
     /*
      * The city's color

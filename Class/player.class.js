@@ -150,14 +150,14 @@ function Player(color) {
     this.buy_Developpement_Card = function () {
         this.piocher_Developpement_Card();
     };
-    
+
     /**
      * Check if the player can build road
      * 
      * @returns {Boolean}
      */
     this.isAbleToBuildRoad = function () {
-        
+
         if (nbRoadAvailable === 0) {
             return false;
         }
@@ -165,7 +165,7 @@ function Player(color) {
             return true;
         }
     };
-    
+
     /**
      * Get all player's buildable sides
      * 
@@ -175,26 +175,38 @@ function Player(color) {
      * 
      * @returns {Array}
      */
-    this.getRoadBuildableSides = function (colonys, citys, roads){
-        
+    this.getRoadBuildableSides = function (colonys, citys, roads) {
+
         var buildableSides = [];
-        
-        for(var i = 0; i < colonys.length; i++){
-            if(colonys[i] !== null){
-                buildableSides.push(colonys[i].top.getBuildableSides());
+        var filtredBuildableSides = [];
+
+        for (var i = 0; i < colonys.length; i++) {
+            if (colonys[i] !== null) {
+                buildableSides = buildableSides.concat(colonys[i].top.getBuildableSides());
             }
         }
-        for(var i = 0; i < citys.length; i++){
-            if(citys[i] !== null){
-                buildableSides.push(citys[i].top.getBuildableSides());
+        for (var i = 0; i < citys.length; i++) {
+            if (citys[i] !== null) {
+                buildableSides = buildableSides.concat(citys[i].top.getBuildableSides());
             }
         }
-        for(var i = 0; i < roads.length; i++){
-            if(roads[i] !== null){
-                buildableSides.push(roads[i].side.getBuildableSides(this.color));
+        for (var i = 0; i < roads.length; i++) {
+            if (roads[i] !== null) {
+                buildableSides = buildableSides.concat(roads[i].side.getBuildableSides(this.color));
             }
         }
-        
-        return buildableSides;
+
+        for (var i = 0; i < buildableSides.length; i++) {
+            if (buildableSides[i] !== null) {
+                filtredBuildableSides.push(buildableSides[i]);
+                for (var j = i + 1; j < buildableSides.length; j++) {
+                    if (buildableSides[i] === buildableSides[j]) {
+                        buildableSides[j] = null;
+                    }
+                }
+            }
+        }
+
+        return filtredBuildableSides;
     };
 }
