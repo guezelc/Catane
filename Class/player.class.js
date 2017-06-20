@@ -64,11 +64,11 @@ function Player(color) {
     this.T_colony = [];
     this.T_city = [];
     this.T_resource_card = {
-        corn: 0,
+        corn: 1,
         ore: 0,
-        sheep: 0,
-        wood: 1,
-        clay: 1
+        sheep: 1,
+        wood: 3,
+        clay: 3
     };
     this.T_developpement_card = [];
     this.nbColonyAvailable = 5;
@@ -137,10 +137,9 @@ function Player(color) {
      */
     this.buy_Road = function () {
 
-        if (this.T_resource_card.clay >= 1 && this.T_resource_card.wood >= 1) {
-            if (this.isAbleToBuildRoad())
-                var roadBuildableSides = this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
-        }
+        if (this.T_resource_card.clay >= 1 && this.T_resource_card.wood >= 1
+                && this.nbRoadAvailable > 0)
+            var roadBuildableSides = this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
 
         return roadBuildableSides;
         //this.build_Road();
@@ -157,7 +156,14 @@ function Player(color) {
      * 
      */
     this.buy_Colony = function () {
-        this.build_Colony();
+        if (this.T_resource_card.wood > 0 && this.T_resource_card.clay > 0
+                && this.T_resource_card.sheep > 0 && this.T_resource_card.corn
+                && this.nbColonyAvailable > 0)
+            var colonyBuildableTops = this.getColonyBuildableTops(this.T_colony);
+
+        return colonyBuildableTops;
+
+        //this.build_Colony();
     };
 
     /*
@@ -165,19 +171,6 @@ function Player(color) {
      */
     this.buy_Developpement_Card = function () {
         this.piocher_Developpement_Card();
-    };
-
-    /**
-     * Check if the player can build road
-     * 
-     * @returns {Boolean}
-     */
-    this.isAbleToBuildRoad = function () {
-
-        if (nbRoadAvailable === 0)
-            return false;
-        else
-            return true;
     };
 
     /**
@@ -215,5 +208,27 @@ function Player(color) {
         }
 
         return filtredBuildableSides;
+    };
+
+    this.getColonyBuildableTops = function (colonys) {
+        
+        var buildableTops = [];
+        var filtredBuildableTops = [];
+        
+        for(var i = 0; i < colonys.length; i++){
+            buildableTops = buildableTops.concat(colonys[i].getBuildableTops());
+        }
+        
+        for (var i = 0; i < buildableTops.length; i++) {
+            if (buildableTops[i] !== null) {
+                filtredBuildableTops.push(buildableTops[i]);
+                for (var j = i + 1; j < buildableTops.length; j++) {
+                    if (buildableTops[i] === buildableTops[j])
+                        buildableTops[j] = null;
+                }
+            }
+        }
+        
+        return filtredBuildableTops;
     };
 }
