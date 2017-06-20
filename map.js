@@ -2,7 +2,7 @@ var lesHexagons = ["wood", "clay", "ore", "sheep", "corn", 'water'];
 var dice = new Dice();
 var card;
 var txtCard;
-var categResource = ['corn', 'ore', 'sheep', 'wood', 'clay'];
+var categResource=['corn','ore','sheep','wood','clay'];
 function loadHexagons() {
     var body = $("body");
     var map = new MapMatrice();
@@ -12,41 +12,46 @@ function loadHexagons() {
     map.initMatriceSide();
     var matTop = map.matriceTop;
     var matSide = map.matriceSide;
-    $('<button style="float:left" class="bouton">Roll the dice</button>').click(function () {
-        txtCard = '';
-        dice.roll();
+    $('<button style="float:left" class="bouton">Roll the dice</button>').click(function ()
+    {
+        txtCard='';
+        dice.roll();        
         player.giveResourcesCards(dice.result);
         card = player.T_resource_card;
-        for (var i = 0; i < categResource.length; i++) {
-            txtCard += categResource[i] + ':' + card[categResource[i]] + ' ';
+        for(var i =0;i< categResource.length;i++)
+        {
+            txtCard += categResource[i]+':'+card[categResource[i]]+' ';
         }
         $("#resource").text(txtCard);
         $("#dee").text(dice.result);
-        console.log();
+    console.log();
     }).appendTo(body);
-
+    
     //Debug test
     var player = new Player('red');
-    var colony = new Colony('red', matTop[6][3]);
-    var t = new City('red', matTop[8][4]);
-    var u = new City('red', matTop[8][5]);
-    var v = new City('red', matTop[10][3]);
-    player.T_colony.push(colony);
-    player.T_city.push(t, u, v);
+    player.T_colony[0] = new Colony('red');
+    player.T_colony[0].top = matTop[6][3];
+    player.T_colony[0].top.occupy = player.T_colony[0];
+    player.T_road[0] = new Road('red', matSide[6][5]);
+    player.T_road[0].side.occupy = player.T_road[0];
+    var t = player.T_city[0] = new City('red');
+    var u = player.T_city[1] = new City('red');
+    var v = player.T_city[2] = new City('red');
+    t.top = matTop[8][4];
+    t.top.occupy = player.T_city[0];
+    u.top = matTop[8][5];
+    u.top.occupy = player.T_city[1];
+    v.top = matTop[10][3];
+    v.top.occupy = player.T_city[2];
     player.giveResourcesCards(8);
-    console.log(player.T_resource_card);
-    console.log(player.T_road);
-    var roadBuildableList = player.buy_Road();
-    console.log(roadBuildableList);
-    player.build_Road(roadBuildableList[2]);
-    console.log(player.T_road);
     console.log(player.T_resource_card);
     console.log(player.buy_Road());
     console.log(matTop);
     console.log(matSide);
 }
 
-function rollDice() {
+function rollDice()
+{
     console.log(111);
 }
 
