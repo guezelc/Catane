@@ -11,6 +11,7 @@ function loadHexagons() {
     map.initMatriceTop();
     map.initMatriceSide();
     var matTop = map.matriceTop;
+    var matSide = map.matriceSide;
     $('<button style="float:left" class="bouton">Roll the dice</button>').click(function ()
     {
         txtCard='';
@@ -30,14 +31,17 @@ function loadHexagons() {
     var player = new Player('red');
     player.T_colony[0] = new Colony('red');
     player.T_colony[0].top = matTop[6][3];
+    player.T_colony[0].top.occupy = 1;
+    player.T_road[0] = new Road('red', '1', matSide[6][5]);
     var t = player.T_city[0] = new City('red');
-    var u = player.T_city[0] = new City('red');
-    var v = player.T_city[0] = new City('red');
+    var u = player.T_city[1] = new City('red');
+    var v = player.T_city[2] = new City('red');
     t.top = matTop[8][4];
     u.top = matTop[8][5];
     v.top = matTop[10][3];
+    player.giveResourcesCards(8);
     console.log(player.T_resource_card);
-
+    console.log(player.buy_Road());
 }
 
 function rollDice()
