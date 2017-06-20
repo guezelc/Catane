@@ -3,7 +3,7 @@
  * - Clement Guezel
  * - Virgil Lacondemine
  */
-function City(color, top) {
+function City(color) {
     
     /*
      * The city's color
@@ -16,7 +16,7 @@ function City(color, top) {
     var top;
 
     this.color = color;
-    this.top = top;
+    this.top = null;
     
     /*
      * Display this city pawn
