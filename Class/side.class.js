@@ -83,22 +83,14 @@ function Side(hexagon1, hexagon2, tilt) {
         
         var buildableSides = [];
         
-        if(this.top1.occupy === null){
-            buildableSides.push(this.top1.getBuildableSides());
-        }
-        else if(this.top1.occupyBy.color === playerColor){
-            buildableSides.push(this.top1.getBuildableSides());
-        }
-        
-        if(this.top2.occupy === null){
-            buildableSides.push(this.top2.getBuildableSides());
-        }
-        else if(this.top2.occupyBy.color === playerColor){
-            buildableSides.push(this.top2.getBuildableSides());
+        if(this.top1.occupy === null || this.top1.occupy.color === playerColor){
+            buildableSides = buildableSides.concat(this.top1.getBuildableSides());
+        }     
+        if(this.top2.occupy === null || this.top2.occupy.color === playerColor){
+            buildableSides = buildableSides.concat(this.top2.getBuildableSides());
         }
         
         return buildableSides;
-        
     };
 
     this.show = function () {
