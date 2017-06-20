@@ -29,14 +29,14 @@ function loadHexagons() {
     
     //Debug test
     var player = new Player('red');
-    player.T_colony[0] = new Colony('red');
+    player.T_colony[0] = new Colony('red',matTop[8][4]);
     player.T_colony[0].top = matTop[6][3];
     player.T_colony[0].top.occupy = player.T_colony[0];
     player.T_road[0] = new Road('red', matSide[6][5]);
     player.T_road[0].side.occupy = player.T_road[0];
-    var t = player.T_city[0] = new City('red');
-    var u = player.T_city[1] = new City('red');
-    var v = player.T_city[2] = new City('red');
+    var t = player.T_city[0] = new City('red',matTop[10][6]);
+    var u = player.T_city[1] = new City('red',matTop[3][0]);
+    var v = player.T_city[2] = new City('red',matTop[15][4]);
     t.top = matTop[8][4];
     t.top.occupy = player.T_city[0];
     u.top = matTop[8][5];
