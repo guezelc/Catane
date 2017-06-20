@@ -133,8 +133,16 @@ function Player(color ,developpementCards) {
     /*
      * 
      */
-    this.build_Colony = function () {
+    this.build_Colony = function (top) {
 
+        var colony = new Colony(this.color, top);
+        colony.top.occupy = colony;
+        this.T_colony.push(colony);
+        this.nbColonyAvailable--;
+        this.T_resource_card.wood--;
+        this.T_resource_card.clay--;
+        this.T_resource_card.corn--;
+        this.T_resource_card.sheep--;
     };
 
     /**
