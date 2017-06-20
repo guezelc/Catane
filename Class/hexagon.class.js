@@ -55,18 +55,15 @@ function Hexagon(type, tilt = 0) {
      * Display this Hexagon
      * @returns {jQuery|String}
      */
-    this.display = function display()
-    {
-        if (this.tilt === 0)
-        {
-            if (this.number !== null)
-            {
+    this.display = function display() {
+        if (this.tilt === 0) {
+            if (this.number !== null) {
                 return $('<img width="100px" height="100px" src="Picture/Number/' + this.number + '.png">')
                         .css("background", 'url(Picture/Hexagon/' + this.type + '.png)');
             }
             return '<img width="100px" height="100px" src="Picture/Hexagon/' + this.type + '.png">';
-        } else
-        {
+        }
+        else {
             return '<img width="100px" height="100px" src="Picture/Hexagon/Harbor/' + this.type + '/' + this.tilt + '.png">';
         }
     };

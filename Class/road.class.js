@@ -24,12 +24,12 @@ function Road(color, side) {
     this.color = color;
     this.side = side;
     this.tilt = this.side.tilt;
+    this.side.occupy = this;
 
     /*
      * Display road pawn
      */
-    this.display = function ()
-    {
+    this.display = function () {
         return '<img src="Picture/Pawn/' + this.color + '/Road/' + this.tilt + '.png">';
     };
 }
