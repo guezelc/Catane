@@ -178,18 +178,28 @@ function Top(hexagon1, hexagon2, hexagon3, type) {
     /**
      * Get buildable side of this top
      * 
+     * @param {type} type 
      * @returns {Array|Top.getBuildableSides.buildableSides}
      */
-    this.getBuildableSides = function () {
+    this.getBuildableSides = function (type) {
         var buildableSides = [];
-        if (this.side1.isBuildable()) {
-            buildableSides.push(this.side1);
-        }
-        if (this.side2.isBuildable()) {
-            buildableSides.push(this.side2);
-        }
-        if (this.side3.isBuildable()) {
-            buildableSides.push(this.side3);
+        if(type === 'road')
+        {
+            if (this.side1.isBuildable() && this.side1.hexagon1.type !== 'water' 
+                    && this.side1.hexagon1.tilt === 0 || this.side1.isBuildable() 
+                    && this.side1.hexagon2.type !== 'water' && this.side1.hexagon2.tilt === 0) {
+                buildableSides.push(this.side1);
+            }
+            if (this.side2.isBuildable() && this.side2.hexagon1.type !== 'water' 
+                    && this.side2.hexagon1.tilt === 0 || this.side2.isBuildable() 
+                    && this.side2.hexagon2.type !== 'water' && this.side2.hexagon2.tilt === 0) {
+                buildableSides.push(this.side2);
+            }
+            if (this.side3.isBuildable() && this.side3.hexagon1.type !== 'water' 
+                    && this.side3.hexagon1.tilt === 0 || this.side3.isBuildable() 
+                    && this.side3.hexagon2.type !== 'water' && this.side3.hexagon2.tilt === 0) {
+                buildableSides.push(this.side3);
+            }
         }
         return buildableSides;
     };

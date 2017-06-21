@@ -45,6 +45,12 @@ function Game(type, nbPlayer)
     var mapMatrice;
     
     /*
+     * The map matrice
+     * @type array[array]
+     */
+    var hexagonMatrice;
+    
+    /*
      * The matrice of top
      * @type array[array]
      */
@@ -70,6 +76,7 @@ function Game(type, nbPlayer)
         this.mapMatrice.init(this.type);
         this.mapMatrice.initMatriceSide();
         this.mapMatrice.initMatriceTop();
+        this.hexagonMatrice = this.mapMatrice.getMapMatrice();
         this.sideMatrice = this.mapMatrice.matriceSide;
         this.topMatrice = this.mapMatrice.matriceTop;
         this.developpementCards = new DeveloppementCards();
