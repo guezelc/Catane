@@ -70,8 +70,8 @@ function Player(color ,developpementCards) {
     this.T_colony = [];
     this.T_city = [];
     this.T_resource_card = {
-        corn: 1,
-        ore: 0,
+        corn: 3,
+        ore: 3,
         sheep: 1,
         wood: 4,
         clay: 4
@@ -126,8 +126,24 @@ function Player(color ,developpementCards) {
     /*
      * 
      */
-    this.build_City = function () {
-
+    this.build_City = function (colony) {
+        
+        var city = new City(this.color, colony.top);
+        city.top.occupy = city;
+        this.T_city.push(city);
+        this.nbColonyAvailable++;
+        this.nbCityAvailable--;
+        this.T_resource_card.ore-=3;
+        this.T_resource_card.corn-=2;
+        for(var i = 0; i < this.T_colony.length;i++)
+        {
+            if(this.T_colony[i] === colony)
+            {
+                var lastElement = this.T_colony[this.T_colony.length-1];
+                this.T_colony[i]= lastElement;
+                this.T_colony.pop();
+            }
+        }
     };
 
     /*
@@ -164,7 +180,10 @@ function Player(color ,developpementCards) {
      * 
      */
     this.buy_City = function () {
-        this.build_City();
+        if (this.T_resource_card.ore > 2 && this.T_resource_card.corn > 1 
+                && this.nbCityAvailable > 0 && this.T_colony.length >0){
+            return this.T_colony;
+        }
     };
 
     /*
