@@ -431,15 +431,15 @@ function MapMatrice() {
             hexa4.T_Top["N-E"] = top2;
         }
     }
-
-    /**
+    
+    /*
      * Add the sides to the hexagons in parameter
      * 
-     * @param {type} hexagon
-     * @param {type} hexaNE
-     * @param {type} hexaNW
-     * @param {type} hexaW
-     * 
+     * @param {type} hexa1
+     * @param {type} hexa2
+     * @param {type} hexa3
+     * @param {type} hexa4
+     * @param {type} position
      * @returns {Array} with the 4 hexagon update
      */
     function addSides(hexa1, hexa2, hexa3, hexa4,position) {
@@ -543,11 +543,9 @@ function MapMatrice() {
 
     /**
      * Show the map in html
-     * 
-     * @param {type} matrice
-     * @returns {undefined}
      */
-    this.showMap = function (matrice) {
+    this.showMap = function () {
+        var matrice = mapMatrice;
         var body = $("body");
         var nbDiv = matrice.length;
         var nbCol = matrice[0].length;
