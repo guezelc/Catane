@@ -3,7 +3,7 @@
  * - Clement Guezel
  * - Virgil Lacondemine
  */
-function Player(color ,developpementCards) {
+function Player(color ,game) {
 
     /**
      * Player's color
@@ -29,10 +29,10 @@ function Player(color ,developpementCards) {
     var T_road;
     
     /*
-     * The isntance of the developpementCards of the game
-     * @type DeveloppementCards
+     * The instance of the current game
+     * @type Game
      */
-    var developpementCards;
+    var game;
     
     /**
      * Player's available colony number
@@ -70,9 +70,9 @@ function Player(color ,developpementCards) {
     this.T_colony = [];
     this.T_city = [];
     this.T_resource_card = {
-        corn: 3,
-        ore: 3,
-        sheep: 1,
+        corn: 4,
+        ore: 4,
+        sheep: 2,
         wood: 4,
         clay: 4
     };
@@ -80,7 +80,7 @@ function Player(color ,developpementCards) {
     this.nbColonyAvailable = 5;
     this.nbCityAvailable = 4;
     this.nbRoadAvailable = 13;
-    this.developpementCards = developpementCards;
+    this.game = game;
 
     /**
      * Give resources to the player in function of diceRoll
@@ -204,7 +204,7 @@ function Player(color ,developpementCards) {
      * buy a developpement card
      */
     this.buy_DeveloppementCard = function () {        
-        if (this.T_resource_card.ore >= 1 && this.T_resource_card.corn >= 1 && this.T_resource_card.sheep >= 1 && this.developpementCards.developpementCardsAvailable > 0) {
+        if (this.T_resource_card.ore >= 1 && this.T_resource_card.corn >= 1 && this.T_resource_card.sheep >= 1 && this.game.developpementCards.developpementCardsAvailable > 0) {
             this.TakeADeveloppementCard();
         }
     };
@@ -216,7 +216,7 @@ function Player(color ,developpementCards) {
         this.T_resource_card.ore--;
         this.T_resource_card.corn--;
         this.T_resource_card.sheep--;
-        this.T_developpement_card.push(this.developpementCards.takeACard(this));
+        this.T_developpement_card.push(this.game.developpementCards.takeACard(this));
     };
 
     /**
