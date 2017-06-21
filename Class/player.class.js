@@ -234,13 +234,13 @@ function Player(color ,game) {
         var filtredBuildableSides = [];
 
         for (var i = 0; i < colonys.length; i++)
-            buildableSides = buildableSides.concat(colonys[i].top.getBuildableSides());
+            buildableSides = buildableSides.concat(colonys[i].top.getBuildableSides('road'));
 
         for (var i = 0; i < citys.length; i++)
-            buildableSides = buildableSides.concat(citys[i].top.getBuildableSides());
+            buildableSides = buildableSides.concat(citys[i].top.getBuildableSides('road'));
 
         for (var i = 0; i < roads.length; i++)
-            buildableSides = buildableSides.concat(roads[i].side.getBuildableSides(this.color));
+            buildableSides = buildableSides.concat(roads[i].side.getBuildableSides(this.color,'road'));
 
 
         for (var i = 0; i < buildableSides.length; i++) {

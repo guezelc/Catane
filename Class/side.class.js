@@ -102,18 +102,19 @@ function Side(hexagon1, hexagon2, tilt) {
      * Get all buildable sides around this side.
      * 
      * @param {type} playerColor
+     * @param {type} type
      * 
      * @returns {Array|Side.getBuildableSides.buildableSides}
      */
-    this.getBuildableSides = function (playerColor) {
+    this.getBuildableSides = function (playerColor, type) {
         
         var buildableSides = [];
         
         if(this.top1.occupy === null || this.top1.occupy.color === playerColor){
-            buildableSides = buildableSides.concat(this.top1.getBuildableSides());
+            buildableSides = buildableSides.concat(this.top1.getBuildableSides(type));
         }     
         if(this.top2.occupy === null || this.top2.occupy.color === playerColor){
-            buildableSides = buildableSides.concat(this.top2.getBuildableSides());
+            buildableSides = buildableSides.concat(this.top2.getBuildableSides(type));
         }
         
         return buildableSides;

@@ -24,7 +24,7 @@ function loadHexagons() {
 
     //Debug test
     var player = game.getPlayer(1);
-    var colony = new Colony('red', matTop[6][3]);
+    var colony = new Colony('red', matTop[2][1]);
     player.T_colony.push(colony);
     player.giveResourcesCards(8);
     console.log(player.T_resource_card);
@@ -32,33 +32,34 @@ function loadHexagons() {
     console.log("Achat d'une route");
     var roadBuildableList = player.buy_Road();
     console.log(roadBuildableList);
-    player.build_Road(roadBuildableList[2]);
+    player.build_Road(roadBuildableList[roadBuildableList.length-1]);
     console.log(player.T_road);
     console.log("Achat d'une seconde route");
     roadBuildableList = player.buy_Road();
     console.log(roadBuildableList);
-    player.build_Road(roadBuildableList[2]);
+    player.build_Road(roadBuildableList[roadBuildableList.length-1]);
     console.log(player.T_road);
     console.log("Achat d'une troisième route");
     roadBuildableList = player.buy_Road();
     console.log(roadBuildableList);
-    player.build_Road(roadBuildableList[3]);
+    player.build_Road(roadBuildableList[roadBuildableList.length-1]);
     console.log(player.T_road);
     console.log("Achat d'une colonie");
     var colonyBuildableList = player.buy_Colony();
     console.log(colonyBuildableList);
-    player.build_Colony(colonyBuildableList[0]);
+    player.build_Colony(colonyBuildableList[colonyBuildableList.length-1]);
     console.log(player.T_colony);
     console.log("Achat d'une ville");
     var colonyTops = player.buy_City();
     console.log(colonyTops);
-    player.build_City(colonyTops[0]);
+    player.build_City(colonyTops[colonyTops.length-1]);
     console.log(player.T_city);
     console.log(player.T_colony);
     console.log("Achat d'une carte développement");
     player.buy_DeveloppementCard();
     console.log(player.T_developpement_card);
     console.log(player.T_resource_card);
+    console.log(game);
 
     /*console.log(player.buy_Road());
     console.log(matTop);
