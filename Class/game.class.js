@@ -15,6 +15,12 @@ function Game(type, nbPlayer)
     var developpementCards;
     
     /*
+     * The instance of the developpementCards of the game
+     * @type Dice
+     */
+    var dice;
+    
+    /*
      * An array with all the player of the game
      * @type array
      */
@@ -68,6 +74,7 @@ function Game(type, nbPlayer)
     this.nbPlayer = nbPlayer;
     this.type = type;
     this.developpementCards = null;
+    this.dice = null;
     T_player = [];
     
     if(this.mapMatrice === null)
@@ -80,6 +87,7 @@ function Game(type, nbPlayer)
         this.sideMatrice = this.mapMatrice.matriceSide;
         this.topMatrice = this.mapMatrice.matriceTop;
         this.developpementCards = new DeveloppementCards();
+        this.dice = new Dice();
         for(var player = 0 ; player < nbPlayer;player++)
         {
             T_player.push(new Player(playerColorAvailable[player],this));
