@@ -3,16 +3,12 @@ var dice = new Dice();
 var card;
 var txtCard;
 var categResource=['corn','ore','sheep','wood','clay'];
-var dvpCard = new DeveloppementCards();
+var game = new Game('N',3);
 function loadHexagons() {
     var body = $("body");
-    var map = new MapMatrice();
-    map.init("N");
-    map.showMap(map.getMapMatrice());
-    map.initMatriceTop();
-    map.initMatriceSide();
-    var matTop = map.matriceTop;
-    var matSide = map.matriceSide;
+    var matTop = game.topMatrice;
+    var matSide = game.sideMatrice;
+    game.mapMatrice.showMap();
     $('<button style="float:left" class="bouton">Roll the dice</button>').click(function () {
         txtCard = '';
         dice.roll();
@@ -27,7 +23,7 @@ function loadHexagons() {
     }).appendTo(body);
 
     //Debug test
-    var player = new Player('red',dvpCard);
+    var player = game.getPlayer(1);
     var colony = new Colony('red', matTop[6][3]);
     player.T_colony.push(colony);
     player.giveResourcesCards(8);
@@ -59,6 +55,9 @@ function loadHexagons() {
     player.build_City(colonyTops[0]);
     console.log(player.T_city);
     console.log(player.T_colony);
+    console.log("Achat d'une carte développement");
+    player.buy_DeveloppementCard();
+    console.log(player.T_developpement_card);
     console.log(player.T_resource_card);
 
     /*console.log(player.buy_Road());

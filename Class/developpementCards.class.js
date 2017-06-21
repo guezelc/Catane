@@ -1,3 +1,10 @@
+/*
+ * Author:
+ * - Clement Guezel
+ * - Virgil Lacondemine
+ * 
+ * @returns {DeveloppementCards}
+ */
 function DeveloppementCards()
 {
     /*
@@ -20,14 +27,14 @@ function DeveloppementCards()
     var developpementCardsAvailable;
     this.developpementCardsAvailable = 25;
     var T_Card;
-    this.T_Card = null;
+    T_Card = null;
     
     /*
      * Initialize the table of cards randomly
      */
-    if(this.T_Card === null)
+    if(T_Card === null)
     {
-        this.T_Card = []
+        T_Card = []
         for(var currentCard = 0; currentCard < numberCardBase;currentCard++)
         {
             while(true)
@@ -36,7 +43,7 @@ function DeveloppementCards()
                 var rand = getRandomIntInclusive(0, 4);
                 if(numberCardByTypeBase[cardType[rand]] > 0)
                 {
-                    this.T_Card.push({'type' : cardType[rand], 'player' : null, 'play' : false});
+                    T_Card.push({'type' : cardType[rand], 'player' : null, 'play' : false});
                     numberCardByTypeBase[cardType[rand]]--;
                     break;
                 }
@@ -47,13 +54,13 @@ function DeveloppementCards()
     this.takeACard = function(player)
     {
         var currentCard = 0
-        while(currentCard < numberCardBase && this.T_Card[currentCard]['player'] !== null)
+        while(currentCard < numberCardBase && T_Card[currentCard]['player'] !== null)
         {
             currentCard ++;
         }
-        this.T_Card[currentCard]['player']=player;
+        T_Card[currentCard]['player']=player;
         this.developpementCardsAvailable--;
-        return this.T_Card[currentCard];
+        return T_Card[currentCard];
     }
 
     /*
