@@ -53,6 +53,12 @@ function Player(color ,game) {
     var nbRoadAvailable;
 
     /**
+     * The player turn statut
+     * @type boolean
+     */
+    var isPlaying;
+
+    /**
      * Player's resource card table
      * @type type
      */
@@ -81,6 +87,7 @@ function Player(color ,game) {
     this.nbCityAvailable = 4;
     this.nbRoadAvailable = 13;
     this.game = game;
+    this.isPlaying= false;
 
     /**
      * Give resources to the player in function of diceRoll
@@ -256,6 +263,13 @@ function Player(color ,game) {
         return filtredBuildableSides;
     };
 
+    /**
+     * Get all player's buildable tops
+     * 
+     * @param {type} roads
+     * 
+     * @returns {Array}
+     */
     this.getColonyBuildableTops = function (roads) {
         
         var buildableTops = [];
@@ -277,5 +291,103 @@ function Player(color ,game) {
         }
         
         return filtredBuildableTops;
+    };
+    
+    /*
+     * Propose an exchange to the other players
+     * 
+     * @param {String} give
+     * @param {Int} giveNumber
+     * @param {String} receive
+     * @param {Int} receiveNumber
+     * @returns {Array}
+     */
+    this.exchange = function (give, giveNumber, receive, receiveNumber)
+    {
+        var T_exchangeAnswer = [];
+        if(this.T_resource_card[give]>= giveNumber)
+        {
+            T_exchangeAnswer = this.game.askExchange(give, giveNumber, receive, receiveNumber,this);
+        }
+        return T_exchangeAnswer;
+    };
+    
+    /*
+     * Allow a player who isn't playing to answer an exchange propose by the player who's playing
+     * 
+     * @param {String} give
+     * @param {Int} giveNumber
+     * @param {String} receive
+     * @param {Int} receiveNumber
+     * @param {Player} playerAsking, the player who propose the exchange
+     * @returns {Array}
+     */
+    this.answerExchange = function(give, giveNumber, receive, receiveNumber, playerAsking)
+    {
+        if(this.T_resource_card[give] >= giveNumber)
+        {
+            return this.acceptOtherPlayerExchange(give, giveNumber, receive, receiveNumber, playerAsking);
+        }
+        else return null;
+    };
+    
+    /*
+     * Allow a player who isn't playing to accept an exchange propose by the player who's playing
+     * 
+     * @param {String} give
+     * @param {Int} giveNumber
+     * @param {String} receive
+     * @param {Int} receiveNumber
+     * @param {Player} playerAsking, the player who propose the exchange
+     * @param {Boolean} answer
+     * @returns {Array}
+     */
+    this.acceptOtherPlayerExchange = function (give, giveNumber, receive, receiveNumber, playerAsking, answer = true)
+    {
+        return [answer,this,give, giveNumber, receive, receiveNumber, playerAsking];
+    };
+    
+    /*
+     * Do an exchagne if the player answer is true
+     * 
+     * @param {String} give
+     * @param {int} giveNumber
+     * @param {String} receive
+     * @param {int} receiveNumber
+     * @param {Boolean} answer
+     * @param {Player} player
+     */
+    this.doExchange = function (give, giveNumber, receive, receiveNumber, player)
+    {
+        this.T_resource_card[give]-=giveNumber;
+        this.T_resource_card[receive]+=receiveNumber;
+        if(this.isPlaying === true)
+        {
+            player.doExchange(receive, receiveNumber, give, giveNumber, this);
+        }
+    };
+    
+    /*
+     * Ask player if he want to finally accept is own exchagne with one player who had accept
+     * 
+     * @param {array}   T_pplayerChoose, the player choose
+     * @param {boolean} answer
+     */
+    this.acceptIsOwnExchange = function(T_playerChoose,answer)
+    {
+        if(answer)
+        {
+            var playerAnswer, player,give, giveNumber, receive, receiveNumber;
+            playerAnswer = T_playerChoose[0];
+            if(playerAnswer)
+            {            
+                player = T_playerChoose[1];
+                give = T_playerChoose[2];
+                giveNumber = T_playerChoose[3];
+                receive = T_playerChoose[4];
+                receiveNumber = T_playerChoose[5];
+                this.doExchange(give, giveNumber, receive, receiveNumber, player);
+            }
+        }
     };
 }

@@ -93,5 +93,18 @@ function Game(type, nbPlayer)
             return null;
         }
         return T_player[int];
-    }
+    };
+    
+    this.askExchange = function(give, giveNumber, receive, receiveNumber, currentPlayer)
+    {
+        var answer= [];
+        for(var player = 0; player < T_player.length; player++)
+        {
+            if(!T_player[player].isPlaying)
+            {
+                answer.push(T_player[player].answerExchange(receive, receiveNumber, give, giveNumber, currentPlayer));
+            }
+        }
+        return answer;
+    };
 }
