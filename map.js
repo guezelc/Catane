@@ -53,6 +53,12 @@ function loadHexagons() {
     console.log(colonyBuildableList);
     player.build_Colony(colonyBuildableList[0]);
     console.log(player.T_colony);
+    console.log("Achat d'une ville");
+    var colonyTops = player.buy_City();
+    console.log(colonyTops);
+    player.build_City(colonyTops[0]);
+    console.log(player.T_city);
+    console.log(player.T_colony);
     console.log(player.T_resource_card);
 
     /*console.log(player.buy_Road());
