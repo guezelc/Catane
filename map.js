@@ -1,14 +1,13 @@
 var lesHexagons = ["wood", "clay", "ore", "sheep", "corn", 'water'];
-var dice = new Dice();
 var card;
 var txtCard;
 var categResource=['corn','ore','sheep','wood','clay'];
 var game = new Game('N',3);
-function loadHexagons() {
+var dice = game.dice;
+function rollDice() 
+{
+    var player = game.getPlayer(1);
     var body = $("body");
-    var matTop = game.topMatrice;
-    var matSide = game.sideMatrice;
-    game.mapMatrice.showMap();
     $('<button style="float:left" class="bouton">Roll the dice</button>').click(function () {
         txtCard = '';
         dice.roll();
@@ -19,18 +18,15 @@ function loadHexagons() {
         }
         $("#resource").text(txtCard);
         $("#dee").text(dice.result);
-        testExchange();
     }).appendTo(body);
-    $('<button style="margin-top: 800px;float:left;" class="exchange">Oui</button>').click(function () {
-            
-    }).appendTo(body);
-        $('<button style="margin-top: 800px;float:left;" class="exchange">Non</button>').click(function () {
-            
-    }).appendTo(body);
+}
 
-    //Debug test
+function testBuild()
+{
+    var matTop = game.topMatrice;
+    var matSide = game.sideMatrice;
     var player = game.getPlayer(1);
-    /*var colony = new Colony('red', matTop[2][1]);
+    var colony = new Colony('red', matTop[2][1]);
     player.T_colony.push(colony);
     player.giveResourcesCards(8);
     console.log(player.T_resource_card);
@@ -64,13 +60,15 @@ function loadHexagons() {
     console.log("Achat d'une carte développement");
     player.buy_DeveloppementCard();
     console.log(player.T_developpement_card);
-    console.log(player.T_resource_card);*/
+    console.log(player.T_resource_card);
 }
+
 function testExchange()
 {    
     var blue = game.getPlayer(0);
     var red = game.getPlayer(1);
     var white = game.getPlayer(2);
+    console.log("Echange de 2 blé contre 4 mouton");
     console.log(blue.T_resource_card);
     console.log(red.T_resource_card);
     console.log(white.T_resource_card);
@@ -85,5 +83,8 @@ function testExchange()
 }
 
 $(document).ready(function () {
-    loadHexagons();
+    rollDice();
+    testBuild();
+    testExchange();
+    game.mapMatrice.showMap();
 });

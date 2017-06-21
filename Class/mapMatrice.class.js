@@ -44,11 +44,11 @@ function MapMatrice() {
         [2, 1, 1, 1, 0, 0, null, null, null],
         [0, 1, 1, 1, 1, 3, 0, null, null],
         [3, 1, 1, 1, 1, 1, 0, 0, null],
-        [0, 0, 1, 1, 1, 1, 2, 1, 0],
-        [0, 2, 1, 1, 1, 0, 1, 0, null],
-        [1, 0, 2, 0, 3, 0, 0, null, null],
-        [1, 1, 1, 0, 1, 0, null, null, null],
-        [0, 0, 1, 1, 0, null, null, null, null]
+        [0, 0, 1, 1, 1, 1, 2, 4, 0],
+        [0, 2, 1, 1, 1, 0, 4, 0, null],
+        [4, 0, 2, 0, 3, 0, 0, null, null],
+        [4, 4, 4, 0, 4, 0, null, null, null],
+        [0, 0, 4, 4, 0, null, null, null, null]
     ];
 
 
@@ -92,11 +92,16 @@ function MapMatrice() {
      * @type type
      */
     var hexagonNumberExtension = {
-        corn: 6,
-        wood: 6,
-        sheep: 6,
-        ore: 5,
-        clay: 5,
+        cornIsland: 2,
+        woodIsland: 2,
+        sheepIsland: 2,
+        oreIsland: 2,
+        clayIsland: 2,
+        corn: 4,
+        wood: 4,
+        sheep: 4,
+        ore: 3,
+        clay: 3,
         desert: 1,
         harbor31: 4,
         oreHarbor: 1,
@@ -320,6 +325,20 @@ function MapMatrice() {
                             }
                         }
                         break;
+                    case 4 :
+                        var res = '';
+                        while (true) {
+                            var rand = getRandomIntInclusive(0, 4);
+                            var resources = ['corn','wood','ore','clay','sheep'];
+                            if (hexagonNumber[resources[rand]+'Island'] > 0) {
+                                res = resources[rand];
+                                hexagonNumber[resources[rand]+'Island']--;
+                                break;
+                            } 
+                        }
+                        matrice[line][column] = new Hexagon(res);                        
+                        break;
+                        
                 }
             }
         } 
