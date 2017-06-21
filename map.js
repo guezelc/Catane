@@ -19,12 +19,18 @@ function loadHexagons() {
         }
         $("#resource").text(txtCard);
         $("#dee").text(dice.result);
-        console.log();
+        testExchange();
+    }).appendTo(body);
+    $('<button style="margin-top: 800px;float:left;" class="exchange">Oui</button>').click(function () {
+            
+    }).appendTo(body);
+        $('<button style="margin-top: 800px;float:left;" class="exchange">Non</button>').click(function () {
+            
     }).appendTo(body);
 
     //Debug test
     var player = game.getPlayer(1);
-    var colony = new Colony('red', matTop[2][1]);
+    /*var colony = new Colony('red', matTop[2][1]);
     player.T_colony.push(colony);
     player.giveResourcesCards(8);
     console.log(player.T_resource_card);
@@ -58,22 +64,24 @@ function loadHexagons() {
     console.log("Achat d'une carte développement");
     player.buy_DeveloppementCard();
     console.log(player.T_developpement_card);
-    console.log(player.T_resource_card);
-    console.log(game);
-
-    /*console.log(player.buy_Road());
-    console.log(matTop);
-    console.log(matSide);
-    console.log(dvpCard.T_Card);
-    player.T_resource_card.sheep++;
-    player.T_resource_card.corn++;
-    player.T_resource_card.ore++;
-    player.buy_DeveloppementCard();
-    console.log(dvpCard.T_Card);*/
+    console.log(player.T_resource_card);*/
 }
-
-function rollDice() {
-    console.log(111);
+function testExchange()
+{    
+    var blue = game.getPlayer(0);
+    var red = game.getPlayer(1);
+    var white = game.getPlayer(2);
+    console.log(blue.T_resource_card);
+    console.log(red.T_resource_card);
+    console.log(white.T_resource_card);
+    blue.isPlaying=true;
+    var exchange = blue.exchange('corn',4,'sheep',2);
+    console.log(exchange);
+    if(exchange.length >0){blue.acceptIsOwnExchange(exchange[exchange.length-1],true);}
+    console.log(blue.T_resource_card);
+    console.log(red.T_resource_card);
+    console.log(white.T_resource_card);
+    console.log(game);
 }
 
 $(document).ready(function () {
