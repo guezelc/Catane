@@ -92,6 +92,16 @@ function Game(type, nbPlayer)
         {
             T_player.push(new Player(playerColorAvailable[player],this));
         }
+        /*
+        * Randomly return a int between min and max inlcluded
+        */
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        var rand = getRandomInt(0,nbPlayer);
+        T_player[rand].isPlaying=true;
     }
     
     this.getPlayer = function(int)
@@ -103,16 +113,31 @@ function Game(type, nbPlayer)
         return T_player[int];
     };
     
-    this.askExchange = function(give, giveNumber, receive, receiveNumber, currentPlayer)
+    this.askExchange = function(T_Exhchange, currentPlayer)
     {
         var answer= [];
         for(var player = 0; player < T_player.length; player++)
         {
             if(!T_player[player].isPlaying)
             {
-                answer.push(T_player[player].answerExchange(receive, receiveNumber, give, giveNumber, currentPlayer));
+                answer.push(T_player[player].answerExchange(T_Exhchange, currentPlayer));
             }
         }
         return answer;
+    };
+    
+    /*
+     * Begin the turn of the next player
+     */
+    this.nextPlayer = function(currentPlayer)
+    {
+        for(var player = 0; player < T_player.length; player ++)
+        {
+            if(T_player[player] === currentPlayer)
+            {
+                var nextPlayer = (player+1) %3;
+                T_player[nextPlayer].isPlaying = true;
+            }
+        }
     };
 }

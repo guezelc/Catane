@@ -296,18 +296,44 @@ function Player(color ,game) {
     /*
      * Propose an exchange to the other players
      * 
-     * @param {String} give
-     * @param {Int} giveNumber
-     * @param {String} receive
-     * @param {Int} receiveNumber
-     * @returns {Array}
+     * @param {Int} cornNumber
+     * @param {Int} oreNumber
+     * @param {Int} sheepNumber
+     * @param {Int} woodNumber
+     * @param {Int} clayNumber
+     * @returns {Array} T_exchangeAnswer
      */
-    this.exchange = function (give, giveNumber, receive, receiveNumber)
+    this.exchange = function (cornNumber, oreNumber, sheepNumber, woodNumber, clayNumber)
     {
-        var T_exchangeAnswer = [];
-        if(this.T_resource_card[give]>= giveNumber)
+        var nbGive = 0;
+        var nbReceive = 0;
+        var T_Exhchange = {
+            corn: cornNumber,
+            ore: oreNumber,
+            sheep: sheepNumber,
+            wood: woodNumber,
+            clay: clayNumber
+        };
+        for (var resource in T_Exhchange)
         {
-            T_exchangeAnswer = this.game.askExchange(give, giveNumber, receive, receiveNumber,this);
+            if(T_Exhchange[resource] > 0)
+            {
+                nbGive++;
+                if(this.T_resource_card[resource] < T_Exhchange[resource])
+                {
+                    console.log('Exchange impossible, you haven\'t enough '+ resource); 
+                    return [];
+                }
+            }
+            if(T_Exhchange[resource] < 0)
+            {
+                nbReceive++;
+            }
+        }
+        var T_exchangeAnswer = [];        
+        if(nbReceive !== 0 && nbGive !==0)
+        {
+            T_exchangeAnswer = this.game.askExchange(T_Exhchange,this);
         }
         return T_exchangeAnswer;
     };
@@ -315,79 +341,93 @@ function Player(color ,game) {
     /*
      * Allow a player who isn't playing to answer an exchange propose by the player who's playing
      * 
-     * @param {String} give
-     * @param {Int} giveNumber
-     * @param {String} receive
-     * @param {Int} receiveNumber
+     * @param {Array} T_Exhchange, array of all resource of the exchange
      * @param {Player} playerAsking, the player who propose the exchange
      * @returns {Array}
      */
-    this.answerExchange = function(give, giveNumber, receive, receiveNumber, playerAsking)
+    this.answerExchange = function(T_Exhchange, playerAsking)
     {
-        if(this.T_resource_card[give] >= giveNumber)
+        for (var resource in T_Exhchange)
         {
-            return this.acceptOtherPlayerExchange(give, giveNumber, receive, receiveNumber, playerAsking);
+            if(T_Exhchange[resource] < 0)
+            {
+                if(this.T_resource_card[resource] < -T_Exhchange[resource])
+                {
+                    return [false,this,T_Exhchange, playerAsking];
+                }
+            }
         }
-        else return null;
+        return this.acceptOtherPlayerExchange(T_Exhchange, playerAsking);
     };
     
     /*
      * Allow a player who isn't playing to accept an exchange propose by the player who's playing
      * 
-     * @param {String} give
-     * @param {Int} giveNumber
-     * @param {String} receive
-     * @param {Int} receiveNumber
+     * @param {Array} T_Exhchange, array of all resource of the exchange
      * @param {Player} playerAsking, the player who propose the exchange
      * @param {Boolean} answer
      * @returns {Array}
      */
-    this.acceptOtherPlayerExchange = function (give, giveNumber, receive, receiveNumber, playerAsking, answer = true)
+    this.acceptOtherPlayerExchange = function (T_Exhchange, playerAsking, answer = true)
     {
-        return [answer,this,give, giveNumber, receive, receiveNumber, playerAsking];
+        return [answer,this,T_Exhchange, playerAsking];
     };
     
     /*
      * Do an exchagne if the player answer is true
      * 
-     * @param {String} give
-     * @param {int} giveNumber
-     * @param {String} receive
-     * @param {int} receiveNumber
-     * @param {Boolean} answer
+     * @param {Array} T_Exhchange, array of all resource of the exchange
      * @param {Player} player
      */
-    this.doExchange = function (give, giveNumber, receive, receiveNumber, player)
+    this.doExchange = function (T_Exhchange, player)
     {
-        this.T_resource_card[give]-=giveNumber;
-        this.T_resource_card[receive]+=receiveNumber;
         if(this.isPlaying === true)
         {
-            player.doExchange(receive, receiveNumber, give, giveNumber, this);
+            for (var resource in T_Exhchange)
+            {
+                this.T_resource_card[resource] += T_Exhchange[resource];
+            }
+            player.doExchange(T_Exhchange, this);
+        }
+        if(this.isPlaying === false)
+        {
+            for (var resource in T_Exhchange)
+            {
+                this.T_resource_card[resource] -= T_Exhchange[resource];
+            }
         }
     };
     
     /*
      * Ask player if he want to finally accept is own exchagne with one player who had accept
      * 
-     * @param {array}   T_pplayerChoose, the player choose
+     * @param {array}   T_playerChoose, the player choose
      * @param {boolean} answer
      */
     this.acceptIsOwnExchange = function(T_playerChoose,answer)
     {
         if(answer)
         {
-            var playerAnswer, player,give, giveNumber, receive, receiveNumber;
-            playerAnswer = T_playerChoose[0];
+            var playerAnswer = T_playerChoose[0];
             if(playerAnswer)
-            {            
-                player = T_playerChoose[1];
-                give = T_playerChoose[2];
-                giveNumber = T_playerChoose[3];
-                receive = T_playerChoose[4];
-                receiveNumber = T_playerChoose[5];
-                this.doExchange(give, giveNumber, receive, receiveNumber, player);
+            {   
+                var T_Exhchange = T_playerChoose[2];
+                var player = T_playerChoose[1];
+                this.doExchange(T_Exhchange, player);
             }
         }
     };
+    
+    /*
+     * Pass the turn of the player
+     */
+    this.passTurn = function()
+    {
+        if(this.isPlaying)
+        {
+            console.log('Le joueur '+this.color+' passe son tour.');
+            this.isPlaying = false;
+            this.game.nextPlayer(this);
+        }
+    }
 }
