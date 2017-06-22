@@ -82,9 +82,29 @@ function testExchange()
     console.log(game);
 }
 
+function testPassTurn()
+{
+    var blue = game.getPlayer(0);
+    var red = game.getPlayer(1);
+    var white = game.getPlayer(2);
+    console.log(blue.isPlaying);
+    console.log(red.isPlaying);
+    console.log(white.isPlaying);
+    blue.passTurn();
+    console.log(blue.isPlaying);
+    console.log(red.isPlaying);
+    console.log(white.isPlaying);
+    red.passTurn();
+    console.log(blue.isPlaying);
+    console.log(red.isPlaying);
+    console.log(white.isPlaying);
+    white.passTurn();
+}
+
 $(document).ready(function () {
-    rollDice();
-    testBuild();
-    testExchange();
+    //rollDice();
+    //testBuild();
+    //testExchange();
+    //testPassTurn();
     game.mapMatrice.showMap();
 });

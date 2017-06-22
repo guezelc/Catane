@@ -417,4 +417,17 @@ function Player(color ,game) {
             }
         }
     };
+    
+    /*
+     * Pass the turn of the player
+     */
+    this.passTurn = function()
+    {
+        if(this.isPlaying)
+        {
+            console.log('Le joueur '+this.color+' passe son tour.');
+            this.isPlaying = false;
+            this.game.nextPlayer(this);
+        }
+    }
 }
