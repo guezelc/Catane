@@ -64,16 +64,16 @@ function testBuild()
 }
 
 function testExchange()
-{    
+{
     var blue = game.getPlayer(0);
     var red = game.getPlayer(1);
     var white = game.getPlayer(2);
-    console.log("Echange de 2 blé contre 4 mouton");
     console.log(blue.T_resource_card);
     console.log(red.T_resource_card);
     console.log(white.T_resource_card);
     blue.isPlaying=true;
-    var exchange = blue.exchange('corn',4,'sheep',2);
+    console.log("Le bleu donne 2 moutons, 1 bois, 1 argile contre 4blés , 2 minerais");
+    var exchange = blue.exchange(4,2,-2,-1,-1);
     console.log(exchange);
     if(exchange.length >0){blue.acceptIsOwnExchange(exchange[exchange.length-1],true);}
     console.log(blue.T_resource_card);
