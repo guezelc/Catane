@@ -76,11 +76,11 @@ function Player(color ,game) {
     this.T_colony = [];
     this.T_city = [];
     this.T_resource_card = {
-        corn: 4,
-        ore: 4,
-        sheep: 2,
-        wood: 4,
-        clay: 4
+        corn: 24,
+        ore: 24,
+        sheep: 22,
+        wood: 24,
+        clay: 24
     };
     this.T_developpement_card = [];
     this.nbColonyAvailable = 5;
@@ -387,7 +387,10 @@ function Player(color ,game) {
             {
                 this.T_resource_card[resource] += T_Exhchange[resource];
             }
-            player.doExchange(T_Exhchange, this);
+            if(player !== null)
+            {
+                player.doExchange(T_Exhchange, this);
+            }
         }
         if(this.isPlaying === false)
         {
@@ -429,5 +432,98 @@ function Player(color ,game) {
             this.isPlaying = false;
             this.game.nextPlayer(this);
         }
-    }
+    };
+    
+    this.useDeveloppementCard = function(cardNumber)
+    {
+        if(cardNumber < this.T_developpement_card.length)
+        {
+            if(!this.T_developpement_card[cardNumber].play)
+            {
+                switch(this.T_developpement_card[cardNumber].type)
+                {
+                    case 'VictoryPoint' :
+                        this.useVictoryPoint();
+                        break;
+                    case 'Knight' :
+                        this.useKnight();
+                        break;
+                    case 'Monopoly' :
+                        this.useMonopoly();
+                        break;
+                    case 'Road construction' :
+                        this.useRoadConstruction();
+                        break;
+                    case 'Discovery' :
+                        this.useDiscovery();
+                        break;
+                }
+                this.T_developpement_card[cardNumber].play = true;
+            }
+        }
+    };
+    
+    /*
+     * Use a developpement card knight
+     */
+    this.useKnight = function()
+    {
+        console.log('knight');
+        //this.game.moveThief(this.color);
+    };
+    
+    /*
+     * Use a developpement card monopoly
+     */
+    this.useMonopoly = function()
+    {
+        var resource = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
+        this.game.Monopoly(this,resource);
+        console.log('monopoly');
+    };
+    
+    /*
+     * Use a developpement card discovery
+     */
+    this.useDiscovery = function()
+    {
+        var resource1 = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
+        var resource2 = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
+        this.T_resource_card[resource1]++;
+        this.T_resource_card[resource2]++;
+        console.log('discovery');
+    };
+    
+    /*
+     * Use a developpement card road construction
+     */
+    this.useRoadConstruction = function()
+    {
+        console.log('roadConstruction');
+        //TODO
+    };
+    
+    /*
+     * Use a developpement card victory point
+     */
+    this.useVictoryPoint = function()
+    {        
+        console.log('victory point');
+    };
+    
+    /*
+     * choose a resource type
+     */
+    this.chooseResourceType = function(T_resource)
+    {
+        /*
+        * Randomly return a int between min and max inlcluded
+        */
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        return T_resource[getRandomInt(0,T_resource.length-1)];
+    };
 }

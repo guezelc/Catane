@@ -101,10 +101,34 @@ function testPassTurn()
     white.passTurn();
 }
 
+function testUseDeveloppementCard()
+{
+    var blue = game.getPlayer(0);
+    var red = game.getPlayer(1);
+    var white = game.getPlayer(2);
+    var T_card = game.developpementCards.getTCard();
+    for(var i = 0;i<8;i++)
+    {
+        white.buy_DeveloppementCard();
+        red.buy_DeveloppementCard();
+        blue.buy_DeveloppementCard();
+        
+        white.useDeveloppementCard(i);
+        red.useDeveloppementCard(i);
+        blue.useDeveloppementCard(i);
+    }
+    white.buy_DeveloppementCard();
+    console.log(T_card);
+    console.log(white.T_developpement_card);
+    console.log(blue.T_developpement_card);
+    console.log(red.T_developpement_card);
+}
+
 $(document).ready(function () {
     //rollDice();
     //testBuild();
     //testExchange();
     //testPassTurn();
+    testUseDeveloppementCard();
     game.mapMatrice.showMap();
 });

@@ -139,5 +139,42 @@ function Game(type, nbPlayer)
                 T_player[nextPlayer].isPlaying = true;
             }
         }
+        this.rollDice();
+    };
+    
+    /*
+     * Roll the dice
+     */
+    this.rollDice = function()
+    {
+        this.dice.roll();
+        var result = this.dice.result;
+        if(result === 7)
+        {
+            
+        }
+        else
+        {
+            for(var player = 0; player < T_player.length; player++)
+            {
+                T_player[player].giveResourcesCards(result);
+            }
+        }
+    };
+    
+    /*
+     * 
+     */
+    this.Monopoly = function(currentPlayer, resource)
+    {
+        for(var player = 0; player < T_player.length; player++)
+        {
+            if(T_player[player] !== currentPlayer)
+            {
+                var nbResource = T_player[player].T_resource_card[resource];
+                T_player[player].T_resource_card[resource] = 0;
+                currentPlayer.T_resource_card[resource]+=nbResource;
+            }
+        }
     };
 }
