@@ -76,11 +76,11 @@ function Player(color ,game) {
     this.T_colony = [];
     this.T_city = [];
     this.T_resource_card = {
-        corn: 4,
-        ore: 4,
-        sheep: 2,
-        wood: 4,
-        clay: 4
+        corn: 24,
+        ore: 24,
+        sheep: 22,
+        wood: 24,
+        clay: 24
     };
     this.T_developpement_card = [];
     this.nbColonyAvailable = 5;
@@ -119,29 +119,34 @@ function Player(color ,game) {
      * @param {type} side
      * @returns {undefined}
      */
-    this.build_Road = function (side) {
+    this.build_Road = function (side, free = false) {
 
         var road = new Road(this.color, side);
         road.side.occupy = road;
         this.T_road.push(road);
         this.nbRoadAvailable--;
-        this.T_resource_card.wood--;
-        this.T_resource_card.clay--;
-
+        if(!free)
+        {
+            this.T_resource_card.wood--;
+            this.T_resource_card.clay--;
+        }
     };
 
     /*
      * 
      */
-    this.build_City = function (colony) {
+    this.build_City = function (colony, free = false) {
         
         var city = new City(this.color, colony.top);
         city.top.occupy = city;
         this.T_city.push(city);
         this.nbColonyAvailable++;
         this.nbCityAvailable--;
-        this.T_resource_card.ore-=3;
-        this.T_resource_card.corn-=2;
+        if(!free)
+        {
+            this.T_resource_card.ore-=3;
+            this.T_resource_card.corn-=2;
+        }
         for(var i = 0; i < this.T_colony.length;i++)
         {
             if(this.T_colony[i] === colony)
@@ -156,16 +161,19 @@ function Player(color ,game) {
     /*
      * 
      */
-    this.build_Colony = function (top) {
+    this.build_Colony = function (top, free = false) {
 
         var colony = new Colony(this.color, top);
         colony.top.occupy = colony;
         this.T_colony.push(colony);
         this.nbColonyAvailable--;
-        this.T_resource_card.wood--;
-        this.T_resource_card.clay--;
-        this.T_resource_card.corn--;
-        this.T_resource_card.sheep--;
+        if(!free)
+        {
+            this.T_resource_card.wood--;
+            this.T_resource_card.clay--;
+            this.T_resource_card.corn--;
+            this.T_resource_card.sheep--;
+        }
     };
 
     /**
@@ -180,7 +188,6 @@ function Player(color ,game) {
             var roadBuildableSides = this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
 
         return roadBuildableSides;
-        //this.build_Road();
     };
 
     /*
@@ -387,7 +394,10 @@ function Player(color ,game) {
             {
                 this.T_resource_card[resource] += T_Exhchange[resource];
             }
-            player.doExchange(T_Exhchange, this);
+            if(player !== null)
+            {
+                player.doExchange(T_Exhchange, this);
+            }
         }
         if(this.isPlaying === false)
         {
@@ -429,5 +439,114 @@ function Player(color ,game) {
             this.isPlaying = false;
             this.game.nextPlayer(this);
         }
-    }
+    };
+    
+    this.useDeveloppementCard = function(cardNumber)
+    {
+        if(cardNumber < this.T_developpement_card.length)
+        {
+            if(!this.T_developpement_card[cardNumber].play)
+            {
+                switch(this.T_developpement_card[cardNumber].type)
+                {
+                    case 'VictoryPoint' :
+                        this.useVictoryPoint();
+                        break;
+                    case 'Knight' :
+                        this.useKnight();
+                        break;
+                    case 'Monopoly' :
+                        this.useMonopoly();
+                        break;
+                    case 'Road construction' :
+                        var roadBuildableSides = this.useRoadConstruction();
+                        console.log(this.T_road);
+                        if(roadBuildableSides !== null)
+                        {
+                            this.build_Road(roadBuildableSides[roadBuildableSides.length-1],true);
+                        }
+                        console.log(this.T_road);
+                        roadBuildableSides = this.useRoadConstruction();
+                        if(roadBuildableSides !== null)
+                        {
+                            this.build_Road(roadBuildableSides[roadBuildableSides.length-1],true);
+                        }
+                        console.log(this.T_road);
+                        break;
+                    case 'Discovery' :
+                        this.useDiscovery();
+                        break;
+                }
+                this.T_developpement_card[cardNumber].play = true;
+            }
+        }
+    };
+    
+    /*
+     * Use a developpement card knight
+     */
+    this.useKnight = function()
+    {
+        console.log('knight');
+        //this.game.moveThief(this.color);
+    };
+    
+    /*
+     * Use a developpement card monopoly
+     */
+    this.useMonopoly = function()
+    {
+        var resource = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
+        this.game.Monopoly(this,resource);
+        console.log('monopoly '+ resource);
+    };
+    
+    /*
+     * Use a developpement card discovery
+     */
+    this.useDiscovery = function()
+    {
+        var resource1 = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
+        var resource2 = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
+        this.T_resource_card[resource1]++;
+        this.T_resource_card[resource2]++;
+        console.log('discovery '+ resource1 + ' and ' + resource2);
+    };
+    
+    /*
+     * Use a developpement card road construction
+     */
+    this.useRoadConstruction = function()
+    {
+        console.log('roadConstruction');
+        if(this.nbRoadAvailable > 0)
+        {
+            return this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
+        }
+        return null;
+    };
+    
+    /*
+     * Use a developpement card victory point
+     */
+    this.useVictoryPoint = function()
+    {        
+        console.log('victory point');
+    };
+    
+    /*
+     * choose a resource type
+     */
+    this.chooseResourceType = function(T_resource)
+    {
+        /*
+        * Randomly return a int between min and max inlcluded
+        */
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        return T_resource[getRandomInt(0,T_resource.length-1)];
+    };
 }
