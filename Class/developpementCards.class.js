@@ -71,4 +71,9 @@ function DeveloppementCards()
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+    
+    this.getTCard = function()
+    {
+        return T_Card;
+    }
 }
