@@ -103,16 +103,25 @@ function testPassTurn()
 
 function testUseDeveloppementCard()
 {
+    var matTop = game.topMatrice;
     var blue = game.getPlayer(0);
     var red = game.getPlayer(1);
     var white = game.getPlayer(2);
+    var colony = new Colony('blue', matTop[2][1]);
+    blue.T_colony.push(colony);
+    var colony = new Colony('red', matTop[4][6]);
+    red.T_colony.push(colony);
+    var colony = new Colony('white', matTop[8][5]);
+    white.T_colony.push(colony);
     var T_card = game.developpementCards.getTCard();
     for(var i = 0;i<8;i++)
     {
         white.buy_DeveloppementCard();
         red.buy_DeveloppementCard();
         blue.buy_DeveloppementCard();
-        
+    }
+    for(var i = 0;i<8;i++)
+    {
         white.useDeveloppementCard(i);
         red.useDeveloppementCard(i);
         blue.useDeveloppementCard(i);

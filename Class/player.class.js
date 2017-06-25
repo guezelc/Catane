@@ -119,29 +119,34 @@ function Player(color ,game) {
      * @param {type} side
      * @returns {undefined}
      */
-    this.build_Road = function (side) {
+    this.build_Road = function (side, free = false) {
 
         var road = new Road(this.color, side);
         road.side.occupy = road;
         this.T_road.push(road);
         this.nbRoadAvailable--;
-        this.T_resource_card.wood--;
-        this.T_resource_card.clay--;
-
+        if(!free)
+        {
+            this.T_resource_card.wood--;
+            this.T_resource_card.clay--;
+        }
     };
 
     /*
      * 
      */
-    this.build_City = function (colony) {
+    this.build_City = function (colony, free = false) {
         
         var city = new City(this.color, colony.top);
         city.top.occupy = city;
         this.T_city.push(city);
         this.nbColonyAvailable++;
         this.nbCityAvailable--;
-        this.T_resource_card.ore-=3;
-        this.T_resource_card.corn-=2;
+        if(!free)
+        {
+            this.T_resource_card.ore-=3;
+            this.T_resource_card.corn-=2;
+        }
         for(var i = 0; i < this.T_colony.length;i++)
         {
             if(this.T_colony[i] === colony)
@@ -156,16 +161,19 @@ function Player(color ,game) {
     /*
      * 
      */
-    this.build_Colony = function (top) {
+    this.build_Colony = function (top, free = false) {
 
         var colony = new Colony(this.color, top);
         colony.top.occupy = colony;
         this.T_colony.push(colony);
         this.nbColonyAvailable--;
-        this.T_resource_card.wood--;
-        this.T_resource_card.clay--;
-        this.T_resource_card.corn--;
-        this.T_resource_card.sheep--;
+        if(!free)
+        {
+            this.T_resource_card.wood--;
+            this.T_resource_card.clay--;
+            this.T_resource_card.corn--;
+            this.T_resource_card.sheep--;
+        }
     };
 
     /**
@@ -180,7 +188,6 @@ function Player(color ,game) {
             var roadBuildableSides = this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
 
         return roadBuildableSides;
-        //this.build_Road();
     };
 
     /*
@@ -452,7 +459,19 @@ function Player(color ,game) {
                         this.useMonopoly();
                         break;
                     case 'Road construction' :
-                        this.useRoadConstruction();
+                        var roadBuildableSides = this.useRoadConstruction();
+                        console.log(this.T_road);
+                        if(roadBuildableSides !== null)
+                        {
+                            this.build_Road(roadBuildableSides[roadBuildableSides.length-1],true);
+                        }
+                        console.log(this.T_road);
+                        roadBuildableSides = this.useRoadConstruction();
+                        if(roadBuildableSides !== null)
+                        {
+                            this.build_Road(roadBuildableSides[roadBuildableSides.length-1],true);
+                        }
+                        console.log(this.T_road);
                         break;
                     case 'Discovery' :
                         this.useDiscovery();
@@ -479,7 +498,7 @@ function Player(color ,game) {
     {
         var resource = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
         this.game.Monopoly(this,resource);
-        console.log('monopoly');
+        console.log('monopoly '+ resource);
     };
     
     /*
@@ -491,7 +510,7 @@ function Player(color ,game) {
         var resource2 = this.chooseResourceType(['corn','ore','sheep','wood','clay']);
         this.T_resource_card[resource1]++;
         this.T_resource_card[resource2]++;
-        console.log('discovery');
+        console.log('discovery '+ resource1 + ' and ' + resource2);
     };
     
     /*
@@ -500,7 +519,11 @@ function Player(color ,game) {
     this.useRoadConstruction = function()
     {
         console.log('roadConstruction');
-        //TODO
+        if(this.nbRoadAvailable > 0)
+        {
+            return this.getRoadBuildableSides(this.T_colony, this.T_city, this.T_road);
+        }
+        return null;
     };
     
     /*
