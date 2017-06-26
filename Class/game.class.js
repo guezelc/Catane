@@ -135,7 +135,7 @@ function Game(type, nbPlayer)
         {
             if(T_player[player] === currentPlayer)
             {
-                var nextPlayer = (player+1) %3;
+                var nextPlayer = (player+1) %T_player.length;
                 T_player[nextPlayer].isPlaying = true;
             }
         }
