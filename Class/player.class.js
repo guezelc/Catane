@@ -375,9 +375,30 @@ function Player(color ,game) {
      * @param {Boolean} answer
      * @returns {Array}
      */
-    this.acceptOtherPlayerExchange = function (T_Exhchange, playerAsking, answer = true)
+    this.acceptOtherPlayerExchange = function (T_Exhchange, playerAsking)
     {
+        var textExchange = this.getExchangeText(T_Exhchange,playerAsking.color);
+        var answer = confirm(textExchange);
         return [answer,this,T_Exhchange, playerAsking];
+    };
+    
+    this.getExchangeText = function(T_Exhchange,color)
+    {
+        var resource = ['corn','ore','sheep','wood','clay'];
+        var exchange1 = '';
+        var exchange2 = '';
+        for(var i = 0;i < resource.length;i++)
+        {
+            if(T_Exhchange[resource[i]]>0)
+            {
+                exchange1 += T_Exhchange[resource[i]] + resource[i] + ' ' ;
+            }
+            if(T_Exhchange[resource[i]]<0)
+            {
+                exchange2 += -T_Exhchange[resource[i]] + resource[i] + ' ' ;
+            }
+        }
+        return color + ' give ' + exchange2 + 'contre ' + exchange2;
     };
     
     /*

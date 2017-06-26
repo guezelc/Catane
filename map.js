@@ -136,8 +136,8 @@ function testUseDeveloppementCard()
 $(document).ready(function () {
     //rollDice();
     //testBuild();
-    //testExchange();
+    testExchange();
     //testPassTurn();
-    testUseDeveloppementCard();
+    //testUseDeveloppementCard();
     game.mapMatrice.showMap();
 });
